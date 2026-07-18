@@ -9,7 +9,11 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from synthdet.data.splitting import create_real_splits  # noqa: E402, I001
+from synthdet.data.splitting import (  # noqa: E402, I001
+    create_real_splits,
+    preview_real_splits,
+    verify_real_split_reproduction,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +26,26 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path, default=Path("manifests/aquarium"))
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
+        "--dataset-root",
+        type=Path,
+        required=True,
+        help="Raw export root used for mandatory review path-integrity validation.",
+    )
+    parser.add_argument(
         "--allow-unknown-source-groups",
         action="store_true",
         help="Use singleton fallback only after explicitly documenting unknown provenance.",
+    )
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--preview",
+        action="store_true",
+        help="Compute a disposable candidate split without freezing output files.",
+    )
+    mode.add_argument(
+        "--verify-frozen",
+        action="store_true",
+        help="Reproduce in temporary storage and compare with --output without overwriting it.",
     )
     return parser
 
@@ -32,21 +53,28 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
     try:
-        metadata = create_real_splits(
-            args.records,
-            args.duplicates,
-            args.output,
-            source_groups_path=args.source_groups,
-            seed=args.seed,
-            allow_unknown_source_groups=args.allow_unknown_source_groups,
-        )
+        options = {
+            "records_path": args.records,
+            "duplicates_path": args.duplicates,
+            "source_groups_path": args.source_groups,
+            "seed": args.seed,
+            "allow_unknown_source_groups": args.allow_unknown_source_groups,
+            "dataset_root": args.dataset_root,
+        }
+        if args.preview:
+            metadata = preview_real_splits(**options)
+        elif args.verify_frozen:
+            metadata = verify_real_split_reproduction(args.output, **options)
+        else:
+            metadata = create_real_splits(output_dir=args.output, **options)
     except (FileExistsError, FileNotFoundError, KeyError, OSError, ValueError) as error:
         print(f"Split creation failed: {error}", file=sys.stderr)
         return 1
-    print(f"Frozen split identity: {metadata['combined_split_sha256']}")
+    label = "Reproduced" if args.verify_frozen else "Candidate" if args.preview else "Frozen"
+    print(f"{label} split identity: {metadata['combined_split_sha256']}")
+    print(f"Image counts: {metadata['actual_counts']}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

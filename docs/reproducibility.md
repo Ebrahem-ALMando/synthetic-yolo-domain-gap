@@ -45,8 +45,13 @@ python scripts/validate_dataset.py datasets/raw/aquarium/export
 python scripts/audit_dataset.py reports/dataset_audit/aquarium
 python scripts/analyze_duplicates.py reports/dataset_audit/aquarium/image_records.csv
 python scripts/propose_source_groups.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv datasets/raw/aquarium/export
-python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/reviewed_source_groups.csv
+python scripts/finalize_aquarium_review.py
+python scripts/validate_reviews.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv reports/dataset_audit/aquarium/reviewed_source_groups.csv --dataset-root datasets/raw/aquarium/export
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/reviewed_source_groups.csv --dataset-root datasets/raw/aquarium/export --preview
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/reviewed_source_groups.csv --dataset-root datasets/raw/aquarium/export
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/reviewed_source_groups.csv --dataset-root datasets/raw/aquarium/export --verify-frozen
 python scripts/check_leakage.py manifests/aquarium
+python scripts/audit_real_split.py manifests/aquarium reports/dataset_audit/aquarium/bounding_boxes.csv
 ```
 
 Automatic acquisition requires `ROBOFLOW_API_KEY`. For manual acquisition, download version 2
@@ -59,8 +64,14 @@ python scripts/acquire_aquarium.py --archive path/to/downloaded.zip
 Raw and generated outputs are ignored. Frozen manifests contain only repository-relative public-data
 paths and hashes and must not be overwritten. The split command refuses existing outputs.
 
-Current real-data execution stops after source proposals. Review
-`reports/dataset_audit/aquarium/review_instructions.md`, the duplicate sheets, and all applicable
-source sheets. The split command rejects `pending`, `split_required`, or `merge_required` source
-statuses and pending duplicate groups. The old Roboflow export split folders are not provenance and
-must not be used to resolve review decisions.
+The completed review plan is versioned at `configs/datasets/aquarium_review.yaml`. Generated review
+logs remain under the ignored audit path. The split command rejects unresolved reviews, refuses to
+overwrite frozen outputs, and can reproduce the split in temporary storage with `--verify-frozen`.
+The old Roboflow export folder names remain path components only; their train/valid/test labels were
+not used as scientific split assignments.
+
+The frozen manifest hashes are recorded in `manifests/aquarium/split_metadata.json`. Seed 42
+reproduces combined identity
+`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Synthetic source
+and background manifests are currently absent, which the leakage checker handles as an empty future
+input rather than evidence of synthetic generation.

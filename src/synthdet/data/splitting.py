@@ -6,9 +6,12 @@ import csv
 import hashlib
 import json
 import random
+import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
+
+from synthdet.data.review import require_valid_review
 
 
 class _DisjointSet:
@@ -53,6 +56,20 @@ def _write_manifest(path: Path, rows: list[dict[str, Any]], fieldnames: list[str
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _manifest_path(dataset_root: Path | None, relative_path: str) -> str:
+    if dataset_root is None:
+        return Path(relative_path).as_posix()
+    root = dataset_root
+    if root.is_absolute():
+        try:
+            root = root.resolve().relative_to(Path.cwd().resolve())
+        except ValueError as error:
+            raise ValueError(
+                "Dataset root must be inside the repository to create repository-relative manifests"
+            ) from error
+    return (root / relative_path).as_posix()
+
+
 def create_real_splits(
     records_path: Path,
     duplicates_path: Path,
@@ -60,6 +77,7 @@ def create_real_splits(
     source_groups_path: Path | None = None,
     seed: int = 42,
     allow_unknown_source_groups: bool = False,
+    dataset_root: Path | None = None,
 ) -> dict[str, Any]:
     """Create immutable 70/20/10 manifests from validated, grouped image records."""
 
@@ -79,6 +97,8 @@ def create_real_splits(
         )
     records = _read_csv(records_path)
     duplicate_rows = _read_csv(duplicates_path)
+    if source_groups_path is not None and dataset_root is not None:
+        require_valid_review(records_path, duplicates_path, source_groups_path, dataset_root)
     included = [row for row in records if row["inclusion_status"] == "included"]
     excluded = [row for row in records if row["inclusion_status"] != "included"]
     if not included:
@@ -174,16 +194,28 @@ def create_real_splits(
     split_classes: dict[str, Counter[str]] = {split: Counter() for split in ratios}
     total_images = len(included)
 
-    def score(split: str, candidate_group: dict[str, Any]) -> tuple[float, int]:
-        projected_size = split_sizes[split] + len(candidate_group["members"])
-        size_target = total_images * ratios[split]
-        size_error = ((projected_size - size_target) / max(size_target, 1)) ** 2
+    def score(candidate_split: str, candidate_group: dict[str, Any]) -> tuple[float, float]:
+        size_error = 0.0
         class_error = 0.0
-        for name, total in class_totals.items():
-            target = total * ratios[split]
-            projected = split_classes[split][name] + candidate_group["class_counts"][name]
-            class_error += ((projected - target) / max(target, 1)) ** 2
-        return size_error + class_error / max(len(class_totals), 1), split_sizes[split]
+        for split, ratio in ratios.items():
+            added_size = len(candidate_group["members"]) if split == candidate_split else 0
+            projected_size = split_sizes[split] + added_size
+            size_target = total_images * ratio
+            size_error += ((projected_size - size_target) / max(size_target, 1)) ** 2
+            for name, total in class_totals.items():
+                added_class = (
+                    candidate_group["class_counts"][name] if split == candidate_split else 0
+                )
+                projected_class = split_classes[split][name] + added_class
+                class_target = total * ratio
+                class_error += (
+                    (projected_class - class_target) / max(class_target, 1)
+                ) ** 2
+        normalized_class_error = class_error / max(len(class_totals), 1)
+        fill_ratio = split_sizes[candidate_split] / max(
+            total_images * ratios[candidate_split], 1
+        )
+        return size_error + normalized_class_error, fill_ratio
 
     for group in group_data:
         selected = min(ratios, key=lambda split: score(split, group))
@@ -213,8 +245,8 @@ def create_real_splits(
                 record = by_path[image_path]
                 rows.append(
                     {
-                        "image_path": record["image_path"],
-                        "label_path": record["label_path"],
+                        "image_path": _manifest_path(dataset_root, record["image_path"]),
+                        "label_path": _manifest_path(dataset_root, record["label_path"]),
                         "content_hash": record["content_hash"],
                         "perceptual_hash": record["perceptual_hash"],
                         "source_group_id": group["source_group_id"],
@@ -233,8 +265,8 @@ def create_real_splits(
         )
     excluded_rows = [
         {
-            "image_path": row["image_path"],
-            "label_path": row["label_path"],
+            "image_path": _manifest_path(dataset_root, row["image_path"]),
+            "label_path": _manifest_path(dataset_root, row["label_path"]),
             "exclusion_reasons": row["exclusion_reasons"],
             "inclusion_status": "excluded",
         }
@@ -245,11 +277,13 @@ def create_real_splits(
         sorted(excluded_rows, key=lambda row: row["image_path"]),
         ["image_path", "label_path", "exclusion_reasons", "inclusion_status"],
     )
-    duplicate_target = output_dir / "duplicate_groups.csv"
-    duplicate_target.write_bytes(duplicates_path.read_bytes())
-    manifest_hashes["duplicate_groups.csv"] = hashlib.sha256(
-        duplicate_target.read_bytes()
-    ).hexdigest()
+    duplicate_fields = list(duplicate_rows[0]) if duplicate_rows else []
+    frozen_duplicate_rows = [dict(row) for row in duplicate_rows]
+    for row in frozen_duplicate_rows:
+        row["image_path"] = _manifest_path(dataset_root, row["image_path"])
+    manifest_hashes["duplicate_groups.csv"] = _write_manifest(
+        output_dir / "duplicate_groups.csv", frozen_duplicate_rows, duplicate_fields
+    )
     combined_material = "\n".join(
         f"{name}:{manifest_hashes[name]}" for name in sorted(manifest_hashes)
     ).encode()
@@ -258,7 +292,31 @@ def create_real_splits(
         "seed": seed,
         "target_ratios": ratios,
         "actual_counts": dict(split_sizes),
+        "actual_ratios": {
+            split: split_sizes[split] / total_images for split in ratios
+        },
+        "ratio_deviation": {
+            split: split_sizes[split] / total_images - ratios[split] for split in ratios
+        },
         "group_count": len(group_data),
+        "source_group_count_per_split": {
+            split: len(assignments[split]) for split in ratios
+        },
+        "object_count_per_split": {
+            split: sum(
+                int(by_path[path]["object_count"])
+                for group in assignments[split]
+                for path in group["members"]
+            )
+            for split in ratios
+        },
+        "image_count_per_class_per_split": {
+            split: dict(sorted(split_classes[split].items())) for split in ratios
+        },
+        "class_coverage_limitations": {
+            split: sorted(name for name in class_totals if split_classes[split][name] == 0)
+            for split in ratios
+        },
         "source_group_method": (
             "reviewed_mapping"
             if source_groups_path is not None
@@ -269,6 +327,15 @@ def create_real_splits(
         ),
         "manifest_sha256": manifest_hashes,
         "combined_split_sha256": hashlib.sha256(combined_material).hexdigest(),
+        "input_sha256": {
+            "image_records.csv": hashlib.sha256(records_path.read_bytes()).hexdigest(),
+            "duplicate_candidates.csv": hashlib.sha256(duplicates_path.read_bytes()).hexdigest(),
+            "reviewed_source_groups.csv": (
+                hashlib.sha256(source_groups_path.read_bytes()).hexdigest()
+                if source_groups_path is not None
+                else None
+            ),
+        },
         "test_restrictions": [
             "model_evaluation_only",
             "not_for_model_selection",
@@ -280,3 +347,29 @@ def create_real_splits(
         json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     return metadata
+
+
+def preview_real_splits(**kwargs: Any) -> dict[str, Any]:
+    """Generate a disposable candidate split without creating frozen manifests."""
+
+    with tempfile.TemporaryDirectory(prefix="synthdet-split-preview-") as temporary:
+        return create_real_splits(output_dir=Path(temporary) / "candidate", **kwargs)
+
+
+def verify_real_split_reproduction(frozen_dir: Path, **kwargs: Any) -> dict[str, Any]:
+    """Reproduce a frozen split in temporary storage and compare its immutable identity."""
+
+    metadata_path = frozen_dir / "split_metadata.json"
+    if not metadata_path.is_file():
+        raise FileNotFoundError(f"Frozen split metadata not found: {metadata_path}")
+    frozen = json.loads(metadata_path.read_text(encoding="utf-8"))
+    reproduced = preview_real_splits(**kwargs)
+    if reproduced["combined_split_sha256"] != frozen.get("combined_split_sha256"):
+        raise ValueError(
+            "Seed/configuration reproduction mismatch: "
+            f"expected {frozen.get('combined_split_sha256')}, "
+            f"got {reproduced['combined_split_sha256']}"
+        )
+    if reproduced["manifest_sha256"] != frozen.get("manifest_sha256"):
+        raise ValueError("Reproduced manifest hashes do not match the frozen metadata")
+    return reproduced

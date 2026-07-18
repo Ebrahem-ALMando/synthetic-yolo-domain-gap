@@ -9,7 +9,7 @@ dataset:
   name: Aquarium Combined
   identifier: aquarium-combined-v2-raw-1024
   candidate: null
-  status: approved_split_pending_human_review
+  status: approved_immutable_split_frozen
   version: 2
   export_name: raw-1024
   annotation_format: YOLOv5 PyTorch detection

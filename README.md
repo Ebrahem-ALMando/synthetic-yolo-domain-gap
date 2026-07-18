@@ -77,17 +77,15 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 ## Current status
 
 Sprint 2 approves the locally acquired Roboflow Aquarium Combined version 2 export under CC BY 4.0.
-Strict validation accepts 635 of 638 images and records three exclusions without repair. Actual audit
-statistics, plots, duplicate candidates, source proposals, and review contact sheets have been
-generated locally. Human review is still required for 8 duplicate groups and 66 source groups, so no
-real split or manifest is frozen. No model has been downloaded or trained, and no synthetic data,
-dashboard, API, or metrics have been produced.
+Strict validation accepts 635 of 638 images and records three exclusions without repair. All 8 dHash
+candidate groups and all proposed still-image source groups have been visually resolved. The frozen
+seed-42 split contains 444 train, 128 validation, and 63 test images; its immutable identity is
+`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Non-destructive
+reproduction and the hard-fail leakage check pass. No model has been downloaded or trained, and no
+synthetic data, dashboard, API, or evaluation metrics have been produced.
 
-Dataset evidence and the review blocker are documented in the
+Dataset evidence and the completed split protocol are documented in the
 [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md) and
-[`datasheet`](docs/datasets/aquarium_datasheet.md). Review the generated instructions before split
-creation:
-
-```bash
-reports/dataset_audit/aquarium/review_instructions.md
-```
+[`datasheet`](docs/datasets/aquarium_datasheet.md). The fixed test manifest is
+`manifests/aquarium/real_test.csv`; it is evaluation-only and prohibited from every synthetic-data
+source or background workflow.

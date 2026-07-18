@@ -1,0 +1,205 @@
+reviewer_mode: agent-assisted visual review
+
+duplicate_groups:
+  duplicate-0001: Same penguin-pool frame with only slight subject motion.
+  duplicate-0002: Same overhead shark-pool view with adjacent subject positions.
+  duplicate-0003: Near-identical penguin enclosure frames.
+  duplicate-0004: Near-identical overhead stingray frames.
+  duplicate-0005: Same overhead aquarium scene in adjacent captures.
+  duplicate-0006: Same dark shark-tank view in adjacent captures.
+  duplicate-0007: Same dark shark-tank view in adjacent captures.
+  duplicate-0008: Adjacent frames from the explicit IMG_8571_MOV video source.
+
+source_assignments:
+  - final_source_group_id: source-0029
+    original_groups: [source-0029]
+    rationale: Coherent blue schooling-fish capture sequence.
+
+  - final_source_group_id: reviewed-scene-penguin-rock-pool
+    selections:
+      - {original_group: source-0001}
+      - {original_group: source-0002}
+      - {original_group: source-0003}
+      - {original_group: source-0008, ranges: [[2519, 2530]]}
+      - {original_group: source-0011, ranges: [[3130, 3132]]}
+      - {original_group: source-0012}
+      - {original_group: source-0013}
+      - {original_group: source-0014, ranges: [[3146, 3177]]}
+    rationale: Repeated rock wall, split-level pool, and penguin enclosure across capture runs.
+
+  - final_source_group_id: reviewed-scene-dark-rock-starfish
+    selections:
+      - {original_group: source-0004, ranges: [[2358, 2391]]}
+      - {original_group: source-0008, ranges: [[2531, 2541]]}
+      - {original_group: source-0014, ranges: [[3180, 3185]]}
+    rationale: Same dark stacked-rock and gravel starfish exhibit.
+
+  - final_source_group_id: reviewed-scene-tropical-coral
+    selections:
+      - {original_group: source-0004, ranges: [[2392, 2410]]}
+    rationale: Coherent bright tropical-fish and coral exhibit.
+
+  - final_source_group_id: reviewed-scene-large-blue-shark-ray
+    selections:
+      - {original_group: source-0004, ranges: [[2411, 2422]]}
+      - {original_group: source-0030}
+      - {original_group: source-0005}
+      - {original_group: source-0006, ranges: [[2456, 2462]]}
+      - {original_group: source-0008, ranges: [[2492, 2506], [2558, 2569]]}
+      - {original_group: source-0009, ranges: [[2571, 2572], [2577, 2607]]}
+    rationale: Repeated large blue tank, pale sand, coral pillar, sharks, and rays.
+
+  - final_source_group_id: reviewed-scene-orange-jellyfish
+    selections:
+      - {original_group: source-0006, ranges: [[2463, 2473]]}
+      - {original_group: source-0007}
+      - {original_group: source-0031}
+      - {original_group: source-0008, ranges: [[2485, 2491]]}
+      - {original_group: source-0009, ranges: [[2573, 2576]]}
+    rationale: Same blue-background orange jellyfish display.
+
+  - final_source_group_id: reviewed-scene-rocky-shark-ray
+    selections:
+      - {original_group: source-0008, ranges: [[2507, 2518]]}
+      - {original_group: source-0009, ranges: [[2611, 2621]]}
+      - {original_group: source-0010}
+      - {original_group: source-0014, ranges: [[3178, 3179]]}
+    rationale: Same rocky reef tank with pale sand, sharks, and rays.
+
+  - final_source_group_id: reviewed-scene-kelp-starfish
+    selections:
+      - {original_group: source-0008, ranges: [[2542, 2548]]}
+      - {original_group: source-0014, ranges: [[3186, 3188]]}
+    rationale: Same colorful kelp-and-rock starfish display.
+
+  - final_source_group_id: reviewed-scene-small-planted-ray
+    selections:
+      - {original_group: source-0008, ranges: [[2549, 2557]]}
+    rationale: Coherent small pale-sand tank with grass-like plants and rays.
+
+  - final_source_group_id: reviewed-scene-purple-starfish
+    selections:
+      - {original_group: source-0009, ranges: [[2608, 2610]]}
+    rationale: Coherent close-up sequence of a purple starfish display.
+
+  - final_source_group_id: reviewed-scene-starfish-tidepool
+    selections:
+      - {original_group: source-0011, ranges: [[3120, 3129]]}
+    rationale: Coherent shallow tidepool-style starfish and anemone exhibit.
+
+  - final_source_group_id: reviewed-scene-catfish-log
+    original_groups: [source-0015, source-0032, source-0052]
+    rationale: Repeated woody freshwater tank and the same large pale catfish.
+
+  - final_source_group_id: reviewed-scene-freshwater-root-rock
+    original_groups: [source-0016, source-0033, source-0035, source-0036, source-0037, source-0038, source-0082]
+    rationale: Repeated dark freshwater root-and-rock background across nearby captures.
+
+  - final_source_group_id: source-0034
+    original_groups: [source-0034]
+    rationale: Coherent small rocky freshwater tank.
+
+  - final_source_group_id: reviewed-scene-overhead-touch-pool
+    selections:
+      - {original_group: source-0017}
+      - {original_group: source-0018}
+      - {original_group: source-0019}
+      - {original_group: source-0039}
+      - {original_group: source-0040}
+      - {original_group: source-0041}
+      - {original_group: source-0042}
+      - {original_group: source-0043}
+      - {original_group: source-0044}
+      - {original_group: source-0045}
+      - {original_group: source-0046}
+      - {original_group: source-0050}
+      - {original_group: source-0056, ranges: [[8509, 8510]]}
+      - {original_group: source-0083}
+    rationale: Same shallow overhead pool, pale floor, coral islands, sharks, and rays.
+
+  - final_source_group_id: source-0020
+    original_groups: [source-0020]
+    rationale: Coherent small gravel-and-rock fish tank.
+
+  - final_source_group_id: source-0021
+    original_groups: [source-0021]
+    rationale: Near-identical views of the same moon-jelly display panel.
+
+  - final_source_group_id: source-0024
+    original_groups: [source-0024]
+    rationale: Coherent tropical coral-tank pair.
+
+  - final_source_group_id: source-0047
+    original_groups: [source-0047]
+    rationale: Near-identical views of the same small sandy ray tank.
+
+  - final_source_group_id: source-0048
+    original_groups: [source-0048]
+    rationale: Coherent long pale-floor mixed-fish tank.
+
+  - final_source_group_id: source-0049
+    original_groups: [source-0049]
+    rationale: Coherent coral-and-fish tank sequence.
+
+  - final_source_group_id: source-0059
+    original_groups: [source-0059]
+    rationale: Coherent close views of the same coral exhibit.
+
+  - final_source_group_id: source-0060
+    original_groups: [source-0060]
+    rationale: Same dark gravel shark tank; both duplicate pairs remain together.
+
+  - final_source_group_id: reviewed-scene-rocky-penguin
+    original_groups: [source-0061, source-0062]
+    rationale: Same rocky penguin enclosure and waterline.
+
+  - final_source_group_id: reviewed-scene-kelp-freshwater
+    original_groups: [source-0064, source-0065]
+    rationale: Repeated kelp-like plants, rocks, and freshwater fish tank.
+
+  - final_source_group_id: source-0066
+    original_groups: [source-0066]
+    rationale: Coherent bright coral-reef tank sequence.
+
+  - final_source_group_id: reviewed-scene-large-freshwater-roots
+    original_groups: [source-0068, source-0069, source-0070]
+    rationale: Same large sandy freshwater tank with submerged roots and large fish.
+
+  - final_source_group_id: reviewed-scene-dark-sand-shark
+    original_groups: [source-0071, source-0074]
+    rationale: Same dark shark tank and coarse sloping sand bed.
+
+  - final_source_group_id: source-0076
+    original_groups: [source-0076]
+    rationale: Coherent wide coral-and-fish tank pair.
+
+  - final_source_group_id: singleton-IMG_8486
+    original_groups: [source-0051]
+    final_status: not_applicable
+    rationale: Isolated pufferfish image; no defensible multi-image source match.
+
+  - final_source_group_id: singleton-IMG_8500
+    original_groups: [source-0054]
+    final_status: not_applicable
+    rationale: Isolated coral image; no defensible multi-image source match.
+
+  - final_source_group_id: singleton-IMG_8502
+    original_groups: [source-0055]
+    final_status: not_applicable
+    rationale: Isolated octopus-tank image; no defensible multi-image source match.
+
+  - final_source_group_id: singleton-IMG_8511
+    selections:
+      - {original_group: source-0056, ranges: [[8511, 8511]]}
+    final_status: not_applicable
+    rationale: The original group crossed scenes; this reef image has no defensible match.
+
+  - final_source_group_id: singleton-IMG_8594
+    original_groups: [source-0080]
+    final_status: not_applicable
+    rationale: Isolated circular moon-jelly display image.
+
+  - final_source_group_id: singleton-IMG_8598
+    original_groups: [source-0081]
+    final_status: not_applicable
+    rationale: Isolated small blue jellyfish display image.

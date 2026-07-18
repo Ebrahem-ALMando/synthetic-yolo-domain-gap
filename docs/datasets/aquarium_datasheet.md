@@ -1,7 +1,6 @@
 # Aquarium Combined v2 Datasheet
 
-Status: dataset approved from local validation; source/duplicate review and immutable splitting are
-still pending.
+Status: dataset approved, visually reviewed, and frozen into immutable seed-42 manifests.
 
 ## Motivation
 
@@ -60,13 +59,18 @@ ratios range from 0.0000012716 to 0.7265917460, with mean 0.0229023 and median 0
 
 ## Duplicate and source analysis
 
-SHA-256 found no exact accepted-image duplicates. A 64-bit dHash threshold of 6 produced 8 pending
-two-image groups, with pair distances from 2 to 6. Source analysis proposes 83 groups: 17 explicit
-video groups covering 81 frames are confirmed from shared `_MOV` filename bases, while 66 groups
-covering 554 still images remain pending.
+SHA-256 found no exact accepted-image duplicates. A 64-bit dHash threshold of 6 produced 8 two-image
+groups, with pair distances from 2 to 6. Agent-assisted inspection of every duplicate sheet confirmed
+all eight as adjacent or near-identical captures; no image was deleted.
 
-After review, complete groups will be allocated with seed 42 and image-level multi-label balancing,
-targeting 70% train, 20% validation, and 10% test. Manifest hashes will freeze the split identity.
+The source review inspected all 58 generated source-sheet pages and 22 pending singleton images.
+Seven original groups were split at visible scene boundaries, 42 participated in conservative
+same-exhibit merges, 29 remained unchanged, and 6 isolated images became `not_applicable`
+singletons. All 635 accepted images now occur exactly once in 52 stable source groups.
+
+Deterministic image-level multi-label allocation of indivisible groups with seed 42 produced 444
+train images (69.92%), 128 validation images (20.16%), and 63 test images (9.92%). The corresponding
+source-group counts are 34, 13, and 5. Object counts are 3,448, 748, and 588.
 
 ## Known limitations
 
@@ -76,6 +80,8 @@ targeting 70% train, 20% validation, and 10% test. Manifest hashes will freeze t
 - Visual sheets show that some consecutive-number runs span different exhibits; filenames alone are
   insufficient for final grouping.
 - The class distribution is strongly imbalanced and the modest total size constrains grouped splits.
+- All 71 `penguin`-class images share one conservatively reviewed repeated-exhibit source group, so
+  group integrity makes `penguin` train-only. Validation and test contain every other class.
 
 ## Ethical and responsible use
 
@@ -86,8 +92,9 @@ systems without broader validation.
 
 ## Audit outputs and split status
 
-Machine records, issue JSON, statistics, eight data-derived plots, duplicate candidates, source
-proposals, and contact sheets exist under `reports/dataset_audit/aquarium`. They are generated and
-ignored by Git. Human review remains open, so no train/validation/test manifests or split identity
-exist and no real-split leakage result can yet be claimed.
-
+Machine records, issue JSON, statistics, review logs, contact sheets, and split audit figures exist
+under `reports/dataset_audit/aquarium`; generated outputs are ignored by Git. Frozen manifests live
+under `manifests/aquarium`. Their combined identity is
+`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`, reproduced exactly
+in temporary storage with seed 42. The hard-fail real leakage validation passes. Synthetic-source
+and synthetic-background manifests do not exist; their absence is not evidence of generation.

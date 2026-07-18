@@ -2,10 +2,10 @@
 
 ## Status
 
-Aquarium Combined version 2 (`raw-1024`) is approved after local file validation. The accepted set is
-635 of 638 acquired images; three exclusions are recorded in the machine-readable audit. Class order
-comes from the acquired `data.yaml`. The immutable split remains blocked on human duplicate/source
-review. See `docs/datasets/aquarium_candidate.md` and the datasheet.
+Aquarium Combined version 2 (`raw-1024`) is approved after local file validation and complete visual
+review. The accepted set is 635 of 638 acquired images; three exclusions are recorded in the
+machine-readable audit. Class order comes from the acquired `data.yaml`. Seed-42 manifests are now
+frozen under `manifests/aquarium`. See `docs/datasets/aquarium_candidate.md` and the datasheet.
 
 ## Candidate validation
 
@@ -47,7 +47,15 @@ Exact duplicates use SHA-256 of image bytes. Near-duplicate candidates use a 64-
 Hamming distance is at most the configured threshold (default 6). Candidates require human review;
 files are never automatically deleted. Split creation rejects any duplicate group whose review
 status is still `pending`. Source grouping likewise requires `review_status` of `confirmed` or
-`not_applicable`; `pending`, `split_required`, and `merge_required` block the split.
+`not_applicable`; `pending`, `split_required`, and `merge_required` block the split. Review integrity
+also requires every accepted image exactly once, every excluded image zero times, non-empty stable
+group identities, existing referenced paths, and compatible source assignments for confirmed
+duplicate pairs.
+
+The frozen Aquarium split has 444/128/63 train/validation/test images. Group integrity is stronger
+than exact class coverage: all `penguin` examples belong to one repeated-exhibit group and therefore
+remain train-only. The fixed test set contains all other six classes and may not be revised to improve
+this distribution.
 
 The project object-size rule uses bounding-box pixel area in the inspected image: small is below
 32^2 pixels, medium is from 32^2 up to but excluding 96^2, and large is at least 96^2.

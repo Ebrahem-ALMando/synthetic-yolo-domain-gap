@@ -47,3 +47,26 @@
   exhibits.
 - Strengthen split creation to reject pending duplicate and source review statuses. Do not create
   manifests, hashes, a test split, or a leakage result until the review gate is resolved.
+
+## 2026-07-18 — Sprint 2 review resolution and immutable split
+
+- Confirm all 8 dHash pairs after inspecting the actual sheets; retain both images and treat each
+  pair as indivisible.
+- Inspect all 58 source-sheet pages and all 22 pending singleton images. Split seven original groups
+  at visible scene changes, merge repeated-background/same-exhibit groups conservatively, retain 29
+  groups unchanged, and approve six true isolated images as `not_applicable` singletons.
+- Use 52 final stable source groups. Prefer source/background isolation over exact ratios or complete
+  class coverage.
+- Correct the greedy allocator to score the global three-split objective; the previous local score
+  could place every group in train for this grouped dataset.
+- Freeze 444 train, 128 validation, and 63 test images using seed 42. All 71 `penguin` images remain
+  train-only because their repeated enclosure is one indivisible reviewed source group.
+- Record combined split identity
+  `c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`; reproduce it in
+  temporary storage without overwriting frozen files.
+- Require every frozen path to be repository-relative. Preserve the first otherwise-valid
+  raw-export-relative candidate under the ignored audit directory and freeze a corrected manifest
+  set rather than overwriting files in place.
+- Accept the split only after review-integrity and real-leakage checks pass. The test manifest is now
+  fixed and prohibited from training, validation, copy-paste, synthetic backgrounds, augmentation,
+  or any synthetic-generation reference.

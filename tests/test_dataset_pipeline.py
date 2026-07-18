@@ -10,8 +10,13 @@ from synthdet.data.acquisition import export_api_url
 from synthdet.data.audit import generate_dataset_audit
 from synthdet.data.duplicates import analyze_duplicates
 from synthdet.data.leakage import validate_leakage
+from synthdet.data.review import validate_review_integrity
 from synthdet.data.source_groups import propose_source_groups
-from synthdet.data.splitting import create_real_splits
+from synthdet.data.splitting import (
+    _manifest_path,
+    create_real_splits,
+    verify_real_split_reproduction,
+)
 from synthdet.data.validation import validate_yolo_dataset, write_validation_outputs
 
 
@@ -202,6 +207,19 @@ def test_split_is_deterministic_frozen_and_leakage_free(tmp_path: Path) -> None:
     assert first["combined_split_sha256"] == second["combined_split_sha256"]
     assert all(first["actual_counts"][split] > 0 for split in ("train", "val", "test"))
     assert validate_leakage(first_dir) == []
+    reproduced = verify_real_split_reproduction(
+        first_dir,
+        records_path=records,
+        duplicates_path=duplicates,
+        source_groups_path=sources,
+    )
+    assert reproduced["combined_split_sha256"] == first["combined_split_sha256"]
+
+
+def test_manifest_paths_are_repository_relative() -> None:
+    assert _manifest_path(
+        Path("datasets/raw/aquarium/export"), "train/images/example.jpg"
+    ) == "datasets/raw/aquarium/export/train/images/example.jpg"
 
 
 def test_split_rejects_pending_source_review(tmp_path: Path) -> None:
@@ -279,3 +297,146 @@ def test_source_proposals_confirm_video_and_hold_numbered_run(tmp_path: Path) ->
     with output.open(encoding="utf-8", newline="") as handle:
         statuses = {row["review_status"] for row in csv.DictReader(handle)}
     assert statuses == {"confirmed", "pending"}
+
+
+def _completed_review_inputs(root: Path) -> tuple[Path, Path, Path, Path]:
+    dataset_root = root / "dataset"
+    records = root / "records.csv"
+    duplicates = root / "duplicates.csv"
+    sources = root / "sources.csv"
+    record_rows = []
+    duplicate_rows = []
+    source_rows = []
+    for index in range(3):
+        image_path = f"images/image-{index}.jpg"
+        target = dataset_root / image_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(b"image")
+        record_rows.append(
+            {"image_path": image_path, "inclusion_status": "included"}
+        )
+        duplicate_rows.append(
+            {
+                "image_path": image_path,
+                "duplicate_group_id": "duplicate-1" if index < 2 else "",
+                "review_status": "confirmed" if index < 2 else "not_applicable",
+            }
+        )
+        source_rows.append(
+            {
+                "image_path": image_path,
+                "source_group_id": "source-shared" if index < 2 else "source-single",
+                "review_status": "confirmed",
+            }
+        )
+    record_rows.append(
+        {"image_path": "images/excluded.jpg", "inclusion_status": "excluded"}
+    )
+    _write_csv(records, ["image_path", "inclusion_status"], record_rows)
+    _write_csv(
+        duplicates,
+        ["image_path", "duplicate_group_id", "review_status"],
+        duplicate_rows,
+    )
+    _write_csv(
+        sources,
+        ["image_path", "source_group_id", "review_status"],
+        source_rows,
+    )
+    return records, duplicates, sources, dataset_root
+
+
+def _rewrite_row_status(path: Path, status: str) -> None:
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows[0]["review_status"] = status
+    _write_csv(path, list(rows[0]), rows)
+
+
+def test_review_integrity_accepts_completed_clean_review(tmp_path: Path) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+
+    assert validate_review_integrity(records, duplicates, sources, dataset_root) == []
+
+
+def test_review_integrity_rejects_pending_duplicate(tmp_path: Path) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    _rewrite_row_status(duplicates, "pending")
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any("Pending duplicate" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("status", "message"),
+    [
+        ("pending", "Pending source-group"),
+        ("split_required", "split_required"),
+        ("merge_required", "merge_required"),
+    ],
+)
+def test_review_integrity_rejects_unresolved_source_status(
+    tmp_path: Path, status: str, message: str
+) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    _rewrite_row_status(sources, status)
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any(message in error for error in errors)
+
+
+def test_review_integrity_rejects_duplicate_image_assignment(tmp_path: Path) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    with sources.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows.append(dict(rows[0]))
+    _write_csv(sources, list(rows[0]), rows)
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any("assigns an image more than once" in error for error in errors)
+
+
+def test_review_integrity_rejects_incompatible_confirmed_duplicate_group(
+    tmp_path: Path,
+) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    with sources.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows[1]["source_group_id"] = "different-source"
+    _write_csv(sources, list(rows[0]), rows)
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any("incompatible with source assignments" in error for error in errors)
+
+
+def test_review_integrity_rejects_missing_accepted_image(tmp_path: Path) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    with sources.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    _write_csv(sources, list(rows[0]), rows[:-1])
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any("missing accepted images" in error for error in errors)
+
+
+def test_review_integrity_rejects_excluded_image(tmp_path: Path) -> None:
+    records, duplicates, sources, dataset_root = _completed_review_inputs(tmp_path)
+    with sources.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows.append(
+        {
+            "image_path": "images/excluded.jpg",
+            "source_group_id": "source-excluded",
+            "review_status": "confirmed",
+        }
+    )
+    _write_csv(sources, list(rows[0]), rows)
+
+    errors = validate_review_integrity(records, duplicates, sources, dataset_root)
+
+    assert any("Excluded images" in error for error in errors)
