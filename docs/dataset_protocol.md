@@ -2,14 +2,20 @@
 
 ## Status
 
-The dataset is undecided in Sprint 1. Aquarium Object Detection is only a candidate and must be
-validated in Sprint 2 before its class names or paths are finalized.
+Aquarium Combined version 2 (`raw-1024`) is conditionally approved from authoritative metadata and
+license research. Local acquisition and file-level validation have not occurred, so the central
+configuration's dataset identifier and class order remain unresolved. See
+`docs/datasets/aquarium_candidate.md`.
 
 ## Candidate validation
 
 Record the source, version, license, annotation format, class distribution, image provenance,
 duplicate rate, corrupt files, object-size distribution, and suitability for synthetic generation.
 Dataset acquisition must be scripted or documented with checksums where licensing permits.
+
+The raw ZIP and extracted export live under `datasets/raw/aquarium`, are recorded with a SHA-256
+checksum, and are treated as immutable. Validation and normalization write only to ignored working
+and report directories. The validator does not silently repair annotations.
 
 ## Split order and isolation
 
@@ -19,6 +25,11 @@ Dataset acquisition must be scripted or documented with checksums where licensin
 4. Create train, validation, and held-out test manifests with deterministic seed 42.
 5. Freeze the real test manifest before synthetic generation or model development.
 6. Record dataset version, split procedure, counts, hashes, and any exclusions.
+
+The target ratios are 70% train, 20% validation, and 10% test. Allocation operates on reviewed
+source/duplicate groups and uses image-level multi-label classes in a deterministic greedy balancing
+procedure. Exact requested percentages may be impossible for indivisible groups; actual counts and
+trade-offs must be recorded.
 
 The fixed real test set must never change between experiments. Its images and annotations must never
 be used as training or validation samples, copy-paste object sources, synthetic backgrounds,
@@ -31,9 +42,17 @@ Before generating or training, automatically verify that file identities, conten
 source groups do not overlap between the test manifest and any training, validation, source-object,
 or background manifest. A detected overlap is a hard failure, not a warning.
 
+Exact duplicates use SHA-256 of image bytes. Near-duplicate candidates use a 64-bit difference hash
+(dHash): resize grayscale pixels to 9x8, compare adjacent horizontal values, and group hashes whose
+Hamming distance is at most the configured threshold (default 6). Candidates require human review;
+files are never automatically deleted. Split creation rejects any duplicate group whose review
+status is still `pending`.
+
+The project object-size rule uses bounding-box pixel area in the inspected image: small is below
+32^2 pixels, medium is from 32^2 up to but excluding 96^2, and large is at least 96^2.
+
 ## Repository policy
 
 Raw data, processed images, labels, and generated synthetic data live under ignored `datasets/`
 paths. Only small metadata, scripts, schemas, and legally permissible manifests may be versioned.
 No dataset content is included in Sprint 1.
-

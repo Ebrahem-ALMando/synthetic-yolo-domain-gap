@@ -25,7 +25,7 @@ Before a training run: validate annotations, frozen split identity, and absence 
 Before reporting: confirm run completion, evaluate from the recorded checkpoint on the fixed test
 manifest, and generate tables/figures programmatically. Never fill missing results manually.
 
-## Sprint 1 checks
+## Foundation checks
 
 ```bash
 python scripts/check_environment.py
@@ -33,3 +33,27 @@ pytest
 ruff check .
 ```
 
+## Sprint 2 data commands
+
+The commands below are run from the repository root. They do not authorize synthetic generation or
+training.
+
+```bash
+python scripts/acquire_aquarium.py --dry-run
+python scripts/acquire_aquarium.py --download
+python scripts/validate_dataset.py datasets/raw/aquarium/export
+python scripts/audit_dataset.py reports/dataset_audit/aquarium
+python scripts/analyze_duplicates.py reports/dataset_audit/aquarium/image_records.csv
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups path/to/reviewed_source_groups.csv
+python scripts/check_leakage.py manifests/aquarium
+```
+
+Automatic acquisition requires `ROBOFLOW_API_KEY`. For manual acquisition, download version 2
+`raw-1024` as YOLOv5 PyTorch from the official Roboflow project, then run:
+
+```bash
+python scripts/acquire_aquarium.py --archive path/to/downloaded.zip
+```
+
+Raw and generated outputs are ignored. Frozen manifests contain only repository-relative public-data
+paths and hashes and must not be overwritten. The split command refuses existing outputs.

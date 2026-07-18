@@ -15,3 +15,20 @@
 - Keep API and web directories as documented placeholders until their implementation sprints.
 - Exclude datasets, generated outputs, runs, weights, and secrets from Git.
 
+## 2026-07-18 — Sprint 2 candidate decision
+
+- Conditionally approve Roboflow's Aquarium Combined version 2 (`raw-1024`) based on its official
+  638-image description and CC BY 4.0 terms.
+- Do not finalize the dataset identifier or numeric class order until the actual export metadata and
+  files pass local validation.
+- Use the provider's unaugmented 638-image version rather than a generated 4,670-image augmentation
+  export, preserving control over future augmentation.
+- Require `ROBOFLOW_API_KEY` only through the environment; support checksum-recorded manual ZIP
+  import when automatic export is unavailable.
+- Preserve raw data, reject silent annotation repairs, and record explicit inclusion/exclusion codes.
+- Detect exact duplicates by SHA-256 and near-duplicate candidates by 64-bit dHash with configurable
+  Hamming threshold 6; delete nothing automatically.
+- Require reviewed source groups before splitting by default. Published collection location/date is
+  not sufficient to map individual images to capture sequences.
+- Target group-aware 70/20/10 splits with seed 42 and image-level multi-label balancing. Do not call
+  the split frozen until real manifests and their hashes exist.

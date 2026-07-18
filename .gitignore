@@ -69,8 +69,9 @@ reports/figures/**
 !reports/figures/.gitkeep
 reports/tables/**
 !reports/tables/.gitkeep
+reports/dataset_audit/**
+!reports/dataset_audit/README.md
 
 # Notebook checkpoints and local scratch files
 .ipynb_checkpoints/
 notebooks/.scratch/
-

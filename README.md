@@ -76,8 +76,16 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 1 establishes repository structure, configuration validation, reproducibility rules, and
-the experimental protocol. No dataset has been selected or downloaded, no model has been trained,
-and no dashboard or API has been initialized. Aquarium Object Detection is only a candidate dataset
-pending validation in Sprint 2. There are no reported metrics; fabricated metrics are prohibited.
+Sprint 2 research conditionally approves Roboflow Aquarium Combined version 2 under CC BY 4.0, but
+the dataset has not been acquired or audited because no Roboflow API key or manual export is
+available. The repository now includes strict validation, audit, duplicate, group-aware split, and
+leakage tools. No manifests are frozen, no model has been downloaded or trained, and no dashboard or
+API has been initialized. There are no reported metrics; fabricated metrics are prohibited.
 
+Candidate evidence and the exact blocker are documented in
+[`docs/datasets/aquarium_candidate.md`](docs/datasets/aquarium_candidate.md). Validate the safe
+acquisition plan without downloading:
+
+```bash
+python scripts/acquire_aquarium.py --dry-run
+```
