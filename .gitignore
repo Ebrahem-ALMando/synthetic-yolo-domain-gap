@@ -1,0 +1,76 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Node.js and Next.js
+node_modules/
+.next/
+out/
+.turbo/
+.vercel/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Data: retain only the directory marker
+datasets/**
+!datasets/.gitkeep
+
+# Generated artifacts, experiment tracking, and YOLO runs
+artifacts/**
+!artifacts/.gitkeep
+runs/
+wandb/
+mlruns/
+
+# Model weights and exported models
+models/**
+!models/.gitkeep
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.torchscript
+*.safetensors
+
+# Generated report outputs
+reports/figures/**
+!reports/figures/.gitkeep
+reports/tables/**
+!reports/tables/.gitkeep
+
+# Notebook checkpoints and local scratch files
+.ipynb_checkpoints/
+notebooks/.scratch/
+

@@ -1,0 +1,30 @@
+project:
+  name: synthetic-yolo-domain-gap
+  description: Measuring the synthetic-to-real domain gap in YOLO object detection
+  sprint: 1
+
+seed: 42
+
+dataset:
+  name: null
+  candidate: Aquarium Object Detection
+  class_names: null  # Unresolved until candidate dataset validation in Sprint 2.
+
+paths:
+  datasets_root: datasets
+  real_data: datasets/real
+  synthetic_data: datasets/synthetic
+  splits: datasets/splits
+  artifacts_root: artifacts
+  experiment_runs: artifacts/experiments
+  models: models
+  reports: reports
+
+yolo:
+  base_model: yolo11n.pt
+  image_size: 640
+  batch_size: 16
+  epochs: 100
+  confidence_threshold: 0.25
+  iou_threshold: 0.70
+
