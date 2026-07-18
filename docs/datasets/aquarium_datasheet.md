@@ -68,9 +68,19 @@ Seven original groups were split at visible scene boundaries, 42 participated in
 same-exhibit merges, 29 remained unchanged, and 6 isolated images became `not_applicable`
 singletons. All 635 accepted images now occur exactly once in 52 stable source groups.
 
-Deterministic image-level multi-label allocation of indivisible groups with seed 42 produced 444
-train images (69.92%), 128 validation images (20.16%), and 63 test images (9.92%). The corresponding
-source-group counts are 34, 13, and 5. Object counts are 3,448, 748, and 588.
+Split V1 used deterministic image-level multi-label allocation of indivisible groups with seed 42
+and produced 444/128/63 train/validation/test images. It remains byte-for-byte preserved.
+
+The focused Sprint 2.5 review inspected all 71 Penguin images and separated same-exhibit appearance
+from capture dependency. Three intact still-image runs were defensible: IMG_2282-2354 (52 Penguin
+images/337 objects), IMG_2519-2530 (4/20), and IMG_3130-3177 (15/159). There are no explicit MOV IDs;
+the minimum cross-group dHash distance is 15 against threshold 6, and confirmed duplicate pairs stay
+within a run. For consistency, all 128 images in the old broad source group were assigned with their
+containing run; the other 507 source assignments were unchanged.
+
+Active Split V2 contains 427 train images (67.24%), 140 validation images (22.05%), and 68 test
+images (10.71%). Source-group counts are 41, 8, and 5; object counts are 3,452, 717, and 615.
+Penguin coverage is respectively 52/337, 15/159, and 4/20 images/objects.
 
 ## Known limitations
 
@@ -80,8 +90,10 @@ source-group counts are 34, 13, and 5. Object counts are 3,448, 748, and 588.
 - Visual sheets show that some consecutive-number runs span different exhibits; filenames alone are
   insufficient for final grouping.
 - The class distribution is strongly imbalanced and the modest total size constrains grouped splits.
-- All 71 `penguin`-class images share one conservatively reviewed repeated-exhibit source group, so
-  group integrity makes `penguin` train-only. Validation and test contain every other class.
+- Per-image venue/date provenance is still unavailable. The three Penguin boundaries rely on
+  filename discontinuities, intact local sequences, visual passes, and perceptual-hash separation.
+- The shortest Penguin group contains only four images, so test estimates for Penguin will have high
+  sampling uncertainty even though the class is now measurable.
 
 ## Ethical and responsible use
 
@@ -94,7 +106,9 @@ systems without broader validation.
 
 Machine records, issue JSON, statistics, review logs, contact sheets, and split audit figures exist
 under `reports/dataset_audit/aquarium`; generated outputs are ignored by Git. Frozen manifests live
-under `manifests/aquarium`. Their combined identity is
-`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`, reproduced exactly
-in temporary storage with seed 42. The hard-fail real leakage validation passes. Synthetic-source
-and synthetic-background manifests do not exist; their absence is not evidence of generation.
+under `manifests/aquarium`. Split V1 lives under `manifests/aquarium/v1` with combined identity
+`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Active Split V2 lives
+under `manifests/aquarium/v2` with combined identity
+`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`. Both reproduce exactly
+with seed 42; V2 passes the hard-fail real leakage validation. Synthetic-source and
+synthetic-background manifests do not exist; their absence is not evidence of generation.

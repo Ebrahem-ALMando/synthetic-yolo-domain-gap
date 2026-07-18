@@ -9,7 +9,7 @@ dataset:
   name: Aquarium Combined
   identifier: aquarium-combined-v2-raw-1024
   candidate: null
-  status: approved_immutable_split_frozen
+  status: approved_immutable_split_v2_frozen
   version: 2
   export_name: raw-1024
   annotation_format: YOLOv5 PyTorch detection
@@ -32,18 +32,18 @@ dataset:
   paths:
     raw: datasets/raw/aquarium/export
     audit: reports/dataset_audit/aquarium
-    train_manifest: manifests/aquarium/real_train.csv
-    validation_manifest: manifests/aquarium/real_val.csv
-    test_manifest: manifests/aquarium/real_test.csv
-    excluded_manifest: manifests/aquarium/excluded.csv
-    duplicate_groups: manifests/aquarium/duplicate_groups.csv
-    split_metadata: manifests/aquarium/split_metadata.json
+    train_manifest: manifests/aquarium/v2/real_train.csv
+    validation_manifest: manifests/aquarium/v2/real_val.csv
+    test_manifest: manifests/aquarium/v2/real_test.csv
+    excluded_manifest: manifests/aquarium/v2/excluded.csv
+    duplicate_groups: manifests/aquarium/v2/duplicate_groups.csv
+    split_metadata: manifests/aquarium/v2/split_metadata.json
 
 paths:
   datasets_root: datasets
   real_data: datasets/processed/real
   synthetic_data: datasets/synthetic
-  splits: manifests/aquarium
+  splits: manifests/aquarium/v2
   artifacts_root: artifacts
   experiment_runs: artifacts/experiments
   models: models

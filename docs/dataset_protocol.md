@@ -4,8 +4,9 @@
 
 Aquarium Combined version 2 (`raw-1024`) is approved after local file validation and complete visual
 review. The accepted set is 635 of 638 acquired images; three exclusions are recorded in the
-machine-readable audit. Class order comes from the acquired `data.yaml`. Seed-42 manifests are now
-frozen under `manifests/aquarium`. See `docs/datasets/aquarium_candidate.md` and the datasheet.
+machine-readable audit. Class order comes from the acquired `data.yaml`. The active seed-42 Split
+V2 is frozen under `manifests/aquarium/v2`; Split V1 is preserved under `manifests/aquarium/v1`.
+See `docs/datasets/aquarium_candidate.md` and the datasheet.
 
 ## Candidate validation
 
@@ -52,10 +53,13 @@ also requires every accepted image exactly once, every excluded image zero times
 group identities, existing referenced paths, and compatible source assignments for confirmed
 duplicate pairs.
 
-The frozen Aquarium split has 444/128/63 train/validation/test images. Group integrity is stronger
-than exact class coverage: all `penguin` examples belong to one repeated-exhibit group and therefore
-remain train-only. The fixed test set contains all other six classes and may not be revised to improve
-this distribution.
+The initial frozen Aquarium Split V1 has 444/128/63 train/validation/test images and remains
+immutable. It conservatively treated a repeated Penguin exhibit as one source, making Penguin
+train-only. Before experiments began, the focused Sprint 2.5 review applied the stricter scientific
+question: whether images are dependent captures, not merely whether they show the same exhibit.
+Large filename discontinuities, distinct visual passes, and a minimum cross-run dHash distance of 15
+(threshold 6) support three intact capture groups. Active Split V2 has 427/140/68 images; all seven
+classes occur in every split. Split V2 is now fixed and may not be revised to improve later results.
 
 The project object-size rule uses bounding-box pixel area in the inspected image: small is below
 32^2 pixels, medium is from 32^2 up to but excluding 96^2, and large is at least 96^2.

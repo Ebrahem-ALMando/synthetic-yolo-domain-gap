@@ -1,0 +1,90 @@
+review_id: aquarium-penguin-capture-dependency-v2
+reviewer_mode: agent-assisted visual review
+decision: REFINABLE
+criterion: capture dependency, not physical exhibit identity
+seed: 42
+
+split_v1:
+  manifest_directory: manifests/aquarium/v1
+  legacy_manifest_directory: manifests/aquarium
+  git_revision: 87f3b88ffb8b84362b3f57b5d41394ac02b54d63
+  combined_identity: c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4
+  image_counts: {train: 444, val: 128, test: 63}
+  manifest_sha256:
+    real_train.csv: be8e7db0310612231cf1e63372c0eb7fb095c4a83f87826a131611e160049497
+    real_val.csv: cf7fe91cc29c5708c2ce5b2085d48cf968af79da0ab420231e6ed73d8ec84cd2
+    real_test.csv: 6a928386222c2ee8e7b6a7e61ea977aa9ef3ed00fe580f4636935d0c2a9d7a8c
+    excluded.csv: a308b2a48d5412b735934bfa42372d6b30acee35edf2823eb08efb5e0e0bdc55
+    duplicate_groups.csv: 32ddcf36f992e28df7b7b1cdd0fa99d5c3e00d9bf24d6ab0ea2e011b7c129348
+  penguin_images: 71
+  penguin_objects: 516
+  penguin_source_group_id: reviewed-scene-penguin-rock-pool
+
+review_inputs:
+  image_records: reports/dataset_audit/aquarium/image_records.csv
+  bounding_boxes: reports/dataset_audit/aquarium/bounding_boxes.csv
+  duplicate_candidates: reports/dataset_audit/aquarium/duplicate_candidates.csv
+  split_v1_source_groups: reports/dataset_audit/aquarium/reviewed_source_groups.csv
+
+review_outputs:
+  directory: reports/dataset_audit/aquarium/penguin_review
+  inventory: reports/dataset_audit/aquarium/penguin_review/penguin_inventory.csv
+  decision_log: reports/dataset_audit/aquarium/penguin_review/penguin_group_review.csv
+  summary: reports/dataset_audit/aquarium/penguin_review/penguin_review_summary.md
+  split_v2_source_groups: reports/dataset_audit/aquarium/penguin_review/reviewed_source_groups_v2.csv
+
+capture_groups:
+  - final_source_group_id: penguin-capture-2282-2354
+    capture_range: [2282, 2354]
+    penguin_capture_range: [2301, 2354]
+    penguin_images: 52
+    penguin_objects: 337
+    rationale: >-
+      One continuous first-session still-image run. Adjacent captures and duplicate-0003 remain
+      together despite within-run transitions between above-water, split-level, and underwater
+      viewpoints.
+
+  - final_source_group_id: penguin-capture-2519-2530
+    capture_range: [2519, 2530]
+    penguin_capture_range: [2527, 2530]
+    penguin_images: 4
+    penguin_objects: 20
+    rationale: >-
+      A separate later still-image run after a 173-number Penguin discontinuity. The four adjacent
+      Penguin captures remain one dependent unit.
+
+  - final_source_group_id: penguin-capture-3130-3177
+    capture_range: [3130, 3177]
+    penguin_capture_range: [3163, 3177]
+    penguin_images: 15
+    penguin_objects: 159
+    rationale: >-
+      A much-later still-image run after a 633-number Penguin discontinuity, with a distinct visual
+      pass and changed framing, subject arrangement, and lighting. Adjacent frames remain together.
+
+consistency:
+  original_source_group_id: reviewed-scene-penguin-rock-pool
+  affected_source_rows: 128
+  unchanged_source_rows: 507
+  rationale: >-
+    All non-Penguin rows already assigned to the broad Penguin rock-pool group are reassigned with
+    their containing capture run so dependent adjacent frames cannot cross split boundaries. All
+    other prior source decisions remain unchanged.
+  explicit_mov_identifiers: 0
+  minimum_cross_group_dhash_distance: 15
+  dhash_near_duplicate_threshold: 6
+
+split_v2:
+  manifest_directory: manifests/aquarium/v2
+  combined_identity: 02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7
+  image_counts: {train: 427, val: 140, test: 68}
+  manifest_sha256:
+    real_train.csv: b088fdb9c3c4bb9a44b6da8ec56aa6b265014ebfc9bdf2d438ea4a6d351dde1f
+    real_val.csv: 5884cddc84b9e711af4984226ab43a41f582352e970f72799d186e2a478555ad
+    real_test.csv: 02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52
+    excluded.csv: a308b2a48d5412b735934bfa42372d6b30acee35edf2823eb08efb5e0e0bdc55
+    duplicate_groups.csv: 32ddcf36f992e28df7b7b1cdd0fa99d5c3e00d9bf24d6ab0ea2e011b7c129348
+  target_ratios: {train: 0.70, val: 0.20, test: 0.10}
+  require_penguin_outside_train: true
+  prefer_penguin_in_validation_and_test: true
+  group_integrity_precedes_exact_ratios: true

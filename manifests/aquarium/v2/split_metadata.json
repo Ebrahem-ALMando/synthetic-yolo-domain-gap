@@ -1,0 +1,90 @@
+{
+  "actual_counts": {
+    "test": 68,
+    "train": 427,
+    "val": 140
+  },
+  "actual_ratios": {
+    "test": 0.10708661417322834,
+    "train": 0.6724409448818898,
+    "val": 0.2204724409448819
+  },
+  "class_coverage_limitations": {
+    "test": [],
+    "train": [],
+    "val": []
+  },
+  "combined_split_sha256": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+  "group_count": 54,
+  "image_count_per_class_per_split": {
+    "test": {
+      "fish": 37,
+      "jellyfish": 7,
+      "penguin": 4,
+      "puffin": 8,
+      "shark": 29,
+      "starfish": 11,
+      "stingray": 16
+    },
+    "train": {
+      "fish": 252,
+      "jellyfish": 35,
+      "penguin": 52,
+      "puffin": 28,
+      "shark": 116,
+      "starfish": 37,
+      "stingray": 65
+    },
+    "val": {
+      "fish": 42,
+      "jellyfish": 10,
+      "penguin": 15,
+      "puffin": 30,
+      "shark": 29,
+      "starfish": 11,
+      "stingray": 43
+    }
+  },
+  "input_sha256": {
+    "duplicate_candidates.csv": "c3f42065b636d099e265784182be4f90f70ce740033b35e42b420d4b4db38e29",
+    "image_records.csv": "3e9b31eb8a446e12dea8e1907e1c4b10b863bfd525f0bd6141c23354a267a830",
+    "reviewed_source_groups.csv": "7ab446651d136c68ecd90dca549ed4c5bf602d0740c8923c95342bbddd63a241"
+  },
+  "manifest_sha256": {
+    "duplicate_groups.csv": "32ddcf36f992e28df7b7b1cdd0fa99d5c3e00d9bf24d6ab0ea2e011b7c129348",
+    "excluded.csv": "a308b2a48d5412b735934bfa42372d6b30acee35edf2823eb08efb5e0e0bdc55",
+    "real_test.csv": "02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52",
+    "real_train.csv": "b088fdb9c3c4bb9a44b6da8ec56aa6b265014ebfc9bdf2d438ea4a6d351dde1f",
+    "real_val.csv": "5884cddc84b9e711af4984226ab43a41f582352e970f72799d186e2a478555ad"
+  },
+  "object_count_per_split": {
+    "test": 615,
+    "train": 3452,
+    "val": 717
+  },
+  "ratio_deviation": {
+    "test": 0.007086614173228339,
+    "train": -0.027559055118110187,
+    "val": 0.020472440944881876
+  },
+  "seed": 42,
+  "source_group_count_per_split": {
+    "test": 5,
+    "train": 41,
+    "val": 8
+  },
+  "source_group_method": "reviewed_mapping",
+  "status": "frozen",
+  "stratification": "deterministic greedy group allocation using image-level multi-label classes",
+  "target_ratios": {
+    "test": 0.1,
+    "train": 0.7,
+    "val": 0.2
+  },
+  "test_restrictions": [
+    "model_evaluation_only",
+    "not_for_model_selection",
+    "not_for_synthetic_sources",
+    "not_for_synthetic_backgrounds"
+  ]
+}

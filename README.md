@@ -76,16 +76,18 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 2 approves the locally acquired Roboflow Aquarium Combined version 2 export under CC BY 4.0.
-Strict validation accepts 635 of 638 images and records three exclusions without repair. All 8 dHash
-candidate groups and all proposed still-image source groups have been visually resolved. The frozen
-seed-42 split contains 444 train, 128 validation, and 63 test images; its immutable identity is
-`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Non-destructive
-reproduction and the hard-fail leakage check pass. No model has been downloaded or trained, and no
-synthetic data, dashboard, API, or evaluation metrics have been produced.
+Sprint 2.5 approves the locally acquired Roboflow Aquarium Combined version 2 export under CC BY
+4.0. Strict validation accepts 635 of 638 images and records three exclusions without repair. A
+focused review distinguished shared physical-exhibit appearance from capture dependency and found
+three independent Penguin capture runs. The active frozen seed-42 Split V2 contains 427 train, 140
+validation, and 68 test images; its immutable identity is
+`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`. Penguin now occurs in
+all three splits, non-destructive reproduction passes, and the hard-fail leakage check passes. Split
+V1 remains byte-for-byte preserved under `manifests/aquarium/v1`. No model has been downloaded or
+trained, and no synthetic data, dashboard, API, or evaluation metrics have been produced.
 
 Dataset evidence and the completed split protocol are documented in the
 [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md) and
-[`datasheet`](docs/datasets/aquarium_datasheet.md). The fixed test manifest is
-`manifests/aquarium/real_test.csv`; it is evaluation-only and prohibited from every synthetic-data
-source or background workflow.
+[`datasheet`](docs/datasets/aquarium_datasheet.md). The fixed active test manifest is
+`manifests/aquarium/v2/real_test.csv`; it is evaluation-only and prohibited from every
+synthetic-data source or background workflow.

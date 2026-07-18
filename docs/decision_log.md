@@ -70,3 +70,20 @@
 - Accept the split only after review-integrity and real-leakage checks pass. The test manifest is now
   fixed and prohibited from training, validation, copy-paste, synthetic backgrounds, augmentation,
   or any synthetic-generation reference.
+
+## 2026-07-19 — Sprint 2.5 focused Penguin split-quality review
+
+- Preserve the original 444/128/63 split as immutable Split V1, including its combined identity
+  `c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`.
+- Review every one of the 71 accepted Penguin images using filename, current-source, MOV,
+  viewpoint/background, capture-sequence, and perceptual-similarity contact sheets.
+- Treat capture dependency, not shared physical-exhibit appearance, as the grouping criterion.
+- Approve three intact Penguin capture runs: IMG_2282-2354, IMG_2519-2530, and IMG_3130-3177.
+  Their closest cross-group dHash distance is 15 versus the near-duplicate threshold of 6; no MOV
+  identity crosses a boundary, and adjacent captures and confirmed duplicates remain together.
+- Reassign the 128 rows in the old broad Penguin exhibit group with their containing run as a direct
+  consistency requirement; preserve the other 507 source-review rows unchanged.
+- Freeze active Split V2 at 427/140/68 train/validation/test images with Penguin coverage in all
+  splits and combined identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
+- Accept V2 only after review integrity, all-class coverage, deterministic reproduction, and real
+  leakage validation pass. Fix V2 before any Sprint 3 experiment; retain V1 for traceability.

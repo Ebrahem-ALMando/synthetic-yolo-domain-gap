@@ -73,6 +73,8 @@ def main() -> int:
     label = "Reproduced" if args.verify_frozen else "Candidate" if args.preview else "Frozen"
     print(f"{label} split identity: {metadata['combined_split_sha256']}")
     print(f"Image counts: {metadata['actual_counts']}")
+    print(f"Class image counts: {metadata['image_count_per_class_per_split']}")
+    print(f"Class coverage limitations: {metadata['class_coverage_limitations']}")
     return 0
 
 

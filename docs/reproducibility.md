@@ -70,8 +70,19 @@ overwrite frozen outputs, and can reproduce the split in temporary storage with 
 The old Roboflow export folder names remain path components only; their train/valid/test labels were
 not used as scientific split assignments.
 
-The frozen manifest hashes are recorded in `manifests/aquarium/split_metadata.json`. Seed 42
-reproduces combined identity
-`c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Synthetic source
-and background manifests are currently absent, which the leakage checker handles as an empty future
-input rather than evidence of synthetic generation.
+## Sprint 2.5 Penguin review and active split
+
+```bash
+python scripts/review_penguin_groups.py
+python scripts/validate_reviews.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv reports/dataset_audit/aquarium/penguin_review/reviewed_source_groups_v2.csv --dataset-root datasets/raw/aquarium/export
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/penguin_review/reviewed_source_groups_v2.csv --dataset-root datasets/raw/aquarium/export --seed 42 --output manifests/aquarium/v2 --verify-frozen
+python scripts/check_leakage.py manifests/aquarium/v2
+python scripts/audit_real_split.py manifests/aquarium/v2 reports/dataset_audit/aquarium/bounding_boxes.csv --output reports/dataset_audit/aquarium/penguin_review/v2_split_audit
+```
+
+Split V1 hashes remain recorded in `manifests/aquarium/v1/split_metadata.json`; seed 42 reproduces
+identity `c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Active Split V2 hashes
+are in `manifests/aquarium/v2/split_metadata.json`; seed 42 reproduces identity
+`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`. Synthetic source and
+background manifests are absent, which the leakage checker handles as an empty future input rather
+than evidence of synthetic generation.

@@ -1,0 +1,4 @@
+image_path,label_path,exclusion_reasons,inclusion_status
+datasets/raw/aquarium/export/test/images/IMG_2423_jpeg_jpg.rf.1c0901882e71d5ebd26f036f4e22da65.jpg,datasets/raw/aquarium/export/test/labels/IMG_2423_jpeg_jpg.rf.1c0901882e71d5ebd26f036f4e22da65.txt,non_positive_box,excluded
+datasets/raw/aquarium/export/test/images/IMG_2570_jpeg_jpg.rf.ed40900b657a5b23d92cb2d296ad2dbc.jpg,datasets/raw/aquarium/export/test/labels/IMG_2570_jpeg_jpg.rf.ed40900b657a5b23d92cb2d296ad2dbc.txt,non_positive_box,excluded
+datasets/raw/aquarium/export/train/images/IMG_3133_jpeg_jpg.rf.f439b9d382fd153b96f0a88cdf169172.jpg,datasets/raw/aquarium/export/train/labels/IMG_3133_jpeg_jpg.rf.f439b9d382fd153b96f0a88cdf169172.txt,empty_label;no_valid_objects,excluded
