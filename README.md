@@ -76,16 +76,18 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 2 research conditionally approves Roboflow Aquarium Combined version 2 under CC BY 4.0, but
-the dataset has not been acquired or audited because no Roboflow API key or manual export is
-available. The repository now includes strict validation, audit, duplicate, group-aware split, and
-leakage tools. No manifests are frozen, no model has been downloaded or trained, and no dashboard or
-API has been initialized. There are no reported metrics; fabricated metrics are prohibited.
+Sprint 2 approves the locally acquired Roboflow Aquarium Combined version 2 export under CC BY 4.0.
+Strict validation accepts 635 of 638 images and records three exclusions without repair. Actual audit
+statistics, plots, duplicate candidates, source proposals, and review contact sheets have been
+generated locally. Human review is still required for 8 duplicate groups and 66 source groups, so no
+real split or manifest is frozen. No model has been downloaded or trained, and no synthetic data,
+dashboard, API, or metrics have been produced.
 
-Candidate evidence and the exact blocker are documented in
-[`docs/datasets/aquarium_candidate.md`](docs/datasets/aquarium_candidate.md). Validate the safe
-acquisition plan without downloading:
+Dataset evidence and the review blocker are documented in the
+[`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md) and
+[`datasheet`](docs/datasets/aquarium_datasheet.md). Review the generated instructions before split
+creation:
 
 ```bash
-python scripts/acquire_aquarium.py --dry-run
+reports/dataset_audit/aquarium/review_instructions.md
 ```

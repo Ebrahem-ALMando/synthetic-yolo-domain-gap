@@ -3,12 +3,14 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+import pytest
 from PIL import Image
 
 from synthdet.data.acquisition import export_api_url
 from synthdet.data.audit import generate_dataset_audit
 from synthdet.data.duplicates import analyze_duplicates
 from synthdet.data.leakage import validate_leakage
+from synthdet.data.source_groups import propose_source_groups
 from synthdet.data.splitting import create_real_splits
 from synthdet.data.validation import validate_yolo_dataset, write_validation_outputs
 
@@ -176,10 +178,16 @@ def _split_inputs(root: Path) -> tuple[Path, Path, Path]:
                 "review_status": "not_applicable",
             }
         )
-        source_rows.append({"image_path": image_path, "source_group_id": f"source-{index:02d}"})
+        source_rows.append(
+            {
+                "image_path": image_path,
+                "source_group_id": f"source-{index:02d}",
+                "review_status": "confirmed",
+            }
+        )
     _write_csv(records_path, record_fields, record_rows)
     _write_csv(duplicate_path, list(duplicate_rows[0]), duplicate_rows)
-    _write_csv(source_path, ["image_path", "source_group_id"], source_rows)
+    _write_csv(source_path, ["image_path", "source_group_id", "review_status"], source_rows)
     return records_path, duplicate_path, source_path
 
 
@@ -194,6 +202,17 @@ def test_split_is_deterministic_frozen_and_leakage_free(tmp_path: Path) -> None:
     assert first["combined_split_sha256"] == second["combined_split_sha256"]
     assert all(first["actual_counts"][split] > 0 for split in ("train", "val", "test"))
     assert validate_leakage(first_dir) == []
+
+
+def test_split_rejects_pending_source_review(tmp_path: Path) -> None:
+    records, duplicates, sources = _split_inputs(tmp_path)
+    with sources.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows[0]["review_status"] = "pending"
+    _write_csv(sources, list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="Source groups require human review"):
+        create_real_splits(records, duplicates, tmp_path / "blocked", sources)
 
 
 def test_leakage_checker_detects_test_hash_in_future_source(tmp_path: Path) -> None:
@@ -219,3 +238,44 @@ def test_acquisition_url_is_official_and_credential_free() -> None:
 
     assert url == "https://api.roboflow.com/brad-dwyer/aquarium-combined/2/yolov5pytorch"
     assert "api_key" not in url
+
+
+def test_source_proposals_confirm_video_and_hold_numbered_run(tmp_path: Path) -> None:
+    dataset_root = tmp_path / "dataset"
+    image_paths = [
+        "train/images/IMG_100_MOV-0_jpg.rf.aaa.jpg",
+        "valid/images/IMG_100_MOV-1_jpg.rf.bbb.jpg",
+        "train/images/IMG_200_jpg.rf.ccc.jpg",
+        "test/images/IMG_201_jpg.rf.ddd.jpg",
+    ]
+    for index, image_path in enumerate(image_paths):
+        target = dataset_root / image_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (32, 24), (index * 40, 10, 20)).save(target)
+    records = tmp_path / "records.csv"
+    duplicates = tmp_path / "duplicates.csv"
+    _write_csv(
+        records,
+        ["image_path", "inclusion_status"],
+        [
+            {"image_path": image_path, "inclusion_status": "included"}
+            for image_path in image_paths
+        ],
+    )
+    _write_csv(
+        duplicates,
+        ["image_path", "duplicate_group_id"],
+        [{"image_path": image_path, "duplicate_group_id": ""} for image_path in image_paths],
+    )
+    output = tmp_path / "reviewed_source_groups.csv"
+
+    summary = propose_source_groups(
+        records, duplicates, dataset_root, output, tmp_path / "contact_sheets"
+    )
+
+    assert summary["proposed_source_groups"] == 2
+    assert summary["confirmed_video_groups"] == 1
+    assert summary["pending_groups"] == 1
+    with output.open(encoding="utf-8", newline="") as handle:
+        statuses = {row["review_status"] for row in csv.DictReader(handle)}
+    assert statuses == {"confirmed", "pending"}

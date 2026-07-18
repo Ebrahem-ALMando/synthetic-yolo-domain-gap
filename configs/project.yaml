@@ -1,20 +1,49 @@
 project:
   name: synthetic-yolo-domain-gap
   description: Measuring the synthetic-to-real domain gap in YOLO object detection
-  sprint: 1
+  sprint: 2
 
 seed: 42
 
 dataset:
-  name: null
-  candidate: Aquarium Object Detection
-  class_names: null  # Unresolved until candidate dataset validation in Sprint 2.
+  name: Aquarium Combined
+  identifier: aquarium-combined-v2-raw-1024
+  candidate: null
+  status: approved_split_pending_human_review
+  version: 2
+  export_name: raw-1024
+  annotation_format: YOLOv5 PyTorch detection
+  license: CC BY 4.0
+  class_names:
+    - fish
+    - jellyfish
+    - penguin
+    - puffin
+    - shark
+    - starfish
+    - stingray
+  split_seed: 42
+  duplicate_detection:
+    method: dhash-64
+    hamming_threshold: 6
+  object_size_rule:
+    small_max_area_px: 1024   # 32^2, exclusive upper bound
+    medium_max_area_px: 9216  # 96^2, exclusive upper bound
+  paths:
+    raw: datasets/raw/aquarium/export
+    audit: reports/dataset_audit/aquarium
+    train_manifest: manifests/aquarium/real_train.csv
+    validation_manifest: manifests/aquarium/real_val.csv
+    test_manifest: manifests/aquarium/real_test.csv
+    excluded_manifest: manifests/aquarium/excluded.csv
+    duplicate_groups: manifests/aquarium/duplicate_groups.csv
+    split_metadata: manifests/aquarium/split_metadata.json
 
 paths:
   datasets_root: datasets
-  real_data: datasets/real
+  real_data: datasets/processed/real
   synthetic_data: datasets/synthetic
-  splits: datasets/splits
+  splits: manifests/aquarium
   artifacts_root: artifacts
   experiment_runs: artifacts/experiments
   models: models
@@ -27,4 +56,3 @@ yolo:
   epochs: 100
   confidence_threshold: 0.25
   iou_threshold: 0.70
-

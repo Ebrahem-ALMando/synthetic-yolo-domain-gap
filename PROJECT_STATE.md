@@ -8,34 +8,36 @@ Sprint 2 — Candidate Dataset Validation, Acquisition, Audit, and Immutable Rea
 
 ## Completed
 
-- Created the Python `src` layout and future API/web application boundaries.
-- Added central typed YAML configuration with deterministic seed 42.
-- Added environment, configuration, directory, test, and static-validation foundations.
-- Documented dataset isolation, controlled experiments, reproducibility, and decision history.
-- Established ignore rules for data, artifacts, model weights, runs, caches, and secrets.
-- Researched the Aquarium candidate from authoritative Roboflow and CC BY 4.0 sources.
-- Conditionally approved Aquarium Combined version 2 pending local file audit and provenance review.
-- Implemented non-destructive acquisition/import, strict YOLO validation, factual audit statistics,
-  SHA-256/dHash duplicate analysis, group-aware splitting, manifest hashing, and leakage checks.
+- Preserved the Sprint 1 foundation, deterministic seed 42, protocols, and ignore policy.
+- Approved the CC BY 4.0 Aquarium Combined version-2 `raw-1024` export after local verification.
+- Verified the recorded archive SHA-256 and confirmed all 1,281 raw stored files are read-only.
+- Read the stable seven-class numeric order from the acquired `data.yaml`.
+- Validated all 638 images and 638 matching labels without modifying raw data.
+- Accepted 635 images with 4,784 valid objects and recorded 3 strict exclusions.
+- Generated machine-readable validation/audit data, a Markdown audit, and eight real-data plots.
+- Found no exact accepted-image duplicates and generated 8 pending dHash groups plus contact sheets.
+- Proposed 83 conservative source groups and generated 58 source contact-sheet pages.
+- Confirmed 17 explicit `_MOV` groups covering 81 frames from filename evidence.
+- Strengthened split creation to reject incomplete duplicate and source review statuses.
 
-## Blocked or not started
+## Human review blocker
 
-- Dataset download and local validation are blocked because no `ROBOFLOW_API_KEY` or manual export
-  is available.
-- Actual counts, annotation issues, exclusions, statistics, duplicate groups, and source groups are
-  therefore unknown.
-- No immutable real split or Aquarium manifests have been generated or frozen.
-- Synthetic data generation.
-- YOLO model acquisition, training, evaluation, or metric reporting.
-- FastAPI inference endpoints and Next.js dashboard.
+- All 8 dHash duplicate candidate groups remain `pending`.
+- Of 83 source groups, 17 are confirmed and 66 remain `pending`; the pending groups cover 554 still
+  images.
+- Some consecutive-number contact sheets span different exhibits, so automatic confirmation would
+  create unsupported provenance claims.
+- No train, validation, or test manifest has been created. No split is frozen and no manifest hash,
+  combined split identity, or real leakage result exists.
 
 ## Data and results status
 
-No dataset files are present. Aquarium Combined version 2 is conditionally approved, not finally
-adopted. No audit outputs, plots, manifests, models, training runs, or metrics exist.
+The approved raw dataset is local and ignored by Git. Generated audit and review outputs are also
+ignored. There are no synthetic images, models, training runs, inference results, fabricated metrics,
+or synthetic source/background manifests.
 
 ## Next gate
 
-The user must provide `ROBOFLOW_API_KEY` in the local environment or manually download the official
-version-2 YOLO export. Sprint 2 must then run validation, audit, duplicate review, source grouping,
-split creation, and leakage validation before Sprint 3 can begin.
+Complete the instructions in `reports/dataset_audit/aquarium/review_instructions.md`. After every
+duplicate and source group has an accepted final status and stable grouping, rerun split creation,
+then the hard-fail leakage checker. Sprint 3 cannot begin before those checks pass.

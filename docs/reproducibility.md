@@ -44,7 +44,8 @@ python scripts/acquire_aquarium.py --download
 python scripts/validate_dataset.py datasets/raw/aquarium/export
 python scripts/audit_dataset.py reports/dataset_audit/aquarium
 python scripts/analyze_duplicates.py reports/dataset_audit/aquarium/image_records.csv
-python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups path/to/reviewed_source_groups.csv
+python scripts/propose_source_groups.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv datasets/raw/aquarium/export
+python scripts/create_real_splits.py reports/dataset_audit/aquarium/image_records.csv reports/dataset_audit/aquarium/duplicate_candidates.csv --source-groups reports/dataset_audit/aquarium/reviewed_source_groups.csv
 python scripts/check_leakage.py manifests/aquarium
 ```
 
@@ -57,3 +58,9 @@ python scripts/acquire_aquarium.py --archive path/to/downloaded.zip
 
 Raw and generated outputs are ignored. Frozen manifests contain only repository-relative public-data
 paths and hashes and must not be overwritten. The split command refuses existing outputs.
+
+Current real-data execution stops after source proposals. Review
+`reports/dataset_audit/aquarium/review_instructions.md`, the duplicate sheets, and all applicable
+source sheets. The split command rejects `pending`, `split_required`, or `merge_required` source
+statuses and pending duplicate groups. The old Roboflow export split folders are not provenance and
+must not be used to resolve review decisions.

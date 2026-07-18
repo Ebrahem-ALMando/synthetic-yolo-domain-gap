@@ -13,8 +13,18 @@ def test_default_config_loads_with_protocol_defaults() -> None:
 
     assert config.seed == 42
     assert config.yolo.base_model == "yolo11n.pt"
-    assert config.dataset.name is None
-    assert config.dataset.class_names is None
+    assert config.dataset.identifier == "aquarium-combined-v2-raw-1024"
+    assert config.dataset.class_names == [
+        "fish",
+        "jellyfish",
+        "penguin",
+        "puffin",
+        "shark",
+        "starfish",
+        "stingray",
+    ]
+    assert config.dataset.duplicate_detection is not None
+    assert config.dataset.duplicate_detection.hamming_threshold == 6
 
 
 def test_relative_paths_resolve_from_project_root() -> None:
@@ -50,4 +60,3 @@ def test_missing_essential_directories_are_reported(tmp_path: Path) -> None:
 
     assert tmp_path / "apps" / "api" in missing
     assert tmp_path / "tests" in missing
-

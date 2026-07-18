@@ -2,10 +2,10 @@
 
 ## Status
 
-Aquarium Combined version 2 (`raw-1024`) is conditionally approved from authoritative metadata and
-license research. Local acquisition and file-level validation have not occurred, so the central
-configuration's dataset identifier and class order remain unresolved. See
-`docs/datasets/aquarium_candidate.md`.
+Aquarium Combined version 2 (`raw-1024`) is approved after local file validation. The accepted set is
+635 of 638 acquired images; three exclusions are recorded in the machine-readable audit. Class order
+comes from the acquired `data.yaml`. The immutable split remains blocked on human duplicate/source
+review. See `docs/datasets/aquarium_candidate.md` and the datasheet.
 
 ## Candidate validation
 
@@ -46,7 +46,8 @@ Exact duplicates use SHA-256 of image bytes. Near-duplicate candidates use a 64-
 (dHash): resize grayscale pixels to 9x8, compare adjacent horizontal values, and group hashes whose
 Hamming distance is at most the configured threshold (default 6). Candidates require human review;
 files are never automatically deleted. Split creation rejects any duplicate group whose review
-status is still `pending`.
+status is still `pending`. Source grouping likewise requires `review_status` of `confirmed` or
+`not_applicable`; `pending`, `split_required`, and `merge_required` block the split.
 
 The project object-size rule uses bounding-box pixel area in the inspected image: small is below
 32^2 pixels, medium is from 32^2 up to but excluding 96^2, and large is at least 96^2.
@@ -54,5 +55,5 @@ The project object-size rule uses bounding-box pixel area in the inspected image
 ## Repository policy
 
 Raw data, processed images, labels, and generated synthetic data live under ignored `datasets/`
-paths. Only small metadata, scripts, schemas, and legally permissible manifests may be versioned.
-No dataset content is included in Sprint 1.
+paths. Only small metadata, scripts, schemas, and legally permissible frozen manifests may be
+versioned. Raw files and generated audit/review outputs remain ignored.

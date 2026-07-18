@@ -367,11 +367,38 @@ def write_validation_outputs(
     issues: list[AuditIssue],
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
+    counts = Counter(issue.code for issue in issues)
+    missing_labels = counts["missing_label"]
+    orphan_labels = counts["orphan_label"]
+    discovered_label_files = len(records) - missing_labels + orphan_labels
+    category_counts = {
+        "corrupt_images": counts["corrupt_image"],
+        "missing_labels": missing_labels,
+        "empty_labels": counts["empty_label"],
+        "missing_images_or_orphan_labels": orphan_labels,
+        "invalid_or_unknown_class_ids": counts["unknown_class"],
+        "malformed_annotation_rows": (
+            counts["unsupported_annotation_line"] + counts["non_numeric_annotation"]
+        ),
+        "non_positive_boxes": counts["non_positive_box"],
+        "non_normalized_boxes": counts["non_normalized_box"],
+        "out_of_bounds_boxes": counts["box_outside_image"],
+        "duplicate_stems": counts["duplicate_file_stem"],
+        "unsupported_image_files": counts["unsupported_image_extension"],
+        "images_without_valid_objects": counts["no_valid_objects"],
+    }
     payload = {
         "class_names": class_names,
         "image_count": len(records),
+        "discovered_label_files": discovered_label_files,
+        "matched_image_label_pairs": len(records) - missing_labels,
         "included_count": sum(record.inclusion_status == "included" for record in records),
         "excluded_count": sum(record.inclusion_status == "excluded" for record in records),
+        "included_valid_object_count": sum(
+            record.object_count for record in records if record.inclusion_status == "included"
+        ),
+        "issue_counts": dict(sorted(counts.items())),
+        "validation_category_counts": category_counts,
         "issues": [issue.to_dict() for issue in issues],
     }
     (output_dir / "validation_issues.json").write_text(

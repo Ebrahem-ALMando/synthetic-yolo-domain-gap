@@ -32,3 +32,18 @@
   not sufficient to map individual images to capture sequences.
 - Target group-aware 70/20/10 splits with seed 42 and image-level multi-label balancing. Do not call
   the split frozen until real manifests and their hashes exist.
+
+## 2026-07-18 — Sprint 2 real-data execution
+
+- Approve Aquarium Combined version 2 after the archive identity, read-only raw storage, stable class
+  order, and local file-level validation matched the published source.
+- Accept 635 images and exclude 3 complete records without repair: two for zero-area boxes and one
+  for an empty label/no valid objects.
+- Use only accepted-image statistics: 4,784 objects across all seven validated classes.
+- Keep all 8 dHash groups pending formal human review even though visual inspection supports their
+  interpretation as adjacent or near-identical captures; there are no SHA-256 exact duplicates.
+- Confirm 17 `_MOV` groups from explicit shared filename bases. Keep 66 still-image source proposals
+  pending because consecutive numbers do not prove common scenes and some contact sheets cross
+  exhibits.
+- Strengthen split creation to reject pending duplicate and source review statuses. Do not create
+  manifests, hashes, a test split, or a leakage result until the review gate is resolved.

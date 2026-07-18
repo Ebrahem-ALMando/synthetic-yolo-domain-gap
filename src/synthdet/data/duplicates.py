@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from collections import defaultdict
 from pathlib import Path
 
@@ -84,6 +85,7 @@ def analyze_duplicates(records_path: Path, output_path: Path, threshold: int = 6
         "match_type",
         "minimum_hamming_distance",
         "review_status",
+        "recommended_review_action",
     ]
     with output_path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
@@ -119,6 +121,62 @@ def analyze_duplicates(records_path: Path, output_path: Path, threshold: int = 6
                     "match_type": match_type if group_id else "unique",
                     "minimum_hamming_distance": min(distances) if distances else "",
                     "review_status": "pending" if group_id else "not_applicable",
+                    "recommended_review_action": (
+                        "confirm exact match and keep together; consider excluding one working copy"
+                        if match_type == "exact"
+                        else "compare contact sheet; confirm as one group or reject false positive"
+                        if group_id
+                        else "none"
+                    ),
                 }
             )
+    summary_groups = []
+    for group_id, members in sorted(
+        (
+            (group_for_path[component[0]], component)
+            for component in duplicate_components
+        ),
+        key=lambda item: item[0],
+    ):
+        distances = [
+            hamming_distance(
+                by_path[first]["perceptual_hash"], by_path[second]["perceptual_hash"]
+            )
+            for index, first in enumerate(members)
+            for second in members[index + 1 :]
+        ]
+        exact = any(
+            tuple(sorted((first, second))) in exact_pairs
+            for index, first in enumerate(members)
+            for second in members[index + 1 :]
+        )
+        summary_groups.append(
+            {
+                "group_id": group_id,
+                "image_paths": members,
+                "match_type": "exact" if exact else "near",
+                "minimum_hamming_distance": min(distances) if distances else None,
+                "review_status": "pending",
+                "recommended_review_action": (
+                    "confirm exact match and keep together; consider excluding one working copy"
+                    if exact
+                    else "compare contact sheet; confirm as one group or reject false positive"
+                ),
+            }
+        )
+    summary = {
+        "included_images_analyzed": len(records),
+        "dhash_bits": 64,
+        "hamming_threshold": threshold,
+        "exact_duplicate_groups": sum(group["match_type"] == "exact" for group in summary_groups),
+        "near_duplicate_candidate_groups": sum(
+            group["match_type"] == "near" for group in summary_groups
+        ),
+        "candidate_images": sum(len(group["image_paths"]) for group in summary_groups),
+        "pending_groups": len(summary_groups),
+        "groups": summary_groups,
+    }
+    output_path.with_name("duplicate_analysis_summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return len(duplicate_components)

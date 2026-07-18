@@ -104,6 +104,20 @@ def create_real_splits(
     source_map: dict[str, str] = {}
     if source_groups_path is not None:
         source_rows = _read_csv(source_groups_path)
+        if "review_status" not in (source_rows[0] if source_rows else {}):
+            raise ValueError("Source-group CSV must include review_status")
+        pending_source_groups = sorted(
+            {
+                row["source_group_id"]
+                for row in source_rows
+                if row.get("review_status") not in {"confirmed", "not_applicable"}
+            }
+        )
+        if pending_source_groups:
+            raise ValueError(
+                "Source groups require human review before splitting: "
+                + ", ".join(pending_source_groups)
+            )
         source_map = {row["image_path"]: row["source_group_id"].strip() for row in source_rows}
         missing = sorted(included_paths - source_map.keys())
         empty = sorted(path for path in included_paths if not source_map.get(path))
