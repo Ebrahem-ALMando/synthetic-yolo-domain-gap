@@ -14,6 +14,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from synthdet.synthetic.contracts import sha256_file  # noqa: E402
 from synthdet.training.bundle import safe_extract, validate_extracted_bundle  # noqa: E402
+from synthdet.training.colab import resolve_expected_revision  # noqa: E402
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,12 +23,19 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--bundle", type=Path)
     group.add_argument("--extracted-root", type=Path)
     parser.add_argument("--expected-sha256")
+    parser.add_argument(
+        "--expected-revision",
+        help="Optional assertion; the validated internal inventory is authoritative.",
+    )
     parser.add_argument("--skip-experiment-validation", action="store_true")
     return parser
 
 
-def _validate_root(root: Path, run_experiment_validation: bool) -> dict[str, object]:
+def _validate_root(
+    root: Path, run_experiment_validation: bool, revision_override: str | None
+) -> dict[str, object]:
     inventory = validate_extracted_bundle(root)
+    revision = resolve_expected_revision(root, revision_override)
     if run_experiment_validation:
         subprocess.run(
             [sys.executable, "scripts/materialize_training_bundle.py"],
@@ -37,7 +45,9 @@ def _validate_root(root: Path, run_experiment_validation: bool) -> dict[str, obj
         subprocess.run([sys.executable, "scripts/validate_experiments.py"], cwd=root, check=True)
     return {
         "bundle_identity": inventory["bundle_identity"],
-        "expected_repository_revision": inventory["expected_repository_revision"],
+        "expected_repository_revision": revision,
+        "source_branch": inventory["source_branch"],
+        "source_worktree_dirty": inventory["source_worktree_dirty"],
         "file_count": inventory["file_count"],
         "experiment_validation": run_experiment_validation,
         "test_images_present": False,
@@ -49,7 +59,9 @@ def main() -> int:
     try:
         if args.extracted_root:
             result = _validate_root(
-                args.extracted_root.resolve(), not args.skip_experiment_validation
+                args.extracted_root.resolve(),
+                not args.skip_experiment_validation,
+                args.expected_revision,
             )
         else:
             bundle = args.bundle.resolve()
@@ -63,7 +75,9 @@ def main() -> int:
             with tempfile.TemporaryDirectory(prefix="synthdet-bundle-validation-") as temporary:
                 root = Path(temporary) / "extracted"
                 safe_extract(bundle, root)
-                result = _validate_root(root, not args.skip_experiment_validation)
+                result = _validate_root(
+                    root, not args.skip_experiment_validation, args.expected_revision
+                )
                 result["archive_sha256"] = actual
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0

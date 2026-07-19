@@ -42,7 +42,11 @@ def _git_revision(root: Path) -> str:
         return completed.stdout.strip()
     inventory = root / "training_bundle_inventory.json"
     if inventory.is_file():
-        return json.loads(inventory.read_text(encoding="utf-8"))["expected_repository_revision"]
+        from synthdet.training.bundle import validate_extracted_bundle
+        from synthdet.training.colab import resolve_expected_revision
+
+        validate_extracted_bundle(root)
+        return resolve_expected_revision(root)
     raise RuntimeError("Cannot determine source revision from Git or bundle inventory")
 
 

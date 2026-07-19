@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
@@ -11,15 +12,21 @@ from typing import Any
 REGIMES = ("synthetic_only", "real_25", "real_50", "real_75", "real_only")
 
 
-def read_source_revision(root: Path) -> str:
+def resolve_expected_revision(root: Path, override: str | None = None) -> str:
     inventory = root / "training_bundle_inventory.json"
-    if inventory.is_file():
-        return json.loads(inventory.read_text(encoding="utf-8"))["expected_repository_revision"]
-    import subprocess
-
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
-    ).stdout.strip()
+    if not inventory.is_file():
+        raise FileNotFoundError("Validated internal training-bundle inventory is required")
+    metadata = json.loads(inventory.read_text(encoding="utf-8"))
+    revision = metadata.get("expected_repository_revision")
+    if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise ValueError("Bundle inventory has no valid expected_repository_revision")
+    if metadata.get("source_branch") != "main":
+        raise ValueError("Bundle inventory source branch is not main")
+    if metadata.get("source_worktree_dirty") is not False:
+        raise ValueError("Bundle inventory records a dirty source worktree")
+    if override is not None and override != revision:
+        raise ValueError("Explicit revision override conflicts with bundle inventory")
+    return revision
 
 
 def load_state(path: Path, expected_revision: str, profile_identity: str) -> dict[str, Any]:

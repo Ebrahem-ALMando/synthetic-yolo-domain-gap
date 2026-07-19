@@ -2,8 +2,10 @@
 
 Last updated: 2026-07-19
 
-Sprint 4B handoff status: `awaiting_external_cuda_execution`. The complete CUDA/Colab execution
-workflow is prepared, but Sprint 4B is not complete until all five returned runs validate locally.
+Sprint 4B handoff status: `awaiting_revision_binding_fix_commit`. The notebook now resolves the
+expected revision from generated bundle inventory instead of a self-referential committed hash.
+The prior dirty-source bundle is invalid and must not be uploaded. Build a new clean bundle only
+after committing this focused fix. Sprint 4B remains incomplete.
 
 ## Current sprint
 
@@ -55,7 +57,7 @@ No full experiment, test inference, final evaluation, API, or dashboard exists.
 
 ## Next gate
 
-Run the versioned Colab notebook on a CUDA runtime, freeze either batch 16 or the predeclared batch 4
-profile for all regimes, and return the results archive, checksum, inventory, completion manifest,
-and frozen profile. Do not mark Sprint 4B complete until all five actual runs validate locally. The
-real test set remains prohibited until the later fixed evaluation sprint.
+Commit the revision-binding fix, restore a clean `main` worktree, and rebuild/validate the generated
+bundle so its inventory records that clean HEAD and `source_worktree_dirty: false`. Only then run the
+versioned Colab notebook on CUDA. Do not mark Sprint 4B complete until all five actual runs validate
+locally. The real test set remains prohibited until the later fixed evaluation sprint.

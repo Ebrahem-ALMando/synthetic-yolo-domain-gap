@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -29,7 +30,6 @@ CONFIGURATION_VARIABLES = (
     "PERSISTENT_OUTPUT_DIRECTORY",
     "REGIME_SELECTION",
     "DEVICE",
-    "EXPECTED_REPOSITORY_REVISION",
 )
 BANNED_CODE = (
     "real_test",
@@ -64,6 +64,22 @@ def validate_notebook(path: Path) -> dict[str, Any]:
     missing = [name for name in CONFIGURATION_VARIABLES if name not in code_cells[0]]
     if missing:
         raise ValueError("First configuration cell is missing: " + ", ".join(missing))
+    if "EXPECTED_REPOSITORY_REVISION" in code_cells[0]:
+        raise ValueError("User configuration must not require an expected repository revision")
+    if re.search(r"(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])", code, flags=re.IGNORECASE):
+        raise ValueError("Notebook contains a forbidden literal Git commit SHA")
+    required_revision_flow = (
+        "training_bundle_inventory.json",
+        "expected_repository_revision",
+        "RESOLVED_REPOSITORY_REVISION",
+        "--expected-revision",
+    )
+    missing_revision_flow = [token for token in required_revision_flow if token not in code]
+    if missing_revision_flow:
+        raise ValueError(
+            "Notebook does not resolve revision from bundle inventory: "
+            + ", ".join(missing_revision_flow)
+        )
     lowered = code.lower()
     violations = [token for token in BANNED_CODE if token in lowered]
     if violations:

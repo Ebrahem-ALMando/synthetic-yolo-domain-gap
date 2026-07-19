@@ -14,11 +14,12 @@ import yaml
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
+from synthdet.training.bundle import validate_extracted_bundle  # noqa: E402
 from synthdet.training.colab import (  # noqa: E402
     REGIMES,
     load_state,
     persist_run,
-    read_source_revision,
+    resolve_expected_revision,
     start_attempt,
     validate_state_record,
     write_state,
@@ -30,7 +31,10 @@ from synthdet.training.cuda import inspect_cuda  # noqa: E402
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repository", type=Path, required=True)
-    parser.add_argument("--expected-revision", required=True)
+    parser.add_argument(
+        "--expected-revision",
+        help="Optional debugging assertion; the internal bundle inventory remains authoritative.",
+    )
     parser.add_argument("--regime", choices=("all", *REGIMES), default="all")
     parser.add_argument("--device", default="0")
     parser.add_argument("--persistent-output", type=Path, required=True)
@@ -42,8 +46,9 @@ def main() -> int:
     args = build_parser().parse_args()
     root = args.repository.resolve()
     try:
-        if read_source_revision(root) != args.expected_revision:
-            raise ValueError("Repository/bundle revision differs from --expected-revision")
+        validate_extracted_bundle(root)
+        expected_revision = resolve_expected_revision(root, args.expected_revision)
+        print(f"Validated bundle source revision: {expected_revision}")
         inspect_cuda(args.device, root)
         common = yaml.safe_load((root / "configs/training/common.yaml").read_text())
         profile = load_frozen_profile(args.profile.resolve(), common)
@@ -54,7 +59,7 @@ def main() -> int:
         )
         persistent = args.persistent_output.resolve()
         state_path = persistent / "completion_state.json"
-        state = load_state(state_path, args.expected_revision, profile["profile_identity"])
+        state = load_state(state_path, expected_revision, profile["profile_identity"])
         selected = REGIMES if args.regime == "all" else (args.regime,)
         local_root = root / common["outputs"]["run_root"] / "final"
         for regime in selected:

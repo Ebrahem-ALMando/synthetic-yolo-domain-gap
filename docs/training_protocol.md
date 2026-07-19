@@ -81,8 +81,9 @@ The archive contains source/configuration, frozen manifests, real-train and synt
 pairs, and real-validation pairs. It contains no real-test images or secrets. Its inventory records
 every SHA-256 checksum and the command `python scripts/validate_experiments.py`.
 
-Sprint 4B uses `notebooks/sprint4b_full_training_colab.ipynb`; users edit only the grouped path,
-device, regime, and expected-revision variables. The notebook validates its bundle checksum before
+Sprint 4B uses `notebooks/sprint4b_full_training_colab.ipynb`; users edit only the grouped bundle
+path, persistent-output path, regime selection, and device variables. The notebook validates its
+bundle checksum before
 safe extraction, pins the runtime, proves CUDA with a real tensor operation, materializes and
 validates the five views, and runs a bounded one-epoch memory preflight on `real_50`. Preflight
 metrics are technical evidence and are not scientific results.
@@ -96,7 +97,6 @@ After extracting the bundle in Colab, the notebook invokes the restart-safe equi
 ```bash
 python scripts/colab_train.py \
   --repository /content/synthetic-yolo-domain-gap \
-  --expected-revision <COMMITTED_SPRINT4A_REVISION> \
   --regime all \
   --device 0 \
   --persistent-output /content/drive/MyDrive/synthdet/sprint4b \
@@ -109,5 +109,19 @@ labeled and a retry receives a new directory. A completed run is skipped only if
 checkpoint/results hashes still match. Finalization produces a five-run completion manifest, a
 clearly non-final validation table and figure, and a dataset/secret/test-output-free results archive.
 
-The local status remains `awaiting_external_cuda_execution` until all five returned CUDA runs and
-the archive are validated. The real test set is prohibited throughout Sprint 4B.
+The local status is `awaiting_revision_binding_fix_commit`. After that commit and a validated clean
+bundle rebuild, it may advance to external CUDA execution. The real test set is prohibited
+throughout Sprint 4B.
+
+### Revision binding
+
+A commit cannot safely contain its own literal SHA: changing the file to that SHA creates a new
+commit with a different SHA. Therefore no committed notebook/configuration stores the expected
+revision. The bundle builder accepts only a clean `main` worktree, resolves HEAD at build time, and
+writes `expected_repository_revision`, `source_branch`, and `source_worktree_dirty: false` into the
+generated internal inventory. These generated fields participate in the bundle identity.
+
+After extraction, the notebook validates the inventory, resolves the revision automatically,
+displays it, and passes it to the training entry point as a matching assertion. Users do not edit
+`EXPECTED_REPOSITORY_REVISION`. The previously produced dirty-worktree bundle is invalid and must
+not be uploaded. A new clean bundle must be built only after this revision-binding fix is committed.

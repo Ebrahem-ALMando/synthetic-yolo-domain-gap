@@ -143,3 +143,10 @@ test. Its persistent completion state is bound to both the expected revision and
 The result archive has its own inventory and SHA-256; checkpoint and result hashes feed the combined
 Sprint 4B training identity. Validation metrics are generated from `results.csv` and labeled
 `NON-FINAL VALIDATION RESULTS`; they cannot be used to modify any primary regime configuration.
+
+The expected source revision is generated from clean `main` HEAD during bundle creation, never
+hardcoded in a committed file. This avoids the self-reference where inserting a commit SHA changes
+the commit itself. Internal inventory is authoritative; an optional CLI revision override is only a
+debug assertion and must exactly match it. Missing revision, non-main branch, dirty-source marker,
+or override mismatch is fatal. The old dirty-source bundle remains invalid and must not be uploaded.
+After this fix is committed, rebuild the bundle from the resulting clean worktree.

@@ -11,12 +11,17 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from synthdet.config.loader import load_config  # noqa: E402
 from synthdet.synthetic.contracts import read_csv, verify_active_split  # noqa: E402
+from synthdet.training.bundle import validate_extracted_bundle  # noqa: E402
+from synthdet.training.colab import resolve_expected_revision  # noqa: E402
 from synthdet.training.experiments import load_regimes  # noqa: E402
 from synthdet.training.materialize import materialize_views  # noqa: E402
 
 
 def main() -> int:
     try:
+        validate_extracted_bundle(PROJECT_ROOT)
+        revision = resolve_expected_revision(PROJECT_ROOT)
+        print(f"Materializing validated bundle revision: {revision}")
         project = load_config(PROJECT_ROOT / "configs/project.yaml")
         split_dir = PROJECT_ROOT / project.dataset.paths.train_manifest.parent
         verify_active_split(split_dir, project.synthetic.active_real_split_identity)

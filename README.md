@@ -76,7 +76,7 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 4A is complete and Sprint 4B is `awaiting_external_cuda_execution`. Aquarium Split V2
+Sprint 4A is complete and Sprint 4B is `awaiting_revision_binding_fix_commit`. Aquarium Split V2
 remains frozen at 427/140/68 train/validation/test images
 with identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
 The 427-image copy-paste pool remains frozen at identity
@@ -97,6 +97,12 @@ with `python scripts/build_training_bundle.py` and
 `notebooks/sprint4b_full_training_colab.ipynb`. Colab must freeze one common batch profile, train
 the five regimes sequentially, persist each validated result immediately, and return the generated
 results archive and its checksum/inventory. The real test set remains strictly prohibited.
+
+The Colab notebook does not hardcode a Git commit because a commit cannot contain its own stable
+hash. After this fix is committed, the bundle builder will bind clean `main` HEAD into generated
+internal inventory and the notebook will resolve it automatically. Users configure only bundle
+path, persistent output, regime selection, and device. The previous dirty-source bundle is invalid
+and must not be uploaded; a new clean bundle must be built after the revision-binding commit.
 
 Dataset evidence is documented in the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
 and [`datasheet`](docs/datasets/aquarium_datasheet.md). See the

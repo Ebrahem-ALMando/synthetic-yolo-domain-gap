@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import types
 import zipfile
 from pathlib import Path
 
@@ -8,10 +10,17 @@ import pytest
 import yaml
 
 from synthdet.synthetic.contracts import sha256_file, stable_json_hash, write_csv
-from synthdet.training.bundle import build_bundle, safe_extract, validate_extracted_bundle
+from synthdet.training.bundle import (
+    build_bundle,
+    clean_source_state,
+    create_inventory,
+    safe_extract,
+    validate_extracted_bundle,
+)
 from synthdet.training.colab import (
     load_state,
     persist_run,
+    resolve_expected_revision,
     start_attempt,
     validate_state_record,
     write_state,
@@ -34,6 +43,8 @@ def test_bundle_creation_and_archive_checksum(tmp_path: Path, monkeypatch) -> No
     identity_inputs = {
         "bundle_version": "fixture",
         "expected_repository_revision": "a" * 40,
+        "source_branch": "main",
+        "source_worktree_dirty": False,
         "real_split_identity": "r" * 64,
         "synthetic_pool_identity": "s" * 64,
         "experiment_design_identity": "e" * 64,
@@ -49,6 +60,14 @@ def test_bundle_creation_and_archive_checksum(tmp_path: Path, monkeypatch) -> No
     }
     monkeypatch.setattr("synthdet.training.bundle.required_bundle_files", lambda _: [payload])
     monkeypatch.setattr("synthdet.training.bundle.create_inventory", lambda *_: inventory.copy())
+    monkeypatch.setattr(
+        "synthdet.training.bundle.clean_source_state",
+        lambda _: {
+            "expected_repository_revision": "a" * 40,
+            "source_branch": "main",
+            "source_worktree_dirty": False,
+        },
+    )
     archive = tmp_path / "bundle.zip"
     result = build_bundle(source, archive)
     assert archive.is_file()
@@ -57,7 +76,9 @@ def test_bundle_creation_and_archive_checksum(tmp_path: Path, monkeypatch) -> No
     assert result["bundle_identity"] == inventory["bundle_identity"]
 
 
-def _extracted_fixture(root: Path, protected_collision: bool = False) -> None:
+def _extracted_fixture(
+    root: Path, protected_collision: bool = False, source_dirty: bool = False
+) -> None:
     manifest = root / "manifests/aquarium/v2/real_test.csv"
     manifest.parent.mkdir(parents=True)
     protected_hash = "f" * 64
@@ -76,6 +97,8 @@ def _extracted_fixture(root: Path, protected_collision: bool = False) -> None:
     inputs = {
         "bundle_version": "fixture",
         "expected_repository_revision": "a" * 40,
+        "source_branch": "main",
+        "source_worktree_dirty": source_dirty,
         "real_split_identity": "r" * 64,
         "synthetic_pool_identity": "s" * 64,
         "experiment_design_identity": "e" * 64,
@@ -96,6 +119,11 @@ def test_bundle_test_image_exclusion_and_safe_extraction(tmp_path: Path) -> None
     _extracted_fixture(invalid, protected_collision=True)
     with pytest.raises(ValueError, match="Protected real-test content"):
         validate_extracted_bundle(invalid)
+    dirty = tmp_path / "old-dirty"
+    dirty.mkdir()
+    _extracted_fixture(dirty, source_dirty=True)
+    with pytest.raises(ValueError, match="clean source worktree"):
+        validate_extracted_bundle(dirty)
     archive = tmp_path / "unsafe.zip"
     with zipfile.ZipFile(archive, "w") as handle:
         handle.writestr("../escape.txt", "bad")
@@ -108,6 +136,81 @@ def test_notebook_configuration_rendering_and_test_protection() -> None:
     result = validate_notebook(root / "notebooks/sprint4b_full_training_colab.ipynb")
     assert result["section_count"] == 16
     assert result["no_test_inference_commands"] is True
+    code = (root / "notebooks/sprint4b_full_training_colab.ipynb").read_text(encoding="utf-8")
+    assert "EXPECTED_REPOSITORY_REVISION" not in code
+    assert "RESOLVED_REPOSITORY_REVISION" in code
+    assert "training_bundle_inventory.json" in code
+
+
+def test_clean_bundle_inventory_records_current_head(tmp_path: Path, monkeypatch) -> None:
+    current_head = subprocess.run(
+        ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
+    ).stdout.strip()
+    payload = tmp_path / "payload.txt"
+    payload.write_text("payload", encoding="utf-8")
+    config_dir = tmp_path / "configs/training"
+    config_dir.mkdir(parents=True)
+    (config_dir / "base_weight.yaml").write_text("sha256: " + "w" * 64, encoding="utf-8")
+    project = types.SimpleNamespace(
+        synthetic=types.SimpleNamespace(
+            active_real_split_identity="r" * 64,
+            pool_identity="s" * 64,
+        ),
+        experiments=types.SimpleNamespace(design_identity="e" * 64),
+    )
+    monkeypatch.setattr("synthdet.training.bundle.load_config", lambda _: project)
+    monkeypatch.setattr("synthdet.training.bundle.git_revision", lambda _: current_head)
+    monkeypatch.setattr("synthdet.training.bundle.git_branch", lambda _: "main")
+    monkeypatch.setattr("synthdet.training.bundle.git_dirty", lambda _: False)
+    inventory = create_inventory(tmp_path, [payload])
+    assert inventory["expected_repository_revision"] == current_head
+    assert inventory["source_branch"] == "main"
+    assert inventory["source_worktree_dirty"] is False
+
+
+def test_dirty_or_non_main_source_blocks_bundle_creation(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr("synthdet.training.bundle.git_revision", lambda _: "a" * 40)
+    monkeypatch.setattr("synthdet.training.bundle.git_branch", lambda _: "main")
+    monkeypatch.setattr("synthdet.training.bundle.git_dirty", lambda _: True)
+    with pytest.raises(ValueError, match="clean Git worktree"):
+        clean_source_state(tmp_path)
+    with pytest.raises(ValueError, match="clean Git worktree"):
+        build_bundle(tmp_path, tmp_path / "blocked.zip")
+    monkeypatch.setattr("synthdet.training.bundle.git_dirty", lambda _: False)
+    monkeypatch.setattr("synthdet.training.bundle.git_branch", lambda _: "feature")
+    with pytest.raises(ValueError, match="built from main"):
+        clean_source_state(tmp_path)
+
+
+def _revision_inventory(root: Path, **overrides: object) -> None:
+    inventory = {
+        "expected_repository_revision": "a" * 40,
+        "source_branch": "main",
+        "source_worktree_dirty": False,
+        **overrides,
+    }
+    (root / "training_bundle_inventory.json").write_text(
+        json.dumps(inventory), encoding="utf-8"
+    )
+
+
+def test_inventory_revision_resolution_and_optional_override(tmp_path: Path) -> None:
+    _revision_inventory(tmp_path)
+    assert resolve_expected_revision(tmp_path) == "a" * 40
+    assert resolve_expected_revision(tmp_path, "a" * 40) == "a" * 40
+    with pytest.raises(ValueError, match="conflicts"):
+        resolve_expected_revision(tmp_path, "b" * 40)
+
+
+def test_missing_invalid_or_dirty_inventory_revision_fails(tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError, match="inventory is required"):
+        resolve_expected_revision(tmp_path)
+    _revision_inventory(tmp_path, expected_repository_revision=None)
+    with pytest.raises(ValueError, match="no valid expected_repository_revision"):
+        resolve_expected_revision(tmp_path)
+    _revision_inventory(tmp_path, source_worktree_dirty=True)
+    with pytest.raises(ValueError, match="dirty source worktree"):
+        resolve_expected_revision(tmp_path)
 
 
 def test_common_profile_selection_rules() -> None:

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import zipfile
 from pathlib import Path, PurePosixPath
@@ -20,13 +21,29 @@ SECRET_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 
 
 def git_revision(root: Path) -> str:
-    return subprocess.run(
+    revision = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         cwd=root,
         check=True,
         capture_output=True,
         text=True,
     ).stdout.strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise ValueError("Git HEAD is unavailable or is not a full commit SHA")
+    return revision
+
+
+def git_branch(root: Path) -> str:
+    branch = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if not branch:
+        raise ValueError("Git branch is unavailable; detached HEAD cannot build a bundle")
+    return branch
 
 
 def git_dirty(root: Path) -> bool:
@@ -39,6 +56,21 @@ def git_dirty(root: Path) -> bool:
             text=True,
         ).stdout.strip()
     )
+
+
+def clean_source_state(root: Path) -> dict[str, Any]:
+    branch = git_branch(root)
+    revision = git_revision(root)
+    dirty = git_dirty(root)
+    if branch != "main":
+        raise ValueError(f"Training bundles must be built from main, not {branch!r}")
+    if dirty:
+        raise ValueError("Training bundles require a clean Git worktree")
+    return {
+        "expected_repository_revision": revision,
+        "source_branch": branch,
+        "source_worktree_dirty": False,
+    }
 
 
 def required_bundle_files(root: Path) -> list[Path]:
@@ -91,7 +123,10 @@ def required_bundle_files(root: Path) -> list[Path]:
     return result
 
 
-def create_inventory(root: Path, files: list[Path]) -> dict[str, Any]:
+def create_inventory(
+    root: Path, files: list[Path], source_state: dict[str, Any] | None = None
+) -> dict[str, Any]:
+    source = clean_source_state(root) if source_state is None else source_state
     project = load_config(root / "configs/project.yaml")
     weight = yaml.safe_load(
         (root / "configs/training/base_weight.yaml").read_text(encoding="utf-8")
@@ -106,7 +141,7 @@ def create_inventory(root: Path, files: list[Path]) -> dict[str, Any]:
     ]
     identity_inputs = {
         "bundle_version": BUNDLE_VERSION,
-        "expected_repository_revision": git_revision(root),
+        **source,
         "real_split_identity": project.synthetic.active_real_split_identity,
         "synthetic_pool_identity": project.synthetic.pool_identity,
         "experiment_design_identity": project.experiments.design_identity,
@@ -116,7 +151,6 @@ def create_inventory(root: Path, files: list[Path]) -> dict[str, Any]:
     return {
         **identity_inputs,
         "bundle_identity": stable_json_hash(identity_inputs),
-        "source_worktree_dirty": git_dirty(root),
         "file_count": len(entries),
         "total_bytes": sum(entry["size_bytes"] for entry in entries),
         "base_weight": weight,
@@ -135,8 +169,9 @@ def build_bundle(root: Path, output: Path) -> dict[str, Any]:
     inventory_path = output.with_suffix(output.suffix + ".inventory.json")
     if output.exists() or checksum_path.exists() or inventory_path.exists():
         raise FileExistsError(f"Refusing to overwrite existing bundle artifact: {output}")
+    source = clean_source_state(root)
     files = required_bundle_files(root)
-    inventory = create_inventory(root, files)
+    inventory = create_inventory(root, files, source)
     output.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(inventory, indent=2, sort_keys=True) + "\n"
     with zipfile.ZipFile(output, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
@@ -172,26 +207,51 @@ def validate_extracted_bundle(root: Path) -> dict[str, Any]:
         raise FileNotFoundError("Extracted bundle inventory is missing")
     inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
     errors: list[str] = []
+    required_metadata = {
+        "bundle_version",
+        "expected_repository_revision",
+        "source_branch",
+        "source_worktree_dirty",
+        "real_split_identity",
+        "synthetic_pool_identity",
+        "experiment_design_identity",
+        "base_weight_sha256",
+        "files",
+        "bundle_identity",
+        "inventory",
+    }
+    missing_metadata = sorted(required_metadata - set(inventory))
+    if missing_metadata:
+        raise ValueError(
+            "Bundle inventory metadata is missing: " + ", ".join(missing_metadata)
+        )
     for entry in inventory["inventory"]:
         path = root / entry["path"]
         if not path.is_file():
             errors.append(f"Missing bundled file: {entry['path']}")
         elif path.stat().st_size != entry["size_bytes"] or sha256_file(path) != entry["sha256"]:
             errors.append(f"Bundled file hash/size mismatch: {entry['path']}")
-    identity_inputs = {
-        key: inventory[key]
-        for key in (
-            "bundle_version",
-            "expected_repository_revision",
-            "real_split_identity",
-            "synthetic_pool_identity",
-            "experiment_design_identity",
-            "base_weight_sha256",
-            "files",
-        )
-    }
-    if stable_json_hash(identity_inputs) != inventory["bundle_identity"]:
+    identity_keys = (
+        "bundle_version",
+        "expected_repository_revision",
+        "source_branch",
+        "source_worktree_dirty",
+        "real_split_identity",
+        "synthetic_pool_identity",
+        "experiment_design_identity",
+        "base_weight_sha256",
+        "files",
+    )
+    identity_inputs = {key: inventory.get(key) for key in identity_keys}
+    if stable_json_hash(identity_inputs) != inventory.get("bundle_identity"):
         errors.append("Bundle identity mismatch")
+    revision = inventory.get("expected_repository_revision")
+    if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        errors.append("Expected repository revision is missing or invalid")
+    if inventory.get("source_branch") != "main":
+        errors.append("Bundle source branch is not main")
+    if inventory.get("source_worktree_dirty") is not False:
+        errors.append("Bundle was not built from a clean source worktree")
     test_rows = read_csv(root / "manifests/aquarium/v2/real_test.csv")
     protected_paths = {row["image_path"] for row in test_rows}
     protected_hashes = {row["content_hash"] for row in test_rows}

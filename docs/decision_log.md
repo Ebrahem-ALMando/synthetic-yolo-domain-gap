@@ -140,3 +140,15 @@
   immutable evidence and allocate a fresh run directory for retry.
 - Export five validated runs and a machine-generated combined training identity. Label validation
   summaries non-final and defer all real-test evaluation and scientific conclusions to Sprint 5.
+
+## 2026-07-19 — Generated clean-HEAD revision binding
+
+- Reject a committed literal expected-revision value because a commit cannot contain its own stable
+  SHA without changing that SHA.
+- Make the generated internal bundle inventory the sole revision authority. Bind the clean `main`
+  HEAD, branch, and false dirty marker into the bundle identity.
+- Keep an optional CLI override only as a matching assertion; never allow it to replace inventory.
+- Reject missing/malformed revisions, non-main sources, dirty-source bundles, and mismatched
+  overrides before materialization or training.
+- Declare the prior dirty-worktree bundle invalid. Set status to
+  `awaiting_revision_binding_fix_commit`; build no replacement until this change is committed.

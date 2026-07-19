@@ -12,6 +12,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from synthdet.training.bundle import (  # noqa: E402
     build_bundle,
+    clean_source_state,
     create_inventory,
     required_bundle_files,
 )
@@ -33,7 +34,10 @@ def main() -> int:
     try:
         output = PROJECT_ROOT / args.output
         if args.dry_run:
-            inventory = create_inventory(PROJECT_ROOT, required_bundle_files(PROJECT_ROOT))
+            source = clean_source_state(PROJECT_ROOT)
+            inventory = create_inventory(
+                PROJECT_ROOT, required_bundle_files(PROJECT_ROOT), source
+            )
         else:
             inventory = build_bundle(PROJECT_ROOT, output)
         print(
@@ -45,6 +49,7 @@ def main() -> int:
                     "archive_sha256": inventory.get("archive_sha256"),
                     "bundle_identity": inventory["bundle_identity"],
                     "expected_repository_revision": inventory["expected_repository_revision"],
+                    "source_branch": inventory["source_branch"],
                     "file_count": inventory["file_count"],
                     "total_bytes": inventory["total_bytes"],
                     "source_worktree_dirty": inventory["source_worktree_dirty"],
