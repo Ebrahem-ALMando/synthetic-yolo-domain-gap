@@ -1,38 +1,40 @@
 # Experiment Protocol
 
-## Controlled primary regimes
+## Frozen five-regime design
 
-| Regime | Real training images | Synthetic training images |
-| --- | ---: | ---: |
-| `synthetic_only` | 0% | 100% |
-| `real_25` | 25% | 75% |
-| `real_50` | 50% | 50% |
-| `real_75` | 75% | 25% |
-| `real_only` | 100% | 0% |
+| Regime | Real | Synthetic | Real percentage | Synthetic percentage |
+| --- | ---: | ---: | ---: | ---: |
+| `synthetic_only` | 0 | 427 | 0.000000% | 100.000000% |
+| `real_25` | 107 | 320 | 25.058548% | 74.941452% |
+| `real_50` | 214 | 213 | 50.117096% | 49.882904% |
+| `real_75` | 320 | 107 | 74.941452% | 25.058548% |
+| `real_only` | 427 | 0 | 100.000000% | 0.000000% |
 
-Whenever dataset availability permits, every primary regime uses an equal total training-image
-budget. Sampling rules, replacement policy, and any unavoidable budget deviation must be recorded
-before training. The validation protocol, YOLO base model, image size, epochs, batch size,
-augmentation policy, optimizer settings, seed, and evaluation thresholds should otherwise remain
-controlled unless a change is explicitly part of an experiment.
+The equal 427-image budget is fixed. Seed-42 deterministic multi-label deficit selection chooses the
+real subset in each mixed regime. Synthetic samples are the exact base-canvas complement. No regime
+can contain both a real image and its synthetic derivative, omit a canvas, or represent a canvas
+twice. Class coverage is preserved in every constructed regime.
 
-## Optional ablation
+Manifest hashes and the combined identity are frozen in
+`manifests/aquarium/experiments/v1/experiment_metadata.json`. Generated class/object/source-group
+tables and the composition figure are reproducible with `python scripts/audit_experiments.py`.
 
-After primary results identify the best mixed regime, `best_mixed_domain_randomized` may compare it
-with stronger domain randomization. The real/synthetic proportion and total image budget remain the
-same as the selected mixed baseline; only the documented randomization treatment changes.
+## Controlled variables
 
-## Fixed evaluation
+Every regime uses the same real validation set, YOLO11n architecture, pretrained initialization,
+image size, epochs, batch, optimizer, learning-rate schedule, augmentation, early stopping, seed,
+and thresholds. Only real-versus-synthetic training-file composition changes.
 
-All final models are evaluated on the same immutable, held-out real test set. Test images are barred
-from training, validation, copy-paste sources, synthetic backgrounds, and synthetic generation.
-The test set is not used for model selection or hyperparameter tuning.
+## Protected test policy
 
-## Traceability and reporting
+The active real test manifest is read only for frozen identity and leakage protection in Sprint 4A.
+Test images are not materialized, loaded by YOLO, inspected, predicted, trained on, validated on, or
+used to tune any setting. Final test evaluation belongs to a later sprint after all five primary
+training runs and their configuration are frozen.
 
-Each run must have a versioned configuration and unique output directory containing machine-written
-metadata, logs, checkpoints, and evaluation outputs. Record code revision, dataset/split identity,
-seed, environment, command, and timestamps. Reported metrics and tables must be produced from those
-outputs by code. No metric may be entered manually, estimated, or invented. Failed or partial runs
-must be labeled as such and cannot be presented as completed evidence.
+## Traceability
 
+Every run receives a unique ignored directory containing machine-written metadata, resolved
+configuration, Ultralytics logs, and checkpoints. Smoke results are marked
+`scientific_result: false`. Failed and interrupted attempts remain honestly labeled. Metrics must
+never be copied into versioned reports by hand.

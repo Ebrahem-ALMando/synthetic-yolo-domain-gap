@@ -1,0 +1,62 @@
+{
+  "code_revision": "9a89055ebe2ec4c1d4e4b64b864fb4bdf4844e6a",
+  "combined_experiment_design_identity": "abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c",
+  "created_at_utc": "2026-07-19T11:44:07.410927+00:00",
+  "generator_configuration_identity": "7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef",
+  "object_bank_identity": "22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3",
+  "real_split_identity": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+  "realized_ratios": {
+    "real_25": {
+      "real_count": 107,
+      "real_fraction": 0.2505854800936768,
+      "synthetic_count": 320,
+      "synthetic_fraction": 0.7494145199063232,
+      "total": 427
+    },
+    "real_50": {
+      "real_count": 214,
+      "real_fraction": 0.5011709601873536,
+      "synthetic_count": 213,
+      "synthetic_fraction": 0.49882903981264637,
+      "total": 427
+    },
+    "real_75": {
+      "real_count": 320,
+      "real_fraction": 0.7494145199063232,
+      "synthetic_count": 107,
+      "synthetic_fraction": 0.2505854800936768,
+      "total": 427
+    },
+    "real_only": {
+      "real_count": 427,
+      "real_fraction": 1.0,
+      "synthetic_count": 0,
+      "synthetic_fraction": 0.0,
+      "total": 427
+    },
+    "synthetic_only": {
+      "real_count": 0,
+      "real_fraction": 0.0,
+      "synthetic_count": 427,
+      "synthetic_fraction": 1.0,
+      "total": 427
+    }
+  },
+  "regime_manifest_hashes": {
+    "real_25.csv": "9c312a0c32e6dfca6644dae8d1a526b08f68793e7bde1817f37b58d0e16c57d1",
+    "real_50.csv": "618111d532af7ac7eeff76baadd1246f59f0140c3d58486efcce118c9c91e539",
+    "real_75.csv": "8c441834f1ef5a29b05713b042873ed5700c112cb923633cd1d58eb1c24bdbb8",
+    "real_only.csv": "25efbdb04ba4890c188e2a033c8842f0a399318fddf5d2e6cb4542f6b255b160",
+    "synthetic_only.csv": "93cccac4041841ce4e66329792d2ca8c42a6869137c8c2332daff2555a815618"
+  },
+  "root_seed": 42,
+  "selection_algorithm": "deterministic_multilabel_deficit_greedy_v1",
+  "synthetic_pool_identity": "3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec",
+  "validation_results": {
+    "complementary_pairing": true,
+    "errors": [],
+    "passed": true,
+    "test_set_used": false
+  },
+  "validation_set_count": 140
+}

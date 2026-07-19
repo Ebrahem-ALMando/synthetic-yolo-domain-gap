@@ -109,3 +109,23 @@ Reproduction writes to temporary storage, compares manifest identity and every i
 never overwrites frozen outputs. Timestamps are excluded from identity. JPEG byte reproduction is
 environment-sensitive, so the recorded Pillow/OpenCV/NumPy versions are part of the reproducibility
 record even though they are not generation inputs.
+
+## Sprint 4A experiment construction and smoke gate
+
+```bash
+python scripts/inspect_training_environment.py
+python scripts/build_experiments.py
+python scripts/build_experiments.py --verify-frozen
+python scripts/validate_experiments.py
+python scripts/audit_experiments.py
+python scripts/run_all_regimes.py --mode smoke --device cpu --dry-run
+python scripts/run_all_regimes.py --mode smoke --device cpu
+python scripts/validate_smoke_runs.py
+python scripts/build_training_bundle.py --dry-run
+```
+
+The five regime CSVs reproduce exactly with seed 42 and combined design identity
+`abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c`. Generated views use
+hard links when possible and a copy fallback otherwise; hashes, not link type, define content.
+Smoke runs use pinned Ultralytics 8.4.101 and PyTorch 2.13.0. GPU operations can introduce
+nondeterminism despite deterministic settings, so hardware and runtime are captured per run.

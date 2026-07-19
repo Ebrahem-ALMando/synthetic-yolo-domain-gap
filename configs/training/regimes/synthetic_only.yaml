@@ -1,0 +1,6 @@
+regime: synthetic_only
+manifest: manifests/aquarium/experiments/v1/synthetic_only.csv
+dataset_view: datasets/experiments/aquarium/v1/synthetic_only
+expected_manifest_hash: 93cccac4041841ce4e66329792d2ca8c42a6869137c8c2332daff2555a815618
+real_count: 0
+synthetic_count: 427

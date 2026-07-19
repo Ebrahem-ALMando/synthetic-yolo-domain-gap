@@ -110,6 +110,19 @@ class SyntheticProjectConfig(StrictModel):
     active_real_split_identity: str = Field(min_length=64, max_length=64)
     object_bank_identity: str = Field(min_length=64, max_length=64)
     pool_identity: str = Field(min_length=64, max_length=64)
+    generator_configuration_identity: str = Field(min_length=64, max_length=64)
+
+
+class ExperimentProjectConfig(StrictModel):
+    version: str = Field(min_length=1)
+    manifests: Path
+    dataset_views: Path
+    training_config: Path
+    total_training_images: int = Field(gt=0)
+    validation_images: int = Field(gt=0)
+    root_seed: int = Field(ge=0)
+    design_identity: str = Field(min_length=64, max_length=64)
+    status: str = Field(min_length=1)
 
 
 class ProjectConfig(StrictModel):
@@ -118,6 +131,7 @@ class ProjectConfig(StrictModel):
     dataset: DatasetConfig
     paths: PathsConfig
     synthetic: SyntheticProjectConfig
+    experiments: ExperimentProjectConfig
     yolo: YoloConfig
 
 

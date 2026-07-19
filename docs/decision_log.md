@@ -107,3 +107,21 @@
 - Accept Sprint 3 only after smoke/full visual inspection, annotation and provenance validation,
   exact-collision checks, leakage validation, and non-destructive seed-42 reproduction pass.
 - Do not download a model or begin training, inference, API, dashboard, or Sprint 4 work.
+
+## 2026-07-19 — Sprint 4A controlled construction and smoke training
+
+- Freeze five 427-image regimes at 0/427, 107/320, 214/213, 320/107, and 427/0 real/synthetic.
+- Use seed-42 multi-label deficit selection; use the complementary synthetic derivative for every
+  unselected real canvas so all 427 canvases appear exactly once per regime.
+- Freeze experiment-design identity
+  `abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c` after manifest,
+  protected-set, pairing, hash, and materialized-view validation.
+- Fix the shared future configuration at YOLO11n, 640 pixels, 50 epochs, batch 16, AdamW, and the
+  documented moderate augmentation policy. Predeclare batch 4 as the only low-memory alternative;
+  Sprint 4B must select one profile for every regime before training.
+- Classify this machine as `smoke_training_only_cpu`: its MX550 has 2 GiB, while installed PyTorch
+  2.13.0 is CPU-only and does not detect CUDA.
+- Accept the five-regime technical gate after one epoch on deterministic 16/14 subsets at 320 pixels
+  and batch 2. Treat all smoke metrics and checkpoints as non-scientific ignored artifacts.
+- Keep the real test set identity-check-only. Do not run full training, test inference, final
+  evaluation, failure-case analysis, API, dashboard, or Sprint 5 work.

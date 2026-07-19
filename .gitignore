@@ -73,6 +73,8 @@ reports/dataset_audit/**
 !reports/dataset_audit/README.md
 reports/synthetic_audit/**
 !reports/synthetic_audit/README.md
+reports/experiment_audit/**
+!reports/experiment_audit/README.md
 
 # Notebook checkpoints and local scratch files
 .ipynb_checkpoints/

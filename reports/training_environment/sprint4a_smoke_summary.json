@@ -1,0 +1,83 @@
+{
+  "completed_regime_count": 5,
+  "errors": [],
+  "note": "One-epoch smoke outputs are technical validation only, not scientific results.",
+  "runs": {
+    "real_25": {
+      "batch_size": 2,
+      "device": "cpu",
+      "duration_seconds": 9.569398399966303,
+      "epoch_count": 1,
+      "image_size": 320,
+      "pretrained_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "process_final_resident_bytes": 533946368,
+      "process_peak_working_set_bytes": 621989888,
+      "regime_manifest_hash": "9c312a0c32e6dfca6644dae8d1a526b08f68793e7bde1817f37b58d0e16c57d1",
+      "run_directory": "artifacts/experiments/smoke/real_25-20260719T184047266040Z",
+      "scientific_result": false,
+      "status": "completed",
+      "test_set_used": false
+    },
+    "real_50": {
+      "batch_size": 2,
+      "device": "cpu",
+      "duration_seconds": 12.741106100031175,
+      "epoch_count": 1,
+      "image_size": 320,
+      "pretrained_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "process_final_resident_bytes": 551026688,
+      "process_peak_working_set_bytes": 615596032,
+      "regime_manifest_hash": "618111d532af7ac7eeff76baadd1246f59f0140c3d58486efcce118c9c91e539",
+      "run_directory": "artifacts/experiments/smoke/real_50-20260719T184125712393Z",
+      "scientific_result": false,
+      "status": "completed",
+      "test_set_used": false
+    },
+    "real_75": {
+      "batch_size": 2,
+      "device": "cpu",
+      "duration_seconds": 9.298995099961758,
+      "epoch_count": 1,
+      "image_size": 320,
+      "pretrained_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "process_final_resident_bytes": 548216832,
+      "process_peak_working_set_bytes": 640348160,
+      "regime_manifest_hash": "8c441834f1ef5a29b05713b042873ed5700c112cb923633cd1d58eb1c24bdbb8",
+      "run_directory": "artifacts/experiments/smoke/real_75-20260719T184206553404Z",
+      "scientific_result": false,
+      "status": "completed",
+      "test_set_used": false
+    },
+    "real_only": {
+      "batch_size": 2,
+      "device": "cpu",
+      "duration_seconds": 12.365606600011233,
+      "epoch_count": 1,
+      "image_size": 320,
+      "pretrained_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "process_final_resident_bytes": 530333696,
+      "process_peak_working_set_bytes": 617078784,
+      "regime_manifest_hash": "25efbdb04ba4890c188e2a033c8842f0a399318fddf5d2e6cb4542f6b255b160",
+      "run_directory": "artifacts/experiments/smoke/real_only-20260719T184247283773Z",
+      "scientific_result": false,
+      "status": "completed",
+      "test_set_used": false
+    },
+    "synthetic_only": {
+      "batch_size": 2,
+      "device": "cpu",
+      "duration_seconds": 10.510228300001472,
+      "epoch_count": 1,
+      "image_size": 320,
+      "pretrained_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "process_final_resident_bytes": 548827136,
+      "process_peak_working_set_bytes": 618590208,
+      "regime_manifest_hash": "93cccac4041841ce4e66329792d2ca8c42a6869137c8c2332daff2555a815618",
+      "run_directory": "artifacts/experiments/smoke/synthetic_only-20260719T184008466685Z",
+      "scientific_result": false,
+      "status": "completed",
+      "test_set_used": false
+    }
+  },
+  "status": "passed"
+}

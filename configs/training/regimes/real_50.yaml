@@ -1,0 +1,6 @@
+regime: real_50
+manifest: manifests/aquarium/experiments/v1/real_50.csv
+dataset_view: datasets/experiments/aquarium/v1/real_50
+expected_manifest_hash: 618111d532af7ac7eeff76baadd1246f59f0140c3d58486efcce118c9c91e539
+real_count: 214
+synthetic_count: 213

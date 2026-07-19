@@ -1,0 +1,41 @@
+{
+  "captured_at_utc": "2026-07-19T18:36:50.296796+00:00",
+  "classification": "smoke_training_only_cpu",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-1255U",
+  "cuda_available": false,
+  "cuda_runtime_version": null,
+  "disk_free_bytes": 91952594944,
+  "disk_total_bytes": 249964785664,
+  "display_adapters": [
+    {
+      "AdapterRAM": 1073741824,
+      "DriverVersion": "31.0.101.4502",
+      "Name": "Intel(R) Iris(R) Xe Graphics"
+    },
+    {
+      "AdapterRAM": 2147483648,
+      "DriverVersion": "32.0.15.9636",
+      "Name": "NVIDIA GeForce MX550"
+    }
+  ],
+  "logical_core_count": 12,
+  "nvidia_smi": [
+    {
+      "driver_version": "596.36",
+      "memory_free_mib": 1906,
+      "memory_total_mib": 2048,
+      "name": "NVIDIA GeForce MX550"
+    }
+  ],
+  "operating_system": "Windows-10-10.0.26100-SP0",
+  "python_version": "3.11.9",
+  "ram_available_bytes": 2330898432,
+  "ram_total_bytes": 16890978304,
+  "torch_cuda_devices": [],
+  "torch_version": "2.13.0",
+  "ultralytics_version": "8.4.101",
+  "virtual_environment": {
+    "active": true,
+    "prefix": "D:\\University\\image processing and computer vision\\synthetic-yolo-domain-gap\\.venv"
+  }
+}

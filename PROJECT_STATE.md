@@ -4,56 +4,55 @@ Last updated: 2026-07-19
 
 ## Current sprint
 
-Sprint 3 — Train-Only Object Bank and Reproducible Copy-Paste Synthetic Generator — completed.
+Sprint 4A — Controlled Experiment Construction, Hardware Validation, and YOLO Smoke Training —
+completed.
 
-## Active real-data contract
+## Frozen input contract
 
-- Aquarium Split V2 remains active and immutable: 427 train, 140 validation, and 68 test images.
-- Combined real-split identity:
+- Active Aquarium Split V2: 427 train, 140 validation, 68 test.
+- Real-split identity:
   `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
-- Split V1 remains preserved. V2 frozen hashes and leakage validation pass.
-- Raw files remain read-only. Validation/test images are never generator inputs.
+- Generator configuration:
+  `7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef`.
+- Object bank: `22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3`.
+- Synthetic pool: `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
+- Split V1 and all Sprint 3 provenance remain preserved. Frozen input, hash, and leakage checks pass.
 
-## Sprint 3 completed
+## Sprint 4A completed
 
-- Created versioned distribution-matched and unused class-balanced synthetic policies.
-- Built a real-train-only bank covering all 3,452 annotations: 3,451 usable records and one explicit
-  extremely-small exclusion.
-- Recorded 2,361 GrabCut masks and 1,090 feathered rectangular fallbacks without claiming
-  segmentation-ground-truth accuracy.
-- Visually rejected two candidate revisions and retained them only as ignored diagnostics. The final
-  generator uses 2,138 GrabCut sources passing coverage, luminance, connectivity, and fill filters.
-- Passed the final deterministic 16-image smoke gate with all seven pasted classes.
-- Froze 427 accepted composite images, each retaining every base label and containing at least one
-  pasted object. The pool contains 798 pasted and 4,250 total objects.
-- Generated complete source/background/image/object-bank/exclusion/failure manifests, a train-only
-  YOLO view, quality statistics/charts, and provenance contact sheets.
-- Passed train membership, protected Validation/Test path and hash isolation, output collision,
-  annotation, pairing, class order, no-overwrite, and exact duplicate checks.
-- Reproduced every synthetic image, label, manifest, and combined identity in temporary storage.
-
-## Frozen synthetic identities
-
-- Generator configuration: `7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef`
-- Object bank: `22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3`
-- Synthetic pool: `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`
+- Froze five 427-image regimes with exact real/synthetic counts 0/427, 107/320, 214/213, 320/107,
+  and 427/0. Realized real percentages are 0, 25.058548, 50.117096, 74.941452, and 100.
+- Validated complementary pairing: every underlying train canvas appears exactly once per regime,
+  with no real image beside its synthetic derivative.
+- Materialized ignored full 427/140 train/validation views and deterministic 16/14 smoke views for
+  every regime. Class order, pairs, and annotations pass.
+- Froze experiment-design identity
+  `abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c` and reproduced every
+  regime manifest hash in temporary storage.
+- Recorded Windows 11, i7-1255U, 16.9 GB RAM, MX550 2 GB, Python 3.11.9, PyTorch 2.13.0 CPU, and
+  Ultralytics 8.4.101. PyTorch reports no CUDA; classification is `smoke_training_only_cpu`.
+- Completed all five one-epoch CPU smoke runs at 320 pixels, batch 2, on deterministic 16/14
+  subsets. Checkpoints, logs, resolved settings, timings, status, and provenance are ignored and
+  machine-recorded. Smoke metrics are not scientific results.
+- Added safe dry-run/final runners, local and Colab execution paths, and a secret-free bundle
+  builder. No full final run was started.
 
 ## Scientific limitations
 
-The outputs are copy-paste composites dominated by real-train pixels, not fully synthetic renders.
-GrabCut boundaries can be coarse on small, crowded, translucent, dark, or occluded subjects. Some
-foregrounds retain background fragments or do not perfectly match base lighting. Quality filtering
-changes object eligibility, and actual pasted proportions deviate modestly from finite-sample
-targets, especially for rare classes.
+The synthetic records remain copy-paste composites dominated by real-train pixels, not rendered
+imagery. Multi-label selection preserves class coverage but cannot make all class/object frequencies
+identical across regimes. Smoke subsets and one epoch establish pipeline operation only. This
+machine's CPU run times do not predict final GPU run times or scientific performance.
 
 ## Data and results status
 
-Generated images, crops, masks, smoke diagnostics, and audits remain ignored. Versioned manifests
-and configuration are small protocol artifacts. No model weights, training run, inference result,
-API, dashboard, or evaluation metric exists.
+Generated datasets, caches, pretrained/smoke weights, smoke outputs, and audits remain ignored.
+Versioned manifests, configuration, environment evidence, and documentation are protocol artifacts.
+No full experiment, test inference, final evaluation, API, or dashboard exists.
 
 ## Next gate
 
-Sprint 4 may define controlled YOLO experiment configurations using the fixed V2 validation/test
-contract and frozen synthetic V1 pool. It must begin with leakage and identity checks. This sprint
-did not download or train a model and did not begin Sprint 4.
+Sprint 4B may run the five frozen 50-epoch regimes on a CUDA-capable machine after selecting either
+the standard batch-16 or predeclared low-memory batch-4 profile for all regimes. It must rerun all
+identity, leakage, view, disk, and GPU checks. The real test set remains prohibited until the later
+fixed evaluation sprint.

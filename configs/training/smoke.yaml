@@ -1,0 +1,10 @@
+mode: smoke
+epochs: 1
+image_size: 320
+batch_size: 2
+workers: 0
+train_subset_count: 16
+validation_subset_count: 14
+device_for_this_machine: cpu
+scientific_result: false
+test_evaluation: forbidden

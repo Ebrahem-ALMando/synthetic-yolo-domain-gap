@@ -1,0 +1,89 @@
+version: aquarium-training-v1
+
+identities:
+  real_split: 02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7
+  synthetic_pool: 3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec
+  object_bank: 22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3
+  generator_configuration: 7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef
+  experiment_design: abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c
+
+dataset:
+  train_budget: 427
+  validation_count: 140
+  class_names:
+    - fish
+    - jellyfish
+    - penguin
+    - puffin
+    - shark
+    - starfish
+    - stingray
+  test_policy: forbidden_during_training_and_validation
+
+model:
+  architecture: YOLO11n
+  pretrained_weights: yolo11n.pt
+  pretrained: true
+
+training:
+  epochs: 50
+  imgsz: 640
+  batch: 16
+  seed: 42
+  deterministic: true
+  optimizer: AdamW
+  lr0: 0.001
+  weight_decay: 0.0005
+  cos_lr: true
+  warmup_epochs: 3
+  patience: 15
+  workers: 2
+  cache: false
+  pretrained: true
+  save: true
+  plots: true
+  val: true
+  conf: 0.001
+  iou: 0.70
+
+augmentation:
+  fliplr: 0.5
+  flipud: 0.0
+  hsv_h: 0.015
+  hsv_s: 0.4
+  hsv_v: 0.3
+  scale: 0.25
+  translate: 0.10
+  degrees: 5.0
+  mosaic: 0.5
+  close_mosaic: 10
+  copy_paste: 0.0
+  mixup: 0.0
+
+smoke:
+  view_root: datasets/experiments/aquarium/v1/_smoke
+  train_subset_count: 16
+  validation_subset_count: 14
+  scientific_result: false
+  overrides:
+    epochs: 1
+    imgsz: 320
+    batch: 2
+    workers: 0
+    patience: 0
+    plots: false
+    save: true
+
+hardware_profiles:
+  standard_gpu:
+    batch: 16
+    workers: 2
+    minimum_recommended_gpu_memory_gib: 6
+  low_memory_gpu:
+    batch: 4
+    workers: 2
+    note: Must be selected once before Sprint 4B; apply identically to all five regimes.
+
+outputs:
+  run_root: artifacts/experiments
+  overwrite: false

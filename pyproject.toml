@@ -19,6 +19,7 @@ dependencies = [
   "pandas>=2.2,<3",
   "pillow>=10,<12",
   "plotly>=5.24,<7",
+  "psutil>=5.8,<8",
   "pydantic>=2.7,<3",
   "pyyaml>=6.0,<7",
   "ultralytics>=8.3,<9",
@@ -49,4 +50,3 @@ extend-exclude = ["datasets", "artifacts", "models", "runs"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
-

@@ -76,25 +76,23 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 3 is complete. Active Aquarium Split V2 remains frozen at 427/140/68
-train/validation/test images with identity
-`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`; Split V1 remains
-preserved. The train-only `aquarium-synthetic-v1` pool contains 427 newly written copy-paste
-composites, 798 pasted objects, and 4,250 total annotations. Its identity is
+Sprint 4A is complete. Aquarium Split V2 remains frozen at 427/140/68 train/validation/test images
+with identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
+The 427-image copy-paste pool remains frozen at identity
 `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
 
-Every synthetic canvas and pasted object comes exclusively from active real-train inputs. Frozen
-provenance manifests, annotation validation, visual audit, real/synthetic collision checks,
-train-membership checks, leakage validation, and non-destructive seed-42 reproduction pass. These
-are copy-paste composites reusing real-train pixels, not fully rendered or generative imagery. No
-model has been downloaded or trained, and no inference, API, dashboard, or evaluation metric has
-been produced.
+Five complementary 427-image regimes are frozen with design identity
+`abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c`. Every mixed regime
+represents each real-train canvas exactly once, either as untouched real data or its synthetic
+derivative, and all share the same 140 real-validation images. The test set remained untouched and
+was used only as protected manifest identity evidence.
 
-Dataset evidence and the completed split protocol are documented in the
-[`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md) and
-[`datasheet`](docs/datasets/aquarium_datasheet.md). The fixed active test manifest is
-`manifests/aquarium/v2/real_test.csv`; it is evaluation-only and prohibited from every
-synthetic-data source or background workflow.
+The common YOLO11n final protocol is frozen, but no 50-epoch training was run. All five one-epoch
+CPU smoke runs passed on deterministic 16/14 subsets and are explicitly non-scientific technical
+artifacts. No test inference, final evaluation, API, or dashboard has been produced.
 
-The generator method and limitations are documented in
-[`Train-only copy-paste synthetic generation`](docs/synthetic_generation.md).
+Dataset evidence is documented in the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
+and [`datasheet`](docs/datasets/aquarium_datasheet.md). See the
+[`synthetic-generation method`](docs/synthetic_generation.md),
+[`experiment protocol`](docs/experiment_protocol.md), and
+[`training protocol`](docs/training_protocol.md) for the current frozen contracts.
