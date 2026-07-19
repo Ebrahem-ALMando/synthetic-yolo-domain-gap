@@ -84,5 +84,28 @@ Split V1 hashes remain recorded in `manifests/aquarium/v1/split_metadata.json`; 
 identity `c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`. Active Split V2 hashes
 are in `manifests/aquarium/v2/split_metadata.json`; seed 42 reproduces identity
 `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`. Synthetic source and
-background manifests are absent, which the leakage checker handles as an empty future input rather
-than evidence of synthetic generation.
+background manifests were absent at the end of Sprint 2.5.
+
+## Sprint 3 copy-paste pool
+
+```bash
+python scripts/build_object_bank.py
+python scripts/generate_synthetic.py --smoke
+python scripts/validate_synthetic.py --output datasets/processed/aquarium/synthetic/smoke --manifests reports/synthetic_audit/aquarium/smoke/manifests --count 16
+python scripts/audit_synthetic.py --output datasets/processed/aquarium/synthetic/smoke --manifests reports/synthetic_audit/aquarium/smoke/manifests --report reports/synthetic_audit/aquarium/smoke
+python scripts/generate_synthetic.py --full
+python scripts/validate_synthetic.py
+python scripts/check_leakage.py manifests/aquarium/v2 --expected-split-identity 02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7 --synthetic-source-manifest manifests/aquarium/synthetic/v1/synthetic_sources.csv --synthetic-background-manifest manifests/aquarium/synthetic/v1/synthetic_backgrounds.csv --synthetic-image-manifest manifests/aquarium/synthetic/v1/synthetic_images.csv
+python scripts/audit_synthetic.py
+python scripts/generate_synthetic.py --verify-frozen
+```
+
+The full pool uses root seed 42, configuration hash
+`7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef`, object-bank identity
+`22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3`, and combined pool
+identity `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
+
+Reproduction writes to temporary storage, compares manifest identity and every image/label hash, and
+never overwrites frozen outputs. Timestamps are excluded from identity. JPEG byte reproduction is
+environment-sensitive, so the recorded Pillow/OpenCV/NumPy versions are part of the reproducibility
+record even though they are not generation inputs.

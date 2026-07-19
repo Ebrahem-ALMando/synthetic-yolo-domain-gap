@@ -69,3 +69,16 @@ The project object-size rule uses bounding-box pixel area in the inspected image
 Raw data, processed images, labels, and generated synthetic data live under ignored `datasets/`
 paths. Only small metadata, scripts, schemas, and legally permissible frozen manifests may be
 versioned. Raw files and generated audit/review outputs remain ignored.
+
+## Synthetic generation isolation
+
+Synthetic generation hard-fails unless active Split V2 and every frozen manifest hash match central
+configuration. Object-bank rows, pasted sources, and base canvases must resolve to `real_train.csv`
+with the same content hash. Validation and test identities may be read only by the leakage checker;
+their images are prohibited from extraction, compositing, quality templates, and materialized
+synthetic views.
+
+`aquarium-synthetic-v1` is a copy-paste composite pool. All original valid base labels are retained,
+at least one transformed train object is added, and outputs are newly written under ignored paths.
+Synthetic source/background manifests are mandatory and are checked against both protected splits.
+The fixed synthetic identity is recorded before any training sprint.

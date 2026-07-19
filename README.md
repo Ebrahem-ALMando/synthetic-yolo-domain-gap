@@ -76,18 +76,25 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 2.5 approves the locally acquired Roboflow Aquarium Combined version 2 export under CC BY
-4.0. Strict validation accepts 635 of 638 images and records three exclusions without repair. A
-focused review distinguished shared physical-exhibit appearance from capture dependency and found
-three independent Penguin capture runs. The active frozen seed-42 Split V2 contains 427 train, 140
-validation, and 68 test images; its immutable identity is
-`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`. Penguin now occurs in
-all three splits, non-destructive reproduction passes, and the hard-fail leakage check passes. Split
-V1 remains byte-for-byte preserved under `manifests/aquarium/v1`. No model has been downloaded or
-trained, and no synthetic data, dashboard, API, or evaluation metrics have been produced.
+Sprint 3 is complete. Active Aquarium Split V2 remains frozen at 427/140/68
+train/validation/test images with identity
+`02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`; Split V1 remains
+preserved. The train-only `aquarium-synthetic-v1` pool contains 427 newly written copy-paste
+composites, 798 pasted objects, and 4,250 total annotations. Its identity is
+`3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
+
+Every synthetic canvas and pasted object comes exclusively from active real-train inputs. Frozen
+provenance manifests, annotation validation, visual audit, real/synthetic collision checks,
+train-membership checks, leakage validation, and non-destructive seed-42 reproduction pass. These
+are copy-paste composites reusing real-train pixels, not fully rendered or generative imagery. No
+model has been downloaded or trained, and no inference, API, dashboard, or evaluation metric has
+been produced.
 
 Dataset evidence and the completed split protocol are documented in the
 [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md) and
 [`datasheet`](docs/datasets/aquarium_datasheet.md). The fixed active test manifest is
 `manifests/aquarium/v2/real_test.csv`; it is evaluation-only and prohibited from every
 synthetic-data source or background workflow.
+
+The generator method and limitations are documented in
+[`Train-only copy-paste synthetic generation`](docs/synthetic_generation.md).

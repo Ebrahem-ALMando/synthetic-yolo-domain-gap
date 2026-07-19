@@ -1,0 +1,107 @@
+{
+  "active_split_identity": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+  "actual_pasted_class_counts": {
+    "fish": 533,
+    "jellyfish": 108,
+    "penguin": 77,
+    "puffin": 17,
+    "shark": 41,
+    "starfish": 12,
+    "stingray": 10
+  },
+  "actual_pasted_class_proportions": {
+    "fish": 0.6679197994987469,
+    "jellyfish": 0.13533834586466165,
+    "penguin": 0.09649122807017543,
+    "puffin": 0.021303258145363407,
+    "shark": 0.05137844611528822,
+    "starfish": 0.015037593984962405,
+    "stingray": 0.012531328320802004
+  },
+  "class_coverage_preview": false,
+  "code_revision": "2854bd8c91fc5d0f0944c56c7833c47d4cae4af3",
+  "combined_synthetic_pool_identity": "3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec",
+  "configuration_hash": "7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef",
+  "environment": {
+    "numpy": "2.4.6",
+    "opencv": "4.13.0",
+    "pillow": "11.3.0",
+    "platform": "Windows-10-10.0.26100-SP0",
+    "python": "3.11.9"
+  },
+  "failed_sample_attempt_count": 14,
+  "generated_count": 427,
+  "generation_mode": "distribution_matched_copy_paste",
+  "generator_version": "copy-paste-v1",
+  "known_nondeterminism": "Timestamps are observational and excluded from identity. Pixel reproduction is verified in the recorded Pillow/OpenCV/NumPy environment; library codec changes may change JPEG bytes across environments.",
+  "object_bank_generation_filter": {
+    "allowed_extraction_methods": [
+      "grabcut"
+    ],
+    "coverage_and_method_eligible_objects": 2229,
+    "eligible_class_counts": {
+      "fish": 1278,
+      "jellyfish": 347,
+      "penguin": 141,
+      "puffin": 51,
+      "shark": 199,
+      "starfish": 48,
+      "stingray": 74
+    },
+    "eligible_generation_objects": 2138,
+    "included_bank_objects": 3451,
+    "maximum_mask_coverage": 0.85,
+    "minimum_foreground_bbox_fill": 0.2,
+    "minimum_foreground_mean_luminance": 30.0,
+    "minimum_largest_component_fraction": 0.9,
+    "minimum_mask_coverage": 0.08
+  },
+  "object_bank_identity": "22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3",
+  "output_manifest_hashes": {
+    "excluded_objects.csv": "9344d79cf74a5bccfcd2fe1ea5cd1b1216ca6bf3e2e47ad3ec1e99735c114c93",
+    "failed_generation_attempts.csv": "b728962ee3c64a4583473ae8b5c0328cb6c0a732a20cc5d82eff5f4be65decea",
+    "materialized_data.yaml": "4de9874f3d80aa12189898b2a48efad1bb0a10a09a5caa4bb837b31ee0f6c2a0",
+    "object_bank.csv": "06ccddcc2b288660275c9c9a8d5fa53d13e97b75cf78937172da94871cb523d8",
+    "synthetic_backgrounds.csv": "b514935acbad6383a5a7d2f86d6df1dfe85911e0c35b00affd072ecf5321713a",
+    "synthetic_images.csv": "3e9f43a52e1697e4be3ea66a9204411abc1cdedb91aa11ce73a5ba0a8a15009d",
+    "synthetic_sources.csv": "f501ae97372fb10f385e2ea77b852aa128011d2bec1fb840c1cfeb5fd9348d74"
+  },
+  "pasted_object_count": 798,
+  "real_train_class_counts": {
+    "fish": 2169,
+    "jellyfish": 435,
+    "penguin": 337,
+    "puffin": 105,
+    "shark": 254,
+    "starfish": 54,
+    "stingray": 98
+  },
+  "real_train_class_proportions": {
+    "fish": 0.6283314020857474,
+    "jellyfish": 0.12601390498261877,
+    "penguin": 0.09762456546929317,
+    "puffin": 0.030417149478563152,
+    "shark": 0.07358053302433372,
+    "starfish": 0.015643105446118192,
+    "stingray": 0.028389339513325607
+  },
+  "rejected_placement_attempt_count": 3075,
+  "root_seed": 42,
+  "started_and_completed_at_utc": "2026-07-19T08:30:45.932774+00:00",
+  "status": "frozen",
+  "target_pasted_class_proportions": {
+    "fish": 0.6283314020857474,
+    "jellyfish": 0.12601390498261877,
+    "penguin": 0.09762456546929317,
+    "puffin": 0.030417149478563152,
+    "shark": 0.07358053302433372,
+    "starfish": 0.015643105446118192,
+    "stingray": 0.028389339513325607
+  },
+  "timestamp_excluded_from_pool_identity": true,
+  "transformation_usage": {
+    "blur": 118,
+    "horizontal_flip": 396,
+    "noise": 115
+  }
+}

@@ -25,6 +25,13 @@ def test_default_config_loads_with_protocol_defaults() -> None:
     ]
     assert config.dataset.duplicate_detection is not None
     assert config.dataset.duplicate_detection.hamming_threshold == 6
+    assert config.project.sprint == 3
+    assert config.synthetic.name == "aquarium-synthetic-v1"
+    assert config.synthetic.pool_size == 427
+    assert (
+        config.synthetic.pool_identity
+        == "3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec"
+    )
 
 
 def test_relative_paths_resolve_from_project_root() -> None:

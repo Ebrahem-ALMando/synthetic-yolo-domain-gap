@@ -19,12 +19,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "manifest_dir", type=Path, help="Directory containing frozen real manifests."
     )
-    parser.add_argument(
-        "--synthetic-source-manifest", type=Path, action="append", default=[]
-    )
-    parser.add_argument(
-        "--synthetic-background-manifest", type=Path, action="append", default=[]
-    )
+    parser.add_argument("--synthetic-source-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--synthetic-background-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--synthetic-image-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--expected-split-identity")
     return parser
 
 
@@ -35,6 +33,8 @@ def main() -> int:
             args.manifest_dir,
             args.synthetic_source_manifest,
             args.synthetic_background_manifest,
+            args.synthetic_image_manifest,
+            args.expected_split_identity,
         )
     except (FileNotFoundError, KeyError, OSError, ValueError) as error:
         print(f"Leakage validation failed: {error}", file=sys.stderr)

@@ -99,11 +99,25 @@ class YoloConfig(StrictModel):
     iou_threshold: float = Field(ge=0.0, le=1.0)
 
 
+class SyntheticProjectConfig(StrictModel):
+    name: str = Field(min_length=1)
+    mode: str = Field(min_length=1)
+    config: Path
+    output: Path
+    manifests: Path
+    pool_size: int = Field(gt=0)
+    root_seed: int = Field(ge=0)
+    active_real_split_identity: str = Field(min_length=64, max_length=64)
+    object_bank_identity: str = Field(min_length=64, max_length=64)
+    pool_identity: str = Field(min_length=64, max_length=64)
+
+
 class ProjectConfig(StrictModel):
     project: ProjectMetadata
     seed: int = Field(ge=0)
     dataset: DatasetConfig
     paths: PathsConfig
+    synthetic: SyntheticProjectConfig
     yolo: YoloConfig
 
 

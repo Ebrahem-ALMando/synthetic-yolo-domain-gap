@@ -1,0 +1,15 @@
+synthetic_dataset:
+  name: aquarium-synthetic-class-balanced-preview
+  generator_version: copy-paste-v1
+  mode: class_balanced_copy_paste
+  root_seed: 42
+  active_split_directory: manifests/aquarium/v2
+  active_split_identity: 02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7
+  class_names: [fish, jellyfish, penguin, puffin, shark, starfish, stingray]
+
+sampling:
+  policy: class_balanced
+  class_probabilities: [0.142857142857, 0.142857142857, 0.142857142857, 0.142857142857,
+    0.142857142857, 0.142857142857, 0.142857142857]
+  status: optional_unused
+

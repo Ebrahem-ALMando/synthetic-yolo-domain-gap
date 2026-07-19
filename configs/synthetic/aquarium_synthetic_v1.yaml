@@ -1,0 +1,61 @@
+synthetic_dataset:
+  name: aquarium-synthetic-v1
+  generator_version: copy-paste-v1
+  mode: distribution_matched_copy_paste
+  root_seed: 42
+  full_pool_size: 427
+  smoke_pool_size: 16
+  active_split_directory: manifests/aquarium/v2
+  active_split_identity: 02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7
+  output_directory: datasets/processed/aquarium/synthetic/v1
+  manifest_directory: manifests/aquarium/synthetic/v1
+  report_directory: reports/synthetic_audit/aquarium/v1
+  class_names: [fish, jellyfish, penguin, puffin, shark, starfish, stingray]
+
+object_bank:
+  extraction_method: grabcut_bbox_init
+  fallback_method: feathered_rectangle
+  grabcut_iterations: 2
+  context_fraction: 0.12
+  minimum_crop_dimension: 3
+  minimum_crop_area: 9
+  maximum_mask_coverage: 0.98
+  minimum_mask_coverage: 0.02
+  fallback_feather_pixels: 3
+  contact_sheet_examples_per_class: 12
+
+sampling:
+  policy: real_train_distribution
+  pasted_objects_per_image: {minimum: 1, maximum: 3}
+  prefer_different_source_group: true
+  require_all_classes: true
+  allowed_extraction_methods: [grabcut]
+  minimum_generation_mask_coverage: 0.08
+  maximum_generation_mask_coverage: 0.85
+  minimum_foreground_mean_luminance: 30.0
+  minimum_largest_component_fraction: 0.90
+  minimum_foreground_bbox_fill: 0.20
+
+transforms:
+  scale: [0.65, 1.25]
+  rotation_degrees: [-12.0, 12.0]
+  horizontal_flip_probability: 0.50
+  vertical_flip_probability: 0.0
+  brightness: [0.85, 1.15]
+  contrast: [0.85, 1.15]
+  saturation: [0.85, 1.15]
+  blur_probability: 0.15
+  blur_radius: [0.2, 1.0]
+  noise_probability: 0.15
+  noise_standard_deviation: [0.5, 3.0]
+  jpeg_quality: [88, 96]
+  alpha_feather_radius: [0.5, 2.0]
+
+placement:
+  minimum_dimension_pixels: 4
+  maximum_image_fraction: 0.45
+  maximum_iou: 0.15
+  maximum_existing_object_occlusion: 0.20
+  maximum_retries_per_object: 40
+  maximum_sample_attempts: 12
+  foreground_alpha_threshold: 16

@@ -1,0 +1,15 @@
+sample_index,sample_attempt,base_image_path,attempt_seed,reason
+1,0,datasets/raw/aquarium/export/train/images/IMG_2412_jpeg_jpg.rf.31034ae005fc4ba75a20f94f91e4bbc5.jpg,17727558438513081617,no_valid_paste_after_retries
+34,0,datasets/raw/aquarium/export/train/images/IMG_2504_jpeg_jpg.rf.6319bf044a6c11112e69a100f1505d41.jpg,4146170757876834438,no_valid_paste_after_retries
+42,0,datasets/raw/aquarium/export/valid/images/IMG_8535_MOV-1_jpg.rf.1c1aa55d7b35e08b6760c9cc43d427d0.jpg,10098937471571667302,no_valid_paste_after_retries
+68,0,datasets/raw/aquarium/export/train/images/IMG_2276_jpeg_jpg.rf.7411b1902c81bad8cdefd2cc4eb3a97b.jpg,2231714064409955974,no_valid_paste_after_retries
+116,0,datasets/raw/aquarium/export/train/images/IMG_2498_jpeg_jpg.rf.fb8d5cb2ea8c29c710ef2240cf19918f.jpg,123592577900003832,no_valid_paste_after_retries
+205,0,datasets/raw/aquarium/export/test/images/IMG_8452_jpg.rf.6bbff701ab93e29553b3a70137fd4e66.jpg,4282811817737371428,no_valid_paste_after_retries
+258,0,datasets/raw/aquarium/export/train/images/IMG_2558_jpeg_jpg.rf.f98546f54e44d64d7284e1116d7ca99d.jpg,13942568837697821994,no_valid_paste_after_retries
+300,0,datasets/raw/aquarium/export/train/images/IMG_8463_jpg.rf.f389f79adb1c5954105342441c289363.jpg,11754274320582888015,no_valid_paste_after_retries
+336,0,datasets/raw/aquarium/export/train/images/IMG_8550_jpg.rf.7f9f25d5d968b77bc0664fb82fc9a9c9.jpg,8418202027679635337,no_valid_paste_after_retries
+370,0,datasets/raw/aquarium/export/train/images/IMG_2286_jpeg_jpg.rf.bbcb2046dedb8e1fb3a9519848c1a4c2.jpg,14741168912234896680,no_valid_paste_after_retries
+374,0,datasets/raw/aquarium/export/train/images/IMG_2309_jpeg_jpg.rf.088f73ff0b07c30ce6212eb4e3013708.jpg,4526339206508612348,no_valid_paste_after_retries
+403,0,datasets/raw/aquarium/export/train/images/IMG_8535_MOV-2_jpg.rf.b38dd29d6e6a5f33ca469b61999c5c01.jpg,17737201612439284801,no_valid_paste_after_retries
+413,0,datasets/raw/aquarium/export/train/images/IMG_2566_jpeg_jpg.rf.8f6fd7144a30307e3f577604b587d0ff.jpg,18075171558440937435,no_valid_paste_after_retries
+423,0,datasets/raw/aquarium/export/train/images/IMG_8571_MOV-1_jpg.rf.b22e2df287efb2b9ecd33c88a607e31e.jpg,15755164034285482712,no_valid_paste_after_retries

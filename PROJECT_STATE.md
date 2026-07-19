@@ -1,54 +1,59 @@
 # Project State
 
-Last updated: 2026-07-18
+Last updated: 2026-07-19
 
 ## Current sprint
 
-Sprint 2 — Candidate Dataset Validation, Acquisition, Audit, and Immutable Real-Data Split —
-completed.
+Sprint 3 — Train-Only Object Bank and Reproducible Copy-Paste Synthetic Generator — completed.
 
-## Completed
+## Active real-data contract
 
-- Approved the CC BY 4.0 Aquarium Combined version-2 `raw-1024` export after local verification.
-- Verified the archive SHA-256 and all 1,281 raw stored files as read-only.
-- Validated all 638 image/label pairs without modifying raw data; accepted 635 images with 4,784
-  objects and recorded 3 strict exclusions.
-- Confirmed all 8 dHash duplicate groups after agent-assisted inspection of every duplicate sheet.
-- Reviewed all 58 source contact-sheet pages and 22 pending singleton images. Seven original groups
-  were split, 42 participated in visual merges, 29 remained unchanged, and 6 isolated images were
-  approved as `not_applicable` singletons.
-- Resolved all 635 accepted images into 52 stable source groups with zero pending, split-required, or
-  merge-required states.
-- Froze deterministic seed-42 manifests: 444 train (69.92%), 128 validation (20.16%), and 63 test
-  (9.92%). The three excluded records remain outside every split.
-- Reproduced the manifests non-destructively with combined identity
-  `c926fd840a05385e604682d647b57f2d496c5d31c96f02ad7f4b33eba29b7db4`.
-- Passed path, content-hash, duplicate-group, source-group, frozen-hash, and synthetic-manifest-aware
-  leakage checks. No synthetic source/background manifests exist yet.
-- Generated data-derived split tables and six split figures under the ignored dataset audit path.
+- Aquarium Split V2 remains active and immutable: 427 train, 140 validation, and 68 test images.
+- Combined real-split identity:
+  `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
+- Split V1 remains preserved. V2 frozen hashes and leakage validation pass.
+- Raw files remain read-only. Validation/test images are never generator inputs.
 
-## Frozen manifest hashes
+## Sprint 3 completed
 
-- `real_train.csv`: `be8e7db0310612231cf1e63372c0eb7fb095c4a83f87826a131611e160049497`
-- `real_val.csv`: `cf7fe91cc29c5708c2ce5b2085d48cf968af79da0ab420231e6ed73d8ec84cd2`
-- `real_test.csv`: `6a928386222c2ee8e7b6a7e61ea977aa9ef3ed00fe580f4636935d0c2a9d7a8c`
-- `excluded.csv`: `a308b2a48d5412b735934bfa42372d6b30acee35edf2823eb08efb5e0e0bdc55`
-- `duplicate_groups.csv`: `32ddcf36f992e28df7b7b1cdd0fa99d5c3e00d9bf24d6ab0ea2e011b7c129348`
+- Created versioned distribution-matched and unused class-balanced synthetic policies.
+- Built a real-train-only bank covering all 3,452 annotations: 3,451 usable records and one explicit
+  extremely-small exclusion.
+- Recorded 2,361 GrabCut masks and 1,090 feathered rectangular fallbacks without claiming
+  segmentation-ground-truth accuracy.
+- Visually rejected two candidate revisions and retained them only as ignored diagnostics. The final
+  generator uses 2,138 GrabCut sources passing coverage, luminance, connectivity, and fill filters.
+- Passed the final deterministic 16-image smoke gate with all seven pasted classes.
+- Froze 427 accepted composite images, each retaining every base label and containing at least one
+  pasted object. The pool contains 798 pasted and 4,250 total objects.
+- Generated complete source/background/image/object-bank/exclusion/failure manifests, a train-only
+  YOLO view, quality statistics/charts, and provenance contact sheets.
+- Passed train membership, protected Validation/Test path and hash isolation, output collision,
+  annotation, pairing, class order, no-overwrite, and exact duplicate checks.
+- Reproduced every synthetic image, label, manifest, and combined identity in temporary storage.
 
-## Scientific limitation
+## Frozen synthetic identities
 
-All 71 `penguin`-class images share one conservatively reviewed repeated penguin-exhibit source
-group. Group integrity therefore keeps that class train-only; validation and test retain all other
-six classes. This limitation is preferred to background/source leakage.
+- Generator configuration: `7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef`
+- Object bank: `22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3`
+- Synthetic pool: `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`
+
+## Scientific limitations
+
+The outputs are copy-paste composites dominated by real-train pixels, not fully synthetic renders.
+GrabCut boundaries can be coarse on small, crowded, translucent, dark, or occluded subjects. Some
+foregrounds retain background fragments or do not perfectly match base lighting. Quality filtering
+changes object eligibility, and actual pasted proportions deviate modestly from finite-sample
+targets, especially for rare classes.
 
 ## Data and results status
 
-Raw data and generated audit/review outputs remain ignored. The small frozen manifests are protocol
-artifacts. No synthetic images, model weights, training runs, inference results, API, dashboard, or
-evaluation metrics exist.
+Generated images, crops, masks, smoke diagnostics, and audits remain ignored. Versioned manifests
+and configuration are small protocol artifacts. No model weights, training run, inference result,
+API, dashboard, or evaluation metric exists.
 
 ## Next gate
 
-Sprint 3 may begin from the fixed manifests only. The real test manifest must never change and its
-images may never be training/validation samples, copy-paste sources, synthetic backgrounds,
-augmentation inputs, or synthetic-generation references.
+Sprint 4 may define controlled YOLO experiment configurations using the fixed V2 validation/test
+contract and frozen synthetic V1 pool. It must begin with leakage and identity checks. This sprint
+did not download or train a model and did not begin Sprint 4.

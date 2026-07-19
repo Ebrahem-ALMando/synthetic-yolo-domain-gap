@@ -87,3 +87,23 @@
   splits and combined identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
 - Accept V2 only after review integrity, all-class coverage, deterministic reproduction, and real
   leakage validation pass. Fix V2 before any Sprint 3 experiment; retain V1 for traceability.
+
+## 2026-07-19 — Sprint 3 train-only copy-paste synthetic V1
+
+- Define the primary 427-image pool as distribution-matched copy-paste compositing, not fully
+  rendered or generative imagery. Reuse real-train pixels honestly in provenance.
+- Build the bank from all 3,452 V2 train objects: retain 3,451 usable extraction estimates and record
+  one extremely small exclusion. Record 2,361 GrabCut and 1,090 feathered fallback outcomes.
+- Reject the first smoke gate because rectangular fallbacks produced opaque background patches.
+  Reject the first full candidate because some low-light/disconnected masks produced weak dark
+  silhouettes. Preserve both only as ignored diagnostics; do not publish their identities.
+- Restrict primary sampling to 2,138 quality-filtered GrabCut objects while preserving all bank rows.
+  Keep the primary class probabilities equal to the seven real-train object proportions.
+- Freeze 427 accepted composites with 798 pasted objects and 4,250 total annotations. Retain all
+  3,452 base labels and use all 427 train canvases exactly once in deterministic shuffled order.
+- Record object-bank identity
+  `22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3` and pool identity
+  `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
+- Accept Sprint 3 only after smoke/full visual inspection, annotation and provenance validation,
+  exact-collision checks, leakage validation, and non-destructive seed-42 reproduction pass.
+- Do not download a model or begin training, inference, API, dashboard, or Sprint 4 work.
