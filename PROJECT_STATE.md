@@ -1,11 +1,16 @@
 # Project State
 
-Last updated: 2026-07-19
+Last updated: 2026-07-20
 
-Sprint 4B handoff status: `awaiting_revision_binding_fix_commit`. The notebook now resolves the
-expected revision from generated bundle inventory instead of a self-referential committed hash.
-The prior dirty-source bundle is invalid and must not be uploaded. Build a new clean bundle only
-after committing this focused fix. Sprint 4B remains incomplete.
+Sprint 4B handoff status: `replacement_bundle_v2_required`. The notebook resolves the expected
+revision from generated bundle inventory instead of a self-referential committed hash. The prior
+dirty-source bundle and the runtime-incomplete v1 bundle are invalid and must not be uploaded.
+Sprint 4B remains incomplete.
+
+The subsequent v1 Colab attempt passed CUDA/profile preflight but exposed a missing frozen synthetic
+`data.yaml` during the first final runner validation. Bundle v2 includes that train-only identity
+descriptor, uses portable regime YAMLs, and requires all five final runner dry-runs during extracted
+bundle validation. Sprint 4B remains incomplete pending the replacement bundle and external runs.
 
 ## Current sprint
 
@@ -57,7 +62,7 @@ No full experiment, test inference, final evaluation, API, or dashboard exists.
 
 ## Next gate
 
-Commit the revision-binding fix, restore a clean `main` worktree, and rebuild/validate the generated
-bundle so its inventory records that clean HEAD and `source_worktree_dirty: false`. Only then run the
-versioned Colab notebook on CUDA. Do not mark Sprint 4B complete until all five actual runs validate
-locally. The real test set remains prohibited until the later fixed evaluation sprint.
+Build and validate bundle v2 from a clean committed `main` worktree so its inventory records that
+clean HEAD and `source_worktree_dirty: false`. Only then run the versioned Colab notebook on CUDA.
+Do not mark Sprint 4B complete until all five actual runs validate locally. The real test set remains
+prohibited until the later fixed evaluation sprint.

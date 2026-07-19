@@ -152,3 +152,14 @@
   overrides before materialization or training.
 - Declare the prior dirty-worktree bundle invalid. Set status to
   `awaiting_revision_binding_fix_commit`; build no replacement until this change is committed.
+
+## 2026-07-20 — Bundle v2 runtime descriptor completeness
+
+- Diagnose the post-preflight v1 failure as an omitted frozen synthetic train-only descriptor, not
+  a request to validate on synthetic images or to change any regime dataset.
+- Include and hash `datasets/processed/aquarium/synthetic/v1/data.yaml` as synthetic identity input.
+- Keep all primary YOLO runs bound to regime-specific 427-image train views and the same 140-image
+  active real-validation view.
+- Generate regime YAMLs without platform-specific absolute paths.
+- Require five actual final-mode dry-runs from every freshly extracted bundle before handoff.
+- Quarantine v1 as `INVALID-MISSING-SYNTHETIC-YAML` and use v2 filenames and persistent state.

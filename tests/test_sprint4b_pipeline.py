@@ -14,6 +14,7 @@ from synthdet.training.bundle import (
     build_bundle,
     clean_source_state,
     create_inventory,
+    required_bundle_files,
     safe_extract,
     validate_extracted_bundle,
 )
@@ -27,7 +28,9 @@ from synthdet.training.colab import (
 )
 from synthdet.training.completion import build_results_archive, validate_completed_run
 from synthdet.training.cuda import select_common_profile
+from synthdet.training.materialize import _write_data_yaml
 from synthdet.training.notebook import validate_notebook
+from synthdet.training.runner import validate_synthetic_dataset_descriptor
 
 
 def test_bundle_creation_and_archive_checksum(tmp_path: Path, monkeypatch) -> None:
@@ -140,6 +143,53 @@ def test_notebook_configuration_rendering_and_test_protection() -> None:
     assert "EXPECTED_REPOSITORY_REVISION" not in code
     assert "RESOLVED_REPOSITORY_REVISION" in code
     assert "training_bundle_inventory.json" in code
+    assert "aquarium-sprint4b-v2.zip" in code
+    assert "sprint4b-v2" in code
+
+
+def test_bundle_includes_frozen_synthetic_data_yaml_and_hash() -> None:
+    root = Path(__file__).resolve().parents[1]
+    descriptor = root / "datasets/processed/aquarium/synthetic/v1/data.yaml"
+    assert descriptor in required_bundle_files(root)
+    source = {
+        "expected_repository_revision": "a" * 40,
+        "source_branch": "main",
+        "source_worktree_dirty": False,
+    }
+    inventory = create_inventory(root, [descriptor], source)
+    entry = inventory["inventory"][0]
+    assert entry["path"] == "datasets/processed/aquarium/synthetic/v1/data.yaml"
+    assert entry["sha256"] == sha256_file(descriptor)
+
+
+def test_missing_or_invalid_synthetic_source_descriptor_fails(tmp_path: Path) -> None:
+    descriptor = tmp_path / "data.yaml"
+    with pytest.raises(FileNotFoundError):
+        validate_synthetic_dataset_descriptor(descriptor, ["fish"])
+    descriptor.write_text(
+        yaml.safe_dump(
+            {
+                "path": ".",
+                "train": "images",
+                "val": "images",
+                "names": {0: "fish"},
+                "synthetic_train_only": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="train-only"):
+        validate_synthetic_dataset_descriptor(descriptor, ["fish"])
+
+
+def test_regime_data_yaml_is_portable_and_uses_real_validation_paths(tmp_path: Path) -> None:
+    _write_data_yaml(tmp_path, ["fish", "jellyfish"])
+    data = yaml.safe_load((tmp_path / "data.yaml").read_text(encoding="utf-8"))
+    assert "path" not in data
+    assert data["train"] == "train/images"
+    assert data["val"] == "val/images"
+    assert data["names"] == {0: "fish", 1: "jellyfish"}
+    assert "\\" not in json.dumps(data)
 
 
 def test_clean_bundle_inventory_records_current_head(tmp_path: Path, monkeypatch) -> None:

@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 from datetime import UTC, datetime
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 
 import psutil
@@ -32,6 +32,20 @@ def load_yaml(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"Configuration root must be a mapping: {path}")
     return value
+
+
+def validate_synthetic_dataset_descriptor(path: Path, class_names: list[str]) -> None:
+    data = load_yaml(path)
+    names = data.get("names", {})
+    normalized_names = (
+        [names[index] for index in sorted(names)] if isinstance(names, dict) else names
+    )
+    if normalized_names != class_names:
+        raise ValueError("Synthetic source descriptor class order mismatch")
+    if data.get("train") != "images" or data.get("val") is not None:
+        raise ValueError("Synthetic source descriptor must remain explicitly train-only")
+    if data.get("path") != "." or data.get("synthetic_train_only") is not True:
+        raise ValueError("Synthetic source descriptor portability/role contract mismatch")
 
 
 def _git_revision(root: Path) -> str:
@@ -89,6 +103,10 @@ def verify_frozen_project_inputs(
         actual_synthetic_hashes[name] = actual
         if actual != expected:
             raise ValueError(f"Frozen synthetic manifest hash mismatch: {name}")
+    synthetic_descriptor = project_root / project.synthetic.output / "data.yaml"
+    validate_synthetic_dataset_descriptor(
+        synthetic_descriptor, common["dataset"]["class_names"]
+    )
     if stable_json_hash(actual_synthetic_hashes) != common["identities"]["synthetic_pool"]:
         raise ValueError("Synthetic manifest identity reproduction failed")
 
@@ -130,6 +148,17 @@ def validate_runner_inputs(
     normalized = [names[index] for index in sorted(names)] if isinstance(names, dict) else names
     if normalized != common["dataset"]["class_names"]:
         raise ValueError("Dataset class order differs from the common training configuration")
+    if "path" in data:
+        raise ValueError("Regime data.yaml must resolve relative to its own directory")
+    expected_yaml_paths = {"train": "train/images", "val": "val/images"}
+    for key, expected_relative in expected_yaml_paths.items():
+        value = data.get(key)
+        if not isinstance(value, str) or value != expected_relative:
+            raise ValueError(f"Regime data.yaml has the wrong {key} path")
+        if Path(value).is_absolute() or PureWindowsPath(value).is_absolute() or "\\" in value:
+            raise ValueError(f"Regime data.yaml contains a non-portable {key} path")
+        if (view / value).resolve() != (view / expected_relative).resolve():
+            raise ValueError(f"Regime data.yaml {key} path escapes its frozen view")
     expected_train = (
         int(common["smoke"]["train_subset_count"])
         if mode == "smoke"

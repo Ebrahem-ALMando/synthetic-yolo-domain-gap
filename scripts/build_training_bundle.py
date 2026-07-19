@@ -23,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("artifacts/training_bundle/aquarium-sprint4b-v1.zip"),
+        default=Path("artifacts/training_bundle/aquarium-sprint4b-v2.zip"),
     )
     parser.add_argument("--dry-run", action="store_true")
     return parser

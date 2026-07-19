@@ -104,6 +104,12 @@ internal inventory and the notebook will resolve it automatically. Users configu
 path, persistent output, regime selection, and device. The previous dirty-source bundle is invalid
 and must not be uploaded; a new clean bundle must be built after the revision-binding commit.
 
+Sprint 4B transfer bundle v2 also inventories the frozen synthetic pool's train-only descriptor and
+runs all five final training entry points in dry-run mode during fresh-extraction validation. This
+descriptor participates in synthetic identity checking only; every primary model still trains from
+its regime-specific 427-image view and validates on the shared 140 real images. Use a separate
+`sprint4b-v2` Drive output directory rather than reusing state from the defective v1 attempt.
+
 Dataset evidence is documented in the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
 and [`datasheet`](docs/datasets/aquarium_datasheet.md). See the
 [`synthetic-generation method`](docs/synthetic_generation.md),

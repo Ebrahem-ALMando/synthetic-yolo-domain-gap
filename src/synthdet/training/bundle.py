@@ -15,7 +15,7 @@ from synthdet.config.loader import load_config
 from synthdet.synthetic.contracts import read_csv, sha256_file, stable_json_hash
 from synthdet.training.experiments import load_regimes
 
-BUNDLE_VERSION = "aquarium-sprint4b-training-bundle-v1"
+BUNDLE_VERSION = "aquarium-sprint4b-training-bundle-v2"
 SECRET_NAMES = {".env", "credentials.json", "service_account.json"}
 SECRET_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 
@@ -85,6 +85,7 @@ def required_bundle_files(root: Path) -> list[Path]:
     for row in read_csv(root / project.dataset.paths.validation_manifest):
         files.add(root / row["image_path"])
         files.add(root / row["label_path"])
+    files.add(root / project.synthetic.output / "data.yaml")
     versioned_roots = (
         "configs",
         "manifests/aquarium/v2",

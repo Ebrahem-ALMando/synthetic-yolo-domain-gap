@@ -125,3 +125,15 @@ After extraction, the notebook validates the inventory, resolves the revision au
 displays it, and passes it to the training entry point as a matching assertion. Users do not edit
 `EXPECTED_REPOSITORY_REVISION`. The previously produced dirty-worktree bundle is invalid and must
 not be uploaded. A new clean bundle must be built only after this revision-binding fix is committed.
+
+### Bundle v2 runtime completeness
+
+The first clean v1 transfer bundle was rejected after Colab preflight because it omitted the frozen
+synthetic pool's train-only `data.yaml`. That descriptor is identity/provenance input only; final
+training always uses each regime's own portable `data.yaml` with the common 140-image active real
+validation set. Bundle v2 includes the frozen synthetic descriptor and validates its recorded hash.
+Fresh extraction validation now rematerializes all five views and invokes all five actual final
+training entry points in `--dry-run` mode before an archive may be accepted.
+
+Use `aquarium-sprint4b-v2.zip` and a new persistent directory such as
+`/content/drive/MyDrive/synthdet/sprint4b-v2`; never reuse v1 completion state.

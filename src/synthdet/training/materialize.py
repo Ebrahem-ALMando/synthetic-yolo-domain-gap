@@ -78,7 +78,6 @@ def _validation_as_training_rows(
 
 def _write_data_yaml(root: Path, class_names: list[str]) -> None:
     data = {
-        "path": root.resolve().as_posix(),
         "train": "train/images",
         "val": "val/images",
         "names": {index: name for index, name in enumerate(class_names)},

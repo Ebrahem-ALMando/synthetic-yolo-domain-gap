@@ -255,6 +255,19 @@ def test_runner_dry_run_validation(tmp_path: Path) -> None:
     assert validated["regime"] == "real_only"
 
 
+def test_runner_rejects_missing_or_windows_absolute_regime_yaml(tmp_path: Path) -> None:
+    regime, common, metadata = _runner_fixture(tmp_path)
+    data_path = tmp_path / "view/data.yaml"
+    data = yaml.safe_load(data_path.read_text(encoding="utf-8"))
+    data["train"] = "C:\\datasets\\train\\images"
+    data_path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="wrong train path"):
+        validate_runner_inputs(regime, common, metadata, tmp_path, "final", verify_project=False)
+    data_path.unlink()
+    with pytest.raises(FileNotFoundError, match="not materialized"):
+        validate_runner_inputs(regime, common, metadata, tmp_path, "final", verify_project=False)
+
+
 def test_failed_run_records_status_and_smoke_metadata(tmp_path: Path, monkeypatch) -> None:
     regime, common, metadata = _runner_fixture(tmp_path)
     regime_path = tmp_path / "regime.yaml"

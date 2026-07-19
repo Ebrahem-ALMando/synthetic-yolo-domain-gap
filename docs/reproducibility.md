@@ -150,3 +150,10 @@ the commit itself. Internal inventory is authoritative; an optional CLI revision
 debug assertion and must exactly match it. Missing revision, non-main branch, dirty-source marker,
 or override mismatch is fatal. The old dirty-source bundle remains invalid and must not be uploaded.
 After this fix is committed, rebuild the bundle from the resulting clean worktree.
+
+Bundle v2 closes a runtime completeness gap found after the v1 Colab preflight. The synthetic
+pool's frozen train-only `data.yaml` is now an inventoried source-identity artifact. Regime YAMLs are
+reconstructed portably without Windows absolute paths and continue to select regime-specific train
+views plus the identical active real-validation view. Extracted-bundle validation executes every
+final runner in dry-run mode using the same entry point as Colab, so missing runtime descriptors
+fail before upload.

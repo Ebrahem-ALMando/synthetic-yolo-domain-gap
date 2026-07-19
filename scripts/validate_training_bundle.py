@@ -43,6 +43,9 @@ def _validate_root(
             check=True,
         )
         subprocess.run([sys.executable, "scripts/validate_experiments.py"], cwd=root, check=True)
+        subprocess.run(
+            [sys.executable, "scripts/validate_training_runtime.py"], cwd=root, check=True
+        )
     return {
         "bundle_identity": inventory["bundle_identity"],
         "expected_repository_revision": revision,
@@ -50,6 +53,7 @@ def _validate_root(
         "source_worktree_dirty": inventory["source_worktree_dirty"],
         "file_count": inventory["file_count"],
         "experiment_validation": run_experiment_validation,
+        "final_runtime_dry_runs": run_experiment_validation,
         "test_images_present": False,
     }
 

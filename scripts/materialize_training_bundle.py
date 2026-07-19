@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -17,7 +18,12 @@ from synthdet.training.experiments import load_regimes  # noqa: E402
 from synthdet.training.materialize import materialize_views  # noqa: E402
 
 
+def build_parser() -> argparse.ArgumentParser:
+    return argparse.ArgumentParser(description=__doc__)
+
+
 def main() -> int:
+    build_parser().parse_args()
     try:
         validate_extracted_bundle(PROJECT_ROOT)
         revision = resolve_expected_revision(PROJECT_ROOT)
