@@ -125,3 +125,18 @@
   and batch 2. Treat all smoke metrics and checkpoints as non-scientific ignored artifacts.
 - Keep the real test set identity-check-only. Do not run full training, test inference, final
   evaluation, failure-case analysis, API, dashboard, or Sprint 5 work.
+
+## 2026-07-19 — Sprint 4B external CUDA execution contract
+
+- Keep local status at `awaiting_external_cuda_execution`; CPU-only PyTorch is not a final-training
+  environment and no local 50-epoch run is authorized.
+- Transfer a checksummed, inventory-bound bundle containing only required code, frozen contracts,
+  training pairs, and real-validation pairs. Permit the test manifest only as protected identity
+  evidence and reject any test image by path or content hash.
+- Require a successful CUDA tensor operation plus a bounded `real_50` memory run. Freeze batch 16
+  only with a conservative free-VRAM margin; otherwise freeze batch 4. Never auto-batch or select a
+  different profile per regime.
+- Persist and revalidate each regime before beginning the next. Treat failed/interrupted attempts as
+  immutable evidence and allocate a fresh run directory for retry.
+- Export five validated runs and a machine-generated combined training identity. Label validation
+  summaries non-final and defer all real-test evaluation and scientific conclusions to Sprint 5.

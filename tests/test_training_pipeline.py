@@ -9,7 +9,7 @@ import pytest
 import yaml
 from PIL import Image
 
-from synthdet.synthetic.contracts import sha256_file, write_csv
+from synthdet.synthetic.contracts import sha256_file, stable_json_hash, write_csv
 from synthdet.training.experiments import (
     MANIFEST_FIELDS,
     construct_regimes,
@@ -104,17 +104,20 @@ def test_exact_counts_complementary_pairing_and_determinism(tmp_path: Path) -> N
 
 def test_validation_rejects_test_content(tmp_path: Path) -> None:
     regimes, real, synthetic, validation, test = _regimes(tmp_path)
-    assert validate_regimes(
-        regimes,
-        real,
-        validation,
-        test,
-        synthetic,
-        tmp_path,
-        "r" * 64,
-        "s" * 64,
-        SMALL_COUNTS,
-    ) == []
+    assert (
+        validate_regimes(
+            regimes,
+            real,
+            validation,
+            test,
+            synthetic,
+            tmp_path,
+            "r" * 64,
+            "s" * 64,
+            SMALL_COUNTS,
+        )
+        == []
+    )
     regimes["real_only"][0]["training_image_path"] = test[0]["image_path"]
     regimes["real_only"][0]["image_hash"] = test[0]["content_hash"]
     errors = validate_regimes(
@@ -132,13 +135,9 @@ def test_validation_rejects_test_content(tmp_path: Path) -> None:
 
 
 def test_multilabel_selector_preserves_coverage_when_practical() -> None:
-    rows = [
-        {"path": str(index), "class_ids_present": str(index % 7)} for index in range(14)
-    ]
+    rows = [{"path": str(index), "class_ids_present": str(index % 7)} for index in range(14)]
     selected = deterministic_multilabel_select(rows, 7, CLASS_NAMES, 42, "path")
-    classes = {
-        int(row["class_ids_present"]) for row in rows if row["path"] in selected
-    }
+    classes = {int(row["class_ids_present"]) for row in rows if row["path"] in selected}
     assert classes == set(range(7))
 
 
@@ -175,12 +174,11 @@ def test_freeze_no_overwrite_and_identity_reproduction(tmp_path: Path) -> None:
         Path.cwd(),
         [],
     )
-    reproduced = verify_experiment_reproduction(
-        frozen, real, synthetic, CLASS_NAMES, tmp_path, 42
+    reproduced = verify_experiment_reproduction(frozen, real, synthetic, CLASS_NAMES, tmp_path, 42)
+    assert (
+        reproduced["combined_experiment_design_identity"]
+        == metadata["combined_experiment_design_identity"]
     )
-    assert reproduced["combined_experiment_design_identity"] == metadata[
-        "combined_experiment_design_identity"
-    ]
     with pytest.raises(FileExistsError):
         freeze_experiment_design(
             frozen, regimes, "r" * 64, "s" * 64, "o" * 64, "g" * 64, 42, 1, Path.cwd(), []
@@ -195,13 +193,9 @@ def _runner_fixture(tmp_path: Path):
     (view / "val/images").mkdir(parents=True)
     (view / "val/labels").mkdir(parents=True)
     Image.new("RGB", (16, 16), "blue").save(view / "train/images/train.jpg")
-    (view / "train/labels/train.txt").write_text(
-        "0 0.5 0.5 0.25 0.25\n", encoding="utf-8"
-    )
+    (view / "train/labels/train.txt").write_text("0 0.5 0.5 0.25 0.25\n", encoding="utf-8")
     Image.new("RGB", (16, 16), "green").save(view / "val/images/val.jpg")
-    (view / "val/labels/val.txt").write_text(
-        "0 0.5 0.5 0.25 0.25\n", encoding="utf-8"
-    )
+    (view / "val/labels/val.txt").write_text("0 0.5 0.5 0.25 0.25\n", encoding="utf-8")
     train_image = view / "train/images/train.jpg"
     train_label = view / "train/labels/train.txt"
     write_csv(
@@ -241,6 +235,10 @@ def _runner_fixture(tmp_path: Path):
         "smoke": {"view_root": "view", "overrides": {}},
         "outputs": {"run_root": "runs"},
         "model": {"architecture": "fixture", "pretrained_weights": "fake.pt"},
+        "hardware_profiles": {
+            "standard": {"batch": 16, "imgsz": 640, "workers": 0},
+            "low_memory": {"batch": 4, "imgsz": 640, "workers": 0},
+        },
     }
     metadata = {
         "combined_experiment_design_identity": "e" * 64,
@@ -265,6 +263,24 @@ def test_failed_run_records_status_and_smoke_metadata(tmp_path: Path, monkeypatc
     regime_path.write_text(yaml.safe_dump(regime), encoding="utf-8")
     common_path.write_text(yaml.safe_dump(common), encoding="utf-8")
     metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
+    (tmp_path / "fake.pt").write_bytes(b"fixture weight")
+    profile_inputs = {
+        "profile_name": "standard",
+        "batch": 16,
+        "imgsz": 640,
+        "device": "cpu",
+        "base_weight_sha256": sha256_file(tmp_path / "fake.pt"),
+        "identities": common["identities"],
+        "preflight": [],
+    }
+    profile = {
+        **profile_inputs,
+        "status": "frozen",
+        "environment": {},
+        "profile_identity": stable_json_hash(profile_inputs),
+    }
+    profile_path = tmp_path / "profile.json"
+    profile_path.write_text(json.dumps(profile), encoding="utf-8")
 
     class BrokenYOLO:
         def __init__(self, _: str):
@@ -287,6 +303,7 @@ def test_failed_run_records_status_and_smoke_metadata(tmp_path: Path, monkeypatc
             "final",
             "cpu",
             ["fixture"],
+            profile_path=profile_path,
             verify_project=False,
         )
     record = json.loads(next((tmp_path / "runs/final").glob("*/run_metadata.json")).read_text())

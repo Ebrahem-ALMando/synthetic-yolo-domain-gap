@@ -2,6 +2,9 @@
 
 Last updated: 2026-07-19
 
+Sprint 4B handoff status: `awaiting_external_cuda_execution`. The complete CUDA/Colab execution
+workflow is prepared, but Sprint 4B is not complete until all five returned runs validate locally.
+
 ## Current sprint
 
 Sprint 4A — Controlled Experiment Construction, Hardware Validation, and YOLO Smoke Training —
@@ -52,7 +55,7 @@ No full experiment, test inference, final evaluation, API, or dashboard exists.
 
 ## Next gate
 
-Sprint 4B may run the five frozen 50-epoch regimes on a CUDA-capable machine after selecting either
-the standard batch-16 or predeclared low-memory batch-4 profile for all regimes. It must rerun all
-identity, leakage, view, disk, and GPU checks. The real test set remains prohibited until the later
-fixed evaluation sprint.
+Run the versioned Colab notebook on a CUDA runtime, freeze either batch 16 or the predeclared batch 4
+profile for all regimes, and return the results archive, checksum, inventory, completion manifest,
+and frozen profile. Do not mark Sprint 4B complete until all five actual runs validate locally. The
+real test set remains prohibited until the later fixed evaluation sprint.

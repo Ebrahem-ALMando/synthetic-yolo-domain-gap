@@ -129,3 +129,17 @@ The five regime CSVs reproduce exactly with seed 42 and combined design identity
 hard links when possible and a copy fallback otherwise; hashes, not link type, define content.
 Smoke runs use pinned Ultralytics 8.4.101 and PyTorch 2.13.0. GPU operations can introduce
 nondeterminism despite deterministic settings, so hardware and runtime are captured per run.
+
+## Sprint 4B external CUDA handoff
+
+The transfer artifact is generated, not tracked. Its external inventory and internal inventory list
+every file size and SHA-256, frozen identities, base-weight contract, expected committed revision,
+and a bundle identity. Validation extracts into temporary storage, checks every byte, rejects test
+content by both path and image hash, rematerializes the experiment views, and reruns experiment
+identity/pairing/annotation/class-order/leakage validation.
+
+The Colab notebook freezes one predeclared hardware profile after an actual CUDA training-memory
+test. Its persistent completion state is bound to both the expected revision and profile identity.
+The result archive has its own inventory and SHA-256; checkpoint and result hashes feed the combined
+Sprint 4B training identity. Validation metrics are generated from `results.csv` and labeled
+`NON-FINAL VALIDATION RESULTS`; they cannot be used to modify any primary regime configuration.

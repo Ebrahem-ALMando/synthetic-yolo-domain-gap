@@ -48,8 +48,8 @@ python scripts/train_yolo.py real_50 --mode smoke --device cpu
 Final mode has an additional acknowledgement and was not executed in Sprint 4A:
 
 ```powershell
-python scripts/train_yolo.py real_50 --mode final --device 0 --confirm-final
-python scripts/run_all_regimes.py --mode final --device 0 --confirm-final
+python scripts/train_yolo.py real_50 --mode final --device 0 --confirm-final --profile final_profile.json
+python scripts/run_all_regimes.py --mode final --device 0 --confirm-final --profile final_profile.json
 ```
 
 First final runs begin from the frozen pretrained initialization. A failed or interrupted run is
@@ -81,7 +81,17 @@ The archive contains source/configuration, frozen manifests, real-train and synt
 pairs, and real-validation pairs. It contains no real-test images or secrets. Its inventory records
 every SHA-256 checksum and the command `python scripts/validate_experiments.py`.
 
-After extracting or mounting the repository and ignored data in Colab:
+Sprint 4B uses `notebooks/sprint4b_full_training_colab.ipynb`; users edit only the grouped path,
+device, regime, and expected-revision variables. The notebook validates its bundle checksum before
+safe extraction, pins the runtime, proves CUDA with a real tensor operation, materializes and
+validates the five views, and runs a bounded one-epoch memory preflight on `real_50`. Preflight
+metrics are technical evidence and are not scientific results.
+
+Batch 16 is selected only after it completes with at least 512 MiB or 10% total VRAM free,
+whichever is larger. Otherwise batch 4 is tried. Failure at batch 4 stops the workflow. The selected
+640-pixel profile is frozen once and supplied to every primary run.
+
+After extracting the bundle in Colab, the notebook invokes the restart-safe equivalent of:
 
 ```bash
 python scripts/colab_train.py \
@@ -89,9 +99,15 @@ python scripts/colab_train.py \
   --expected-revision <COMMITTED_SPRINT4A_REVISION> \
   --regime all \
   --device 0 \
-  --output-copy /content/drive/MyDrive/synthdet-runs
+  --persistent-output /content/drive/MyDrive/synthdet/sprint4b \
+  --profile /content/drive/MyDrive/synthdet/sprint4b/final_profile.json
 ```
 
-The Colab entry point pins Ultralytics 8.4.101, requires CUDA as detected by PyTorch, validates the
-revision and experiment views, keeps settings identical, and copies outputs to the requested
-persistent directory. It never invokes test evaluation.
+Each completed run is fully validated, copied through a hidden staging directory to Drive, then
+revalidated before its completion-state entry becomes `completed`. Interrupted/failed attempts stay
+labeled and a retry receives a new directory. A completed run is skipped only if its recorded
+checkpoint/results hashes still match. Finalization produces a five-run completion manifest, a
+clearly non-final validation table and figure, and a dataset/secret/test-output-free results archive.
+
+The local status remains `awaiting_external_cuda_execution` until all five returned CUDA runs and
+the archive are validated. The real test set is prohibited throughout Sprint 4B.

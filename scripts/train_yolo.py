@@ -21,6 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mode", choices=("smoke", "final"), default="smoke")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--profile", type=Path)
     parser.add_argument(
         "--confirm-final",
         action="store_true",
@@ -44,6 +45,7 @@ def main() -> int:
             args.mode,
             args.device,
             [sys.executable, *sys.argv],
+            profile_path=args.profile,
             dry_run=args.dry_run,
         )
         print(json.dumps(result, indent=2, sort_keys=True))

@@ -75,11 +75,13 @@ smoke:
     save: true
 
 hardware_profiles:
-  standard_gpu:
+  standard:
+    imgsz: 640
     batch: 16
     workers: 2
     minimum_recommended_gpu_memory_gib: 6
-  low_memory_gpu:
+  low_memory:
+    imgsz: 640
     batch: 4
     workers: 2
     note: Must be selected once before Sprint 4B; apply identically to all five regimes.

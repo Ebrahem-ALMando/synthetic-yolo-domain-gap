@@ -76,7 +76,8 @@ Copy `.env.example` to `.env` only when local overrides are needed. Do not commi
 
 ## Current status
 
-Sprint 4A is complete. Aquarium Split V2 remains frozen at 427/140/68 train/validation/test images
+Sprint 4A is complete and Sprint 4B is `awaiting_external_cuda_execution`. Aquarium Split V2
+remains frozen at 427/140/68 train/validation/test images
 with identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
 The 427-image copy-paste pool remains frozen at identity
 `3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec`.
@@ -90,6 +91,12 @@ was used only as protected manifest identity evidence.
 The common YOLO11n final protocol is frozen, but no 50-epoch training was run. All five one-epoch
 CPU smoke runs passed on deterministic 16/14 subsets and are explicitly non-scientific technical
 artifacts. No test inference, final evaluation, API, or dashboard has been produced.
+
+The actual checksummed training bundle and restart-safe 16-section Colab workflow can be prepared
+with `python scripts/build_training_bundle.py` and
+`notebooks/sprint4b_full_training_colab.ipynb`. Colab must freeze one common batch profile, train
+the five regimes sequentially, persist each validated result immediately, and return the generated
+results archive and its checksum/inventory. The real test set remains strictly prohibited.
 
 Dataset evidence is documented in the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
 and [`datasheet`](docs/datasets/aquarium_datasheet.md). See the

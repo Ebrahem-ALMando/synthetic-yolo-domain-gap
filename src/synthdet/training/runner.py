@@ -35,9 +35,15 @@ def load_yaml(path: Path) -> dict[str, Any]:
 
 
 def _git_revision(root: Path) -> str:
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
-    ).stdout.strip()
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=False, capture_output=True, text=True
+    )
+    if completed.returncode == 0:
+        return completed.stdout.strip()
+    inventory = root / "training_bundle_inventory.json"
+    if inventory.is_file():
+        return json.loads(inventory.read_text(encoding="utf-8"))["expected_repository_revision"]
+    raise RuntimeError("Cannot determine source revision from Git or bundle inventory")
 
 
 def verify_frozen_project_inputs(
@@ -97,13 +103,15 @@ def validate_runner_inputs(
     manifest_path = project_root / regime_config["manifest"]
     if sha256_file(manifest_path) != regime_config["expected_manifest_hash"]:
         raise ValueError(f"Frozen regime manifest hash mismatch: {regime}")
-    if regime_config["expected_manifest_hash"] != experiment_metadata["regime_manifest_hashes"][
-        manifest_path.name
-    ]:
+    if (
+        regime_config["expected_manifest_hash"]
+        != experiment_metadata["regime_manifest_hashes"][manifest_path.name]
+    ):
         raise ValueError(f"Regime hash disagrees with experiment metadata: {regime}")
-    if common["identities"]["experiment_design"] != experiment_metadata[
-        "combined_experiment_design_identity"
-    ]:
+    if (
+        common["identities"]["experiment_design"]
+        != experiment_metadata["combined_experiment_design_identity"]
+    ):
         raise ValueError("Common configuration has the wrong experiment-design identity")
     view = project_root / regime_config["dataset_view"]
     if mode == "smoke":
@@ -193,12 +201,24 @@ def validate_runner_inputs(
 
 
 def resolved_training_arguments(
-    common: dict[str, Any], mode: str, device: str, run_dir: Path
+    common: dict[str, Any],
+    mode: str,
+    device: str,
+    run_dir: Path,
+    hardware_profile: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     settings = dict(common["training"])
     settings.update(common["augmentation"])
     if mode == "smoke":
         settings.update(common["smoke"]["overrides"])
+    elif hardware_profile is None:
+        raise ValueError("Final training requires a frozen CUDA hardware profile")
+    else:
+        settings["batch"] = int(hardware_profile["batch"])
+        settings["imgsz"] = int(hardware_profile["imgsz"])
+        settings["workers"] = int(
+            common["hardware_profiles"][hardware_profile["profile_name"]]["workers"]
+        )
     settings.update(
         {
             "device": device,
@@ -234,6 +254,7 @@ def run_training(
     mode: str,
     device: str,
     command: list[str],
+    profile_path: Path | None = None,
     dry_run: bool = False,
     verify_project: bool = True,
 ) -> dict[str, Any]:
@@ -248,7 +269,16 @@ def run_training(
         mode,
         verify_project=verify_project,
     )
-    arguments = resolved_training_arguments(common, mode, device, Path("pending"))
+    hardware_profile = None
+    if mode == "final":
+        if profile_path is None:
+            raise ValueError("Final training requires --profile with frozen preflight metadata")
+        from synthdet.training.completion import load_frozen_profile
+
+        hardware_profile = load_frozen_profile(profile_path, common)
+        if str(hardware_profile["device"]) != str(device):
+            raise ValueError("Requested device differs from the frozen hardware profile")
+    arguments = resolved_training_arguments(common, mode, device, Path("pending"), hardware_profile)
     if dry_run:
         return {
             "status": "dry_run_validated",
@@ -260,7 +290,7 @@ def run_training(
         }
     run_base = project_root / common["outputs"]["run_root"]
     run_dir = create_run_directory(run_base, validated["regime"], mode)
-    arguments = resolved_training_arguments(common, mode, device, run_dir)
+    arguments = resolved_training_arguments(common, mode, device, run_dir, hardware_profile)
     weight_path = project_root / common["model"]["pretrained_weights"]
     start = datetime.now(UTC)
     metadata: dict[str, Any] = {
@@ -287,6 +317,8 @@ def run_training(
         "platform": platform.platform(),
         "process_id": os.getpid(),
         "test_set_used": False,
+        "test_set_access_count": 0,
+        "hardware_profile": hardware_profile,
     }
     metadata_path_out = run_dir / "run_metadata.json"
     resolved_path = run_dir / "resolved_training_config.yaml"

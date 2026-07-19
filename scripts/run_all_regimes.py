@@ -17,6 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--confirm-final", action="store_true")
+    parser.add_argument("--profile", type=Path)
     return parser
 
 
@@ -39,6 +40,8 @@ def main() -> int:
             command.append("--dry-run")
         if args.confirm_final:
             command.append("--confirm-final")
+        if args.profile:
+            command.extend(["--profile", str(args.profile)])
         result = subprocess.run(command, cwd=PROJECT_ROOT, check=False)
         if result.returncode:
             return result.returncode
