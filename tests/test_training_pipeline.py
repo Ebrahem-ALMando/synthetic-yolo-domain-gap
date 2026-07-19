@@ -240,7 +240,7 @@ def _runner_fixture(tmp_path: Path):
         "augmentation": {},
         "smoke": {"view_root": "view", "overrides": {}},
         "outputs": {"run_root": "runs"},
-        "model": {"pretrained_weights": "fake.pt"},
+        "model": {"architecture": "fixture", "pretrained_weights": "fake.pt"},
     }
     metadata = {
         "combined_experiment_design_identity": "e" * 64,
