@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "source": "repository",
+  "gitRevision": "0331ab743faac6f3e831582e12392ce7982fff21",
+  "project": {
+    "name": "SynthDet",
+    "nameAr": "سينث دِت",
+    "descriptionAr": "منصة تحليل البيانات الاصطناعية وكشف الأجسام",
+    "sloganAr": "رؤية ذكية. بيانات اصطناعية. كشف أدق.",
+    "phase": "Sprint 4B — التنفيذ الخارجي عبر CUDA",
+    "dashboardStatus": "sprint6a_dashboard_foundation_implemented",
+    "seed": 42
+  },
+  "identities": {
+    "realSplit": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+    "syntheticPool": "3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec",
+    "objectBank": "22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3",
+    "generatorConfiguration": "7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef",
+    "experimentDesign": "abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c",
+    "training": null
+  },
+  "dataset": {
+    "name": "Aquarium Combined",
+    "version": 2,
+    "status": "approved_immutable_split_v2_frozen",
+    "classCount": 7,
+    "classes": [
+      {
+        "id": 0,
+        "key": "fish",
+        "nameAr": "سمك",
+        "realTrainImages": 252,
+        "syntheticObjects": 533
+      },
+      {
+        "id": 1,
+        "key": "jellyfish",
+        "nameAr": "قنديل البحر",
+        "realTrainImages": 35,
+        "syntheticObjects": 108
+      },
+      {
+        "id": 2,
+        "key": "penguin",
+        "nameAr": "بطريق",
+        "realTrainImages": 52,
+        "syntheticObjects": 77
+      },
+      {
+        "id": 3,
+        "key": "puffin",
+        "nameAr": "بفن",
+        "realTrainImages": 28,
+        "syntheticObjects": 17
+      },
+      {
+        "id": 4,
+        "key": "shark",
+        "nameAr": "قرش",
+        "realTrainImages": 116,
+        "syntheticObjects": 41
+      },
+      {
+        "id": 5,
+        "key": "starfish",
+        "nameAr": "نجم البحر",
+        "realTrainImages": 37,
+        "syntheticObjects": 12
+      },
+      {
+        "id": 6,
+        "key": "stingray",
+        "nameAr": "شفنين",
+        "realTrainImages": 65,
+        "syntheticObjects": 10
+      }
+    ],
+    "splits": {
+      "test": 68,
+      "train": 427,
+      "val": 140
+    },
+    "objects": {
+      "test": 615,
+      "train": 3452,
+      "val": 717
+    },
+    "sourceGroups": {
+      "test": 5,
+      "train": 41,
+      "val": 8
+    },
+    "duplicateGroupCount": 635,
+    "leakageStatus": "passed",
+    "protectedTest": true
+  },
+  "synthetic": {
+    "poolSize": 427,
+    "status": "frozen",
+    "mode": "distribution_matched_copy_paste",
+    "generatorVersion": "copy-paste-v1",
+    "pastedObjects": 798,
+    "acceptedObjectBankItems": 2138,
+    "objectBankRecords": 3452,
+    "objectSizes": {
+      "large": 1322,
+      "medium": 1905,
+      "small": 224
+    },
+    "failedAttempts": 14,
+    "rejectedPlacements": 3075
+  },
+  "experiments": [
+    {
+      "id": "synthetic_only",
+      "nameAr": "اصطناعي فقط",
+      "realCount": 0,
+      "syntheticCount": 427,
+      "total": 427,
+      "validationCount": 140,
+      "realFraction": 0.0,
+      "manifestHash": "93cccac4041841ce4e66329792d2ca8c42a6869137c8c2332daff2555a815618",
+      "status": "awaiting_results",
+      "checkpointAvailable": false,
+      "validationMetricsAvailable": false,
+      "finalTestMetricsAvailable": false
+    },
+    {
+      "id": "real_25",
+      "nameAr": "25% حقيقي",
+      "realCount": 107,
+      "syntheticCount": 320,
+      "total": 427,
+      "validationCount": 140,
+      "realFraction": 0.2505854800936768,
+      "manifestHash": "9c312a0c32e6dfca6644dae8d1a526b08f68793e7bde1817f37b58d0e16c57d1",
+      "status": "awaiting_results",
+      "checkpointAvailable": false,
+      "validationMetricsAvailable": false,
+      "finalTestMetricsAvailable": false
+    },
+    {
+      "id": "real_50",
+      "nameAr": "50% حقيقي",
+      "realCount": 214,
+      "syntheticCount": 213,
+      "total": 427,
+      "validationCount": 140,
+      "realFraction": 0.5011709601873536,
+      "manifestHash": "618111d532af7ac7eeff76baadd1246f59f0140c3d58486efcce118c9c91e539",
+      "status": "awaiting_results",
+      "checkpointAvailable": false,
+      "validationMetricsAvailable": false,
+      "finalTestMetricsAvailable": false
+    },
+    {
+      "id": "real_75",
+      "nameAr": "75% حقيقي",
+      "realCount": 320,
+      "syntheticCount": 107,
+      "total": 427,
+      "validationCount": 140,
+      "realFraction": 0.7494145199063232,
+      "manifestHash": "8c441834f1ef5a29b05713b042873ed5700c112cb923633cd1d58eb1c24bdbb8",
+      "status": "awaiting_results",
+      "checkpointAvailable": false,
+      "validationMetricsAvailable": false,
+      "finalTestMetricsAvailable": false
+    },
+    {
+      "id": "real_only",
+      "nameAr": "حقيقي فقط",
+      "realCount": 427,
+      "syntheticCount": 0,
+      "total": 427,
+      "validationCount": 140,
+      "realFraction": 1.0,
+      "manifestHash": "25efbdb04ba4890c188e2a033c8842f0a399318fddf5d2e6cb4542f6b255b160",
+      "status": "awaiting_results",
+      "checkpointAvailable": false,
+      "validationMetricsAvailable": false,
+      "finalTestMetricsAvailable": false
+    }
+  ],
+  "training": {
+    "state": "awaiting_external_cuda",
+    "model": "YOLO11n",
+    "epochs": 50,
+    "imageSize": 640,
+    "preferredBatch": 16,
+    "fallbackBatch": 4,
+    "completedFinalRegimes": 0,
+    "smokeRegimesCompleted": 5,
+    "gpu": "NVIDIA GeForce MX550",
+    "profile": null,
+    "testSetAccessCount": 0
+  },
+  "environment": {
+    "python": "3.11.9",
+    "torch": "2.13.0",
+    "ultralytics": "8.4.101",
+    "platform": "Windows-10-10.0.26100-SP0",
+    "cudaAvailableLocally": false,
+    "classification": "smoke_training_only_cpu"
+  },
+  "scientificResults": {
+    "available": false,
+    "finalTestEvaluated": false,
+    "messageAr": "النتائج العلمية النهائية مقفلة حتى اكتمال التدريب والتقييم المحدد مسبقًا."
+  },
+  "audit": {
+    "splitFrozen": true,
+    "syntheticFrozen": true,
+    "experimentValidationPassed": true,
+    "testSetUsedForExperiments": false,
+    "protectedContentIncluded": false
+  }
+}

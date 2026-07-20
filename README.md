@@ -17,7 +17,7 @@ than an inconsistent test set or an uncontrolled training budget.
 - `scripts`: thin, reproducible command-line entry points.
 - `configs`: version-controlled project and, later, experiment configurations.
 - `apps/api`: future FastAPI inference service.
-- `apps/web`: future Next.js dashboard.
+- `apps/web`: Arabic-first Next.js dashboard foundation.
 - `datasets`, `artifacts`, and `models`: local-only large inputs and generated outputs.
 - `reports`: version-controlled narrative with generated figures and tables excluded by default.
 - `docs`: scientific protocol and decision history.
@@ -74,6 +74,23 @@ ruff check .
 
 Copy `.env.example` to `.env` only when local overrides are needed. Do not commit `.env`.
 
+## Arabic dashboard — Sprint 6A
+
+The isolated application in `apps/web` implements the premium Arabic-first SynthDet dashboard
+foundation. It reads a deterministic metadata-only repository snapshot and does not access raw
+images, protected-test content, model weights, or unvalidated final metrics.
+
+```bash
+cd apps/web
+npm install
+npm run snapshot:export
+npm run validate
+```
+
+See `apps/web/README.md`, `docs/dashboard_architecture.md`, `docs/ui_design_system.md`, and
+`docs/sprint6_plan.md`. The exact official logo is preserved without recompression at
+`apps/web/public/brand/synthdet-logo.png`; no substitute is generated.
+
 ## Current status
 
 Sprint 4A is complete and Sprint 4B is `awaiting_revision_binding_fix_commit`. Aquarium Split V2
@@ -90,7 +107,8 @@ was used only as protected manifest identity evidence.
 
 The common YOLO11n final protocol is frozen, but no 50-epoch training was run. All five one-epoch
 CPU smoke runs passed on deterministic 16/14 subsets and are explicitly non-scientific technical
-artifacts. No test inference, final evaluation, API, or dashboard has been produced.
+artifacts. No test inference, final evaluation, or operational API has been produced. The Sprint 6A
+dashboard foundation displays repository metadata and explicit pending/demo states only.
 
 The actual checksummed training bundle and restart-safe 16-section Colab workflow can be prepared
 with `python scripts/build_training_bundle.py` and

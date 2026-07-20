@@ -2,6 +2,14 @@
 
 Last updated: 2026-07-20
 
+Sprint 6A dashboard status: `sprint6a_dashboard_foundation_implemented`. An isolated Arabic-first
+Next.js application now exists under `apps/web` with strict repository metadata, all planned
+routes, RTL light/dark design, locked scientific results, labelled demo fixtures, snapshot
+export/validation, tests, and a production build. The official brand component targets
+`public/brand/synthdet-logo.png`; the supplied 2024 x 2024 bitmap is preserved unchanged there.
+Sprint 6 is not complete; API,
+result-archive, model-registry, and real inference integrations remain Sprint 6B.
+
 Sprint 4B handoff status: `replacement_bundle_v2_required`. The notebook resolves the expected
 revision from generated bundle inventory instead of a self-referential committed hash. The prior
 dirty-source bundle and the runtime-incomplete v1 bundle are invalid and must not be uploaded.
@@ -58,7 +66,8 @@ machine's CPU run times do not predict final GPU run times or scientific perform
 
 Generated datasets, caches, pretrained/smoke weights, smoke outputs, and audits remain ignored.
 Versioned manifests, configuration, environment evidence, and documentation are protocol artifacts.
-No full experiment, test inference, final evaluation, API, or dashboard exists.
+No full final experiment, protected-test inference, final evaluation, or operational API exists.
+The Sprint 6A dashboard foundation displays repository metadata and explicit pending/demo states.
 
 ## Next gate
 
