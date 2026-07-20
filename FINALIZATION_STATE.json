@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T04:28:00+03:00",
-  "repository_revision": "05c4fe3d043944580c679f80425a5ba13330763c",
+  "updated_at": "2026-07-20T05:19:00+03:00",
+  "repository_revision": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -11,8 +11,8 @@
   },
   "sprint6a_status": "complete_validated_committed_pushed",
   "sprint4b_intake_status": "complete_verified_committed_pushed",
-  "sprint5_contract_status": "frozen_validated_pending_commit_and_push",
-  "sprint5_evaluation_status": "not_started_authorized_test_access_count_0",
+  "sprint5_contract_status": "frozen_validated_committed_pushed",
+  "sprint5_evaluation_status": "runner_validated_pending_source_commit_authorized_test_access_count_0",
   "api_status": "not_implemented",
   "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
   "report_status": "final_reports_not_started",
@@ -36,6 +36,11 @@
       "revision": "05c4fe3d043944580c679f80425a5ba13330763c",
       "subject": "feat: verify returned Sprint 4B CUDA training artifacts",
       "role": "Sprint 4B verified artifact intake"
+    },
+    {
+      "revision": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
+      "subject": "docs: freeze Sprint 5 final evaluation contract",
+      "role": "mandatory pre-access Sprint 5 contract freeze"
     }
   ],
   "protected_test": {
@@ -68,6 +73,7 @@
     "contract_sha256": "ef826f5eb104171039e3029b0600a091e8171a1ad6e9bd8d771b2bb5645c407c",
     "input_contract_path": "reports/evaluation/sprint5_input_contract.json",
     "source_revision": "05c4fe3d043944580c679f80425a5ba13330763c",
+    "contract_commit": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
     "test_manifest_sha256": "02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52",
     "expected_test_images": 68,
     "checkpoint_hashes_verified": true,
@@ -78,9 +84,9 @@
   "validation_evidence": {
     "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
     "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
-    "python_tests": "54_passed",
+    "python_tests": "65_passed",
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "commit_push_verify_sprint5_contract"
+  "next_gate": "commit_push_runner_then_execute_locked_campaign"
 }

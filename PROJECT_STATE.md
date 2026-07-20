@@ -26,8 +26,11 @@ access remained zero. Validation comparisons are explicitly non-final and do not
 
 ## Current sprint
 
-Sprint 5 — preregister and freeze the final protected-test evaluation contract before viewing any
-test metric or running inference on any protected image.
+Sprint 5 — the final evaluation contract is frozen at commit `3af03c7`. The locked campaign runner,
+preflight integrity/leakage checks, deterministic size-stratified evaluator, sealed result writer,
+and preregistered ranking implementation are ready for their own source commit before the first
+authorized protected-test access. No protected image pixel, label, prediction, or metric has been
+read yet.
 
 ## Frozen input contract
 
@@ -78,6 +81,6 @@ repository metadata and explicit pending/demo states until verified-result integ
 
 ## Next gate
 
-Create, validate, commit, and push the shared Sprint 5 evaluation contract with the exact five
-`best.pt` hashes and fixed Split V2 test-manifest identity. The real test set remains prohibited
-until that committed contract authorizes the one locked five-model campaign.
+Commit and push the reviewed Sprint 5 campaign implementation, reverify a clean synchronized
+revision, and then execute the exact frozen command once. The campaign must evaluate all five
+`best.pt` files under the common contract before any ranking or error analysis is used.

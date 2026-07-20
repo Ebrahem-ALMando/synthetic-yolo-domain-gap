@@ -40,11 +40,14 @@ and pushed. A failed independent task does not stop work that cannot affect that
   environment; record manifest/checkpoint hashes, policies, schema, ranking, latency, and campaign ID.
 - [x] Create and validate `configs/evaluation/sprint5_final.yaml`, input contract JSON, evaluator,
   and `docs/evaluation_protocol.md` without reading test metrics or image pixels.
-- [ ] Commit and push the contract; verify local HEAD equals `origin/main`. (Contract validated;
-  commit/push pending.)
+- [x] Commit and push the contract; verify local HEAD equals `origin/main` (`3af03c7`, ahead/behind
+  0/0 before campaign implementation).
 
 ## Phase 4 — One locked protected-test campaign
 
+- [x] Implement the fail-closed campaign preflight, split-exclusive dataset descriptor, deterministic
+  five-model executor, sealed raw outputs, fixed object-size AP, preregistered ranking, and report
+  generation; validate with 65 Python tests and Ruff without protected-data access.
 - [ ] Verify the committed contract, five checkpoint hashes, fixed 68-image manifest, image/label
   integrity, split leakage, class order, and clean revision before authorized access.
 - [ ] Create the campaign lock and execute one complete comparable five-model campaign.
