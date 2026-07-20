@@ -92,14 +92,14 @@ and pushed. A failed independent task does not stop work that cannot affect that
 
 ## Phase 9 — Academic reports
 
-- [ ] Produce the required Arabic/English reports, summaries, methodology, results, limitations,
+- [x] Produce the required Arabic/English reports, summaries, methodology, results, limitations,
   reproducibility appendix, demo guide, defense questions, numbered figures, and tables.
-- [ ] Use only verified repository references and clearly distinguish validation, final test, demo,
+- [x] Use only verified repository references and clearly distinguish validation, final test, demo,
   and interpretation; generate PDFs only when reliable tooling is available.
 
 ## Phase 10 — Presentation and defense
 
-- [ ] Generate an editable 14–18-slide source and validated PPTX using the official identity and
+- [x] Generate an editable 14–18-slide source and validated PPTX using the official identity and
   verified figures, plus Arabic notes, demo script, defense Q&A, checklist, and 5/10–15 minute plans.
 
 ## Phase 11 — Local demo and release

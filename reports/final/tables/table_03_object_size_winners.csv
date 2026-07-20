@@ -1,0 +1,4 @@
+size,winning_regime,ground_truth_instances,map50_95
+small,real_only,232,0.10120914966841484
+medium,real_50,238,0.16600785159614304
+large,real_only,145,0.2781491440850615

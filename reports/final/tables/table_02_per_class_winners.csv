@@ -1,0 +1,8 @@
+class_id,class_name,winning_regime,ap50_95
+0,fish,real_50,0.097912
+1,jellyfish,real_only,0.475858
+2,penguin,synthetic_only,0.392472
+3,puffin,real_25,0.147315
+4,shark,real_only,0.149300
+5,starfish,real_25,0.213067
+6,stingray,real_only,0.131994

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "file": "presentation/SynthDet_Final_Presentation.pptx",
+  "slide_count": 18,
+  "sha256": "da263b89aeb89064021b95da4ad8c53ba83fe970e36c9159562df74fac661a95",
+  "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685",
+  "protected_test_images_embedded": false,
+  "source": "presentation/source/SynthDet_Final_Presentation.md",
+  "generator": "scripts/build_final_presentation.py",
+  "status": "validated_structure"
+}
