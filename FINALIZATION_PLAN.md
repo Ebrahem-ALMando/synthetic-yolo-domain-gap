@@ -68,11 +68,11 @@ and pushed. A failed independent task does not stop work that cannot affect that
 
 ## Phase 6 — FastAPI inference backend
 
-- [ ] Implement typed lazy model registry and all required project/evaluation/training/report/model
+- [x] Implement typed lazy model registry and all required project/evaluation/training/report/model
   endpoints plus bounded inference with CPU/CUDA selection and structured errors.
-- [ ] Enforce upload/MIME/decode/bounds/time limits, safe names, cleanup, no arbitrary paths, no
+- [x] Enforce upload/MIME/decode/bounds/time limits, safe names, cleanup, no arbitrary paths, no
   private absolute paths, and protected-test content-hash rejection.
-- [ ] Add environment example, OpenAPI descriptions, README, unit/integration/security/registry and
+- [x] Add environment example, OpenAPI descriptions, README, unit/integration/security/registry and
   non-test inference smoke tests.
 
 ## Phase 7 — Verified dashboard integration

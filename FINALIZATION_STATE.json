@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T06:08:00+03:00",
-  "repository_revision": "d6fbeea0b779fa64be71ad2f7b5adeec948fd8d6",
+  "updated_at": "2026-07-20T06:34:00+03:00",
+  "repository_revision": "c563f6200d3ada1e00b50f3ed43cba2f5ba26c98",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -13,7 +13,7 @@
   "sprint4b_intake_status": "complete_verified_committed_pushed",
   "sprint5_contract_status": "frozen_validated_committed_pushed",
   "sprint5_evaluation_status": "complete_sealed_attempt_002_one_successful_campaign",
-  "api_status": "not_implemented",
+  "api_status": "implemented_validated_lazy_five_model_registry_real_inference_smoke_passed",
   "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
   "report_status": "evaluation_and_error_analysis_complete_final_academic_reports_pending",
   "presentation_status": "not_started",
@@ -51,6 +51,11 @@
       "revision": "d6fbeea0b779fa64be71ad2f7b5adeec948fd8d6",
       "subject": "fix: preserve Sprint 5 technical retry audit",
       "role": "attempt-001 audit and infrastructure-only category mapping fix"
+    },
+    {
+      "revision": "c563f6200d3ada1e00b50f3ed43cba2f5ba26c98",
+      "subject": "feat: complete locked Sprint 5 evaluation and analysis",
+      "role": "sealed final results and deterministic error analysis"
     }
   ],
   "protected_test": {
@@ -128,10 +133,11 @@
   "validation_evidence": {
     "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
     "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
-    "python_tests": "67_passed_after_campaign_and_analysis",
+    "python_tests": "71_passed_with_api_suite",
+    "api_validation": "passed_registry_upload_mime_size_protected_hash_openapi_and_real_non_test_inference",
     "sprint5_output_validation": "passed_five_result_hashes_ten_prediction_hashes_ranking_and_schema",
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "commit_push_sealed_results_then_implement_fastapi_backend"
+  "next_gate": "commit_push_fastapi_backend_then_integrate_verified_dashboard_data"
 }

@@ -38,6 +38,14 @@ synthetic-only, but the non-monotonic `real_75` result prevents a simple causal 
 deterministic post-campaign analysis generated 235 tracked metadata selections and 235 ignored
 protected-pixel gallery images.
 
+Sprint 6B backend status: `fastapi_service_validated`. `apps/api` exposes health, project, five-model
+registry/detail, evaluation/detail, training, reproducibility, reports, single inference, and bounded
+batch inference endpoints. It loads one verified checkpoint lazily, selects CPU/CUDA safely, bounds
+uploads and parameters, validates MIME and decoding, rejects protected-test SHA-256 values, returns
+pixel/normalized boxes and optional annotated PNG data, and never accepts or exposes private server
+paths. The API suite passes and a real `real_only` CPU request using a generated non-test 96×64 PNG
+returned HTTP 200 with an annotated result.
+
 ## Frozen input contract
 
 - Active Aquarium Split V2: 427 train, 140 validation, 68 test.
@@ -87,6 +95,6 @@ repository metadata and explicit pending/demo states until verified-result integ
 
 ## Next gate
 
-Commit and push the sealed Sprint 5 results and deterministic analysis without raw predictions or
-protected gallery pixels. Then implement the lazy FastAPI model service and its protected-content
-hash guard before connecting verified repository/API results to the dashboard.
+Commit and push the validated FastAPI service without weights. Then export the sealed training,
+evaluation, ranking, class, size, latency, campaign, and hash records into the repository dashboard
+mode and connect the inference laboratory to the API with no silent demo fallback.
