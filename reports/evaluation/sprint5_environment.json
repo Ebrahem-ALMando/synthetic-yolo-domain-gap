@@ -1,0 +1,8 @@
+{
+  "cpu": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "device": "cpu",
+  "platform": "Windows-10-10.0.26100-SP0",
+  "python": "3.11.9",
+  "pytorch": "2.13.0+cpu",
+  "ultralytics": "8.4.101"
+}

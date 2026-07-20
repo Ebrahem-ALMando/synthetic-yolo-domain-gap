@@ -48,23 +48,23 @@ and pushed. A failed independent task does not stop work that cannot affect that
 - [x] Implement the fail-closed campaign preflight, split-exclusive dataset descriptor, deterministic
   five-model executor, sealed raw outputs, fixed object-size AP, preregistered ranking, and report
   generation; validate with 65 Python tests and Ruff without protected-data access.
-- [ ] Verify the committed contract, five checkpoint hashes, fixed 68-image manifest, image/label
+- [x] Verify the committed contract, five checkpoint hashes, fixed 68-image manifest, image/label
   integrity, split leakage, class order, and clean revision before authorized access.
-- [ ] Create the campaign lock and execute one complete comparable five-model campaign.
-- [ ] On infrastructure failure only, preserve the attempt log and rerun all five unchanged under a
+- [x] Create the campaign lock and execute one complete comparable five-model campaign.
+- [x] On infrastructure failure only, preserve the attempt log and rerun all five unchanged under a
   new attempt ID; never tune or inspect partial metrics for decisions.
   - Attempt `attempt-001` stopped after the first validation pass because Ultralytics non-COCO JSON
     uses category IDs 1–7 and the serializer expected 0–6. The lock preserves the failure and bars
     partial metrics from decisions. Retry `attempt-002` must rerun all five with the unchanged contract.
-- [ ] Seal predictions/results and generate complete metrics, ranking, curves, plots, hashes,
+- [x] Seal predictions/results and generate complete metrics, ranking, curves, plots, hashes,
   environment evidence, and test-access audit.
 
 ## Phase 5 — Final scientific analysis
 
-- [ ] Select the recommendation using only the preregistered ranking rule.
-- [ ] Generate domain-gap, marginal data-efficiency, generalization, per-class, object-size, latency,
+- [x] Select the recommendation using only the preregistered ranking rule (`real_only`).
+- [x] Generate domain-gap, marginal data-efficiency, generalization, per-class, object-size, latency,
   confusion, limitation, and deterministic error-analysis reports.
-- [ ] Keep all galleries containing protected images ignored; track metadata only.
+- [x] Keep all galleries containing protected images ignored; track metadata only (235 local images).
 
 ## Phase 6 — FastAPI inference backend
 

@@ -77,3 +77,16 @@ strong external-validity claims. Per-class estimates can be unstable, particular
 appears in only four test images. Results characterize this frozen Aquarium Split V2, these five
 checkpoints, and this preprocessing/runtime contract; they do not establish universal causal effects
 for other domains, generators, architectures, hardware, or datasets.
+
+## Realized campaign audit
+
+The frozen contract was committed as `3af03c7`. Authorized campaign
+`sprint5-final-20260720-v1` recorded one technical failure: `attempt-001` completed the first
+Ultralytics validation pass but stopped while serializing its one-based non-COCO JSON category IDs.
+No partial metric was used to change thresholds, models, or scientific settings. Commit `d6fbeea`
+preserved that failure and applied only a 1–7 to 0–6 result-schema normalization.
+
+The required full retry, `attempt-002`, then reevaluated all five checkpoints under the unchanged
+contract and sealed successfully. Its ranking is `real_only`, `real_50`, `real_25`, `real_75`, then
+`synthetic_only`. The complete audit is in `reports/evaluation/sprint5_campaign_lock.json`; sealed
+hashes are in `reports/evaluation/sprint5_hash_report.json`.

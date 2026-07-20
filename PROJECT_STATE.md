@@ -26,12 +26,17 @@ access remained zero. Validation comparisons are explicitly non-final and do not
 
 ## Current sprint
 
-Sprint 5 — the final evaluation contract is frozen at commit `3af03c7`. Authorized campaign
-`sprint5-final-20260720-v1` began from synchronized revision `2c028b4`. Its 68-image integrity and
-leakage preflight passed, but technical attempt `attempt-001` stopped after the first model because
-Ultralytics emitted one-based non-COCO JSON category IDs and the result serializer expected
-zero-based IDs. The failure lock is preserved, partial metrics are barred from decisions, and the
-five-model unchanged `attempt-002` retry is pending the reviewed infrastructure-only fix.
+Sprint 5 — campaign `sprint5-final-20260720-v1` is complete and sealed. The 68-image integrity and
+leakage preflight passed. Technical `attempt-001` stopped after a result-serialization category-ID
+error; its lock and cause are preserved, no partial metric informed a decision, and the unchanged
+five-model `attempt-002` completed from synchronized revision `d6fbeea`. All five result hashes and
+ten canonical/raw prediction hashes validate. The preregistered ranking recommends `real_only`.
+
+Final protected-test mAP@50-95 is 0.168938 (`synthetic_only`), 0.191505 (`real_25`), 0.198121
+(`real_50`), 0.182875 (`real_75`), and 0.211920 (`real_only`). All mixed regimes exceed
+synthetic-only, but the non-monotonic `real_75` result prevents a simple causal ratio claim. The
+deterministic post-campaign analysis generated 235 tracked metadata selections and 235 ignored
+protected-pixel gallery images.
 
 ## Frozen input contract
 
@@ -82,6 +87,6 @@ repository metadata and explicit pending/demo states until verified-result integ
 
 ## Next gate
 
-Validate, commit, and push the one-based JSON category normalization and preserved-attempt retry
-logic. Then rerun all five `best.pt` files as `attempt-002` using the unchanged frozen command and
-configuration; no partial result may influence ranking or error analysis.
+Commit and push the sealed Sprint 5 results and deterministic analysis without raw predictions or
+protected gallery pixels. Then implement the lazy FastAPI model service and its protected-content
+hash guard before connecting verified repository/API results to the dashboard.

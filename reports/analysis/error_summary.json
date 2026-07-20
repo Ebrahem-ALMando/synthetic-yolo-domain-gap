@@ -1,0 +1,61 @@
+{
+  "analysis_only_not_used_for_ranking": true,
+  "attempt_id": "attempt-002",
+  "campaign_id": "sprint5-final-20260720-v1",
+  "campaign_validation": {
+    "attempt_id": "attempt-002",
+    "campaign_id": "sprint5-final-20260720-v1",
+    "failed_technical_attempts": 1,
+    "models": 5,
+    "prediction_hashes_verified": 10,
+    "protected_images_per_model": 68,
+    "ranking_rule_verified": true,
+    "recommended_model": "real_only",
+    "result_hashes_verified": 5,
+    "status": "valid"
+  },
+  "confidence_floor": 0.001,
+  "event_counts": {
+    "real_25": {
+      "class_confusion": 1142,
+      "false_negative": 200,
+      "false_positive": 12911,
+      "localization_error": 453,
+      "true_positive": 415
+    },
+    "real_50": {
+      "class_confusion": 1415,
+      "false_negative": 177,
+      "false_positive": 12181,
+      "localization_error": 524,
+      "true_positive": 438
+    },
+    "real_75": {
+      "class_confusion": 1111,
+      "false_negative": 206,
+      "false_positive": 7305,
+      "localization_error": 370,
+      "true_positive": 409
+    },
+    "real_only": {
+      "class_confusion": 1086,
+      "false_negative": 189,
+      "false_positive": 9995,
+      "localization_error": 426,
+      "true_positive": 426
+    },
+    "synthetic_only": {
+      "class_confusion": 1105,
+      "false_negative": 203,
+      "false_positive": 13105,
+      "localization_error": 523,
+      "true_positive": 412
+    }
+  },
+  "ignored_gallery_images_generated": 235,
+  "localization_band": "same-class IoU >=0.1 and <0.5",
+  "matching_iou": 0.5,
+  "schema_version": 1,
+  "selected_metadata_rows": 235,
+  "selection_is_deterministic": true
+}

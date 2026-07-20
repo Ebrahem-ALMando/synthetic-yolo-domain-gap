@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T05:44:00+03:00",
-  "repository_revision": "2c028b418d402799d0001725d36fe954f6bf0db3",
+  "updated_at": "2026-07-20T06:08:00+03:00",
+  "repository_revision": "d6fbeea0b779fa64be71ad2f7b5adeec948fd8d6",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -12,10 +12,10 @@
   "sprint6a_status": "complete_validated_committed_pushed",
   "sprint4b_intake_status": "complete_verified_committed_pushed",
   "sprint5_contract_status": "frozen_validated_committed_pushed",
-  "sprint5_evaluation_status": "technical_attempt_001_failed_retry_002_pending_same_contract",
+  "sprint5_evaluation_status": "complete_sealed_attempt_002_one_successful_campaign",
   "api_status": "not_implemented",
   "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
-  "report_status": "final_reports_not_started",
+  "report_status": "evaluation_and_error_analysis_complete_final_academic_reports_pending",
   "presentation_status": "not_started",
   "release_status": "not_started",
   "validation_status": "phase1_frontend_gate_passed_remaining_gates_pending",
@@ -41,6 +41,16 @@
       "revision": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
       "subject": "docs: freeze Sprint 5 final evaluation contract",
       "role": "mandatory pre-access Sprint 5 contract freeze"
+    },
+    {
+      "revision": "2c028b418d402799d0001725d36fe954f6bf0db3",
+      "subject": "feat: add locked Sprint 5 evaluation runner",
+      "role": "pre-access campaign implementation"
+    },
+    {
+      "revision": "d6fbeea0b779fa64be71ad2f7b5adeec948fd8d6",
+      "subject": "fix: preserve Sprint 5 technical retry audit",
+      "role": "attempt-001 audit and infrastructure-only category mapping fix"
     }
   ],
   "protected_test": {
@@ -55,8 +65,17 @@
         "completed_comparable_models": 0,
         "cause": "Ultralytics non-COCO predictions.json category IDs are one-based; serializer assumed zero-based",
         "partial_metrics_used_for_decisions": false
+      },
+      {
+        "attempt_id": "attempt-002",
+        "status": "completed_sealed",
+        "completed_comparable_models": 5,
+        "contract_changed": false,
+        "partial_metrics_used_for_decisions": false
       }
-    ]
+    ],
+    "successful_campaign_count": 1,
+    "model_evaluation_passes_in_successful_attempt": 5
   },
   "artifact_intake": {
     "directory": "artifacts/external_training/sprint4b-v2",
@@ -86,16 +105,33 @@
     "test_manifest_sha256": "02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52",
     "expected_test_images": 68,
     "checkpoint_hashes_verified": true,
-    "protected_pixels_read": false,
-    "protected_labels_read": false,
-    "test_metrics_observed": false
+    "protected_pixels_read": true,
+    "protected_labels_read": true,
+    "test_metrics_observed": true
+  },
+  "sprint5_results": {
+    "campaign_id": "sprint5-final-20260720-v1",
+    "successful_attempt": "attempt-002",
+    "recommended_model": "real_only",
+    "ranking": ["real_only", "real_50", "real_25", "real_75", "synthetic_only"],
+    "map50_95": {
+      "synthetic_only": 0.16893805202959689,
+      "real_25": 0.19150520623800993,
+      "real_50": 0.1981211331077883,
+      "real_75": 0.18287522797474243,
+      "real_only": 0.21192034568256807
+    },
+    "result_hashes_verified": 5,
+    "prediction_hashes_verified": 10,
+    "error_gallery_ignored_images": 235
   },
   "validation_evidence": {
     "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
     "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
-    "python_tests": "65_passed_before_campaign_retry_fix",
+    "python_tests": "67_passed_after_campaign_and_analysis",
+    "sprint5_output_validation": "passed_five_result_hashes_ten_prediction_hashes_ranking_and_schema",
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "validate_commit_push_json_category_fix_then_full_attempt_002"
+  "next_gate": "commit_push_sealed_results_then_implement_fastapi_backend"
 }

@@ -1,0 +1,16 @@
+regime,size,ground_truth_instances,classes_with_ground_truth,map50,map50_95,method
+synthetic_only,small,232,5,0.34546774834114286,0.08362552064226063,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+synthetic_only,medium,238,7,0.29799737714576846,0.1531556576762835,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+synthetic_only,large,145,7,0.3252522455265012,0.18888874693987304,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_25,small,232,5,0.21686335121726003,0.07086656090436141,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_25,medium,238,7,0.3106531951962805,0.14676250108712738,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_25,large,145,7,0.380479584784582,0.23774921982648536,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_50,small,232,5,0.19005198002361318,0.06780994530325632,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_50,medium,238,7,0.30707798581110474,0.16600785159614304,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_50,large,145,7,0.4026465401601773,0.2445699152840727,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_75,small,232,5,0.15705208803440668,0.06839238826900274,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_75,medium,238,7,0.3292488054001509,0.15534367983083658,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_75,large,145,7,0.386139503838724,0.21927758324554164,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_only,small,232,5,0.35305363741883306,0.10120914966841484,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_only,medium,238,7,0.3042541717431379,0.14700005098213295,101-point interpolated AP; class-aware matching within fixed GT-size stratum
+real_only,large,145,7,0.47952086007924644,0.2781491440850615,101-point interpolated AP; class-aware matching within fixed GT-size stratum

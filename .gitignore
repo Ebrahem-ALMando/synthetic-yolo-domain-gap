@@ -76,6 +76,9 @@ reports/synthetic_audit/**
 !reports/synthetic_audit/README.md
 reports/experiment_audit/**
 !reports/experiment_audit/README.md
+# Protected Sprint 5 gallery bitmaps remain local and untracked.
+reports/analysis/error_gallery/**
+!reports/analysis/error_gallery/.gitkeep
 
 # Notebook checkpoints and local scratch files
 .ipynb_checkpoints/

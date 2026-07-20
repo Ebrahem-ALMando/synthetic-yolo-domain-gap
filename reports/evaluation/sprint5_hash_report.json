@@ -1,0 +1,36 @@
+{
+  "campaign_id": "sprint5-final-20260720-v1",
+  "contract_sha256": "ef826f5eb104171039e3029b0600a091e8171a1ad6e9bd8d771b2bb5645c407c",
+  "model_results": {
+    "real_25": {
+      "checkpoint_sha256": "80b7f5c0176ede7369d1b63ded6108d989d097973f425f7f88b58ca151b160bb",
+      "prediction_sha256": "e8581def5f3e5b210fd59dc0e70fe890b58fab9d2afec720308a49755b700235",
+      "result_sha256": "665ea4ae01115126dbb9264f6b9f36757e41f2a3835b61d57d96b0e22fb54d27",
+      "ultralytics_prediction_sha256": "ef40c425db7c95a003d223dc997b68ef2aff834029fb1ad4f964142c03344e90"
+    },
+    "real_50": {
+      "checkpoint_sha256": "344b54a73576bff648b761ecc6f183b56e0869aa7ee0fea221299a07441a8103",
+      "prediction_sha256": "26beeb56cbc8ca2329b0a3ee4608a4d2c3be1ee2407a7f475cf4485baf5493ec",
+      "result_sha256": "338b7232cf8f5ea7dfe33178f4dacfd4dcc0380e69f50b830676f1b2217d3172",
+      "ultralytics_prediction_sha256": "94e7f21a8ce9e63e5bd80ea57817efe5b6ffb5c01e5ed6603acf6d61f9c433ab"
+    },
+    "real_75": {
+      "checkpoint_sha256": "850b4a80ae55e41bb4c89df9cf6d0e03a3a7a575ee9c50bb6fd1721932190a20",
+      "prediction_sha256": "9c06de4fdb9c17ff8a755db204c2d461c31edf8f658b4f055af4e8d8963213ed",
+      "result_sha256": "82d652460607d006466f5e6eb8e43688d33eccd54d3cd40d1c5c4cc91b64c445",
+      "ultralytics_prediction_sha256": "71f09639744818af2b6f6366951651f038b87cbc2b269a18d88edb1a22c541ad"
+    },
+    "real_only": {
+      "checkpoint_sha256": "105fcd1d5e83d6b4a73b1cdcd8f2d142e74eb5db832d3edb188555d1f83586f0",
+      "prediction_sha256": "958f84aae7c3db08e7adbda24c7b2d5be53a3d5429d9a2a47d21ab142f9b68fb",
+      "result_sha256": "44b463380d3395dac53c1aef18dfc04f5ce3e2858e4c42e7dce1b25abb43b94d",
+      "ultralytics_prediction_sha256": "2865fd227d6adec43e1204ba38a5d69b9e6f1e2f749bc9a2520b7bf209dd15a7"
+    },
+    "synthetic_only": {
+      "checkpoint_sha256": "47bf4b24ff3dbf098475a90414f3bd06587016e0261d215c0f706c3a956d0172",
+      "prediction_sha256": "26a19392d11a391d2791563d9d777223fd7eddcc1c571138f6e8b3204975036f",
+      "result_sha256": "894709b08721e893989433972a8e3e99423eebce33a16cb007b93ad6f45210bc",
+      "ultralytics_prediction_sha256": "abb1b069c17c2f07d0e789cbd957f2fba72ef71cc80c66b3091333cad506a497"
+    }
+  }
+}
