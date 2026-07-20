@@ -46,6 +46,14 @@ pixel/normalized boxes and optional annotated PNG data, and never accepts or exp
 paths. The API suite passes and a real `real_only` CPU request using a generated non-test 96×64 PNG
 returned HTTP 200 with an annotated result.
 
+Sprint 6B dashboard integration status: `verified_results_and_inference_integrated`. Repository
+mode now derives all training, final evaluation, ranking, per-class, object-size, latency, campaign,
+hash-audit, report, and deterministic error metadata from tracked sealed outputs. API mode requests
+and identity-checks the live FastAPI metadata without fallback; demo mode remains visibly labelled.
+The inference laboratory sends external uploads to FastAPI, defaults to `real_only`, supports all
+five models and bounded thresholds, and displays original/annotated images, detections, timing, JSON,
+and download output. No protected pixels or weights are present in frontend assets.
+
 ## Frozen input contract
 
 - Active Aquarium Split V2: 427 train, 140 validation, 68 test.
@@ -88,13 +96,13 @@ machine's CPU run times do not predict final GPU run times or scientific perform
 Generated datasets, caches, pretrained/smoke/final weights, returned archives, extracted runs, smoke
 outputs, and audits remain ignored.
 Versioned manifests, configuration, environment evidence, and documentation are protocol artifacts.
-All five full final training experiments now exist and are verified, but no protected-test inference,
-final evaluation, final ranking, or operational API exists. The tracked Sprint 4B intake report is
-`reports/training/sprint4b_v2_intake_report.md`. The Sprint 6A dashboard foundation still displays
-repository metadata and explicit pending/demo states until verified-result integration.
+All five full final training experiments are verified. The single successful protected-test campaign,
+preregistered final ranking, deterministic error analysis, operational FastAPI service, and verified
+Arabic dashboard integration now exist. The tracked Sprint 4B intake report is
+`reports/training/sprint4b_v2_intake_report.md`; final campaign evidence is under
+`reports/evaluation/` and tracked error metadata under `reports/analysis/`.
 
 ## Next gate
 
-Commit and push the validated FastAPI service without weights. Then export the sealed training,
-evaluation, ranking, class, size, latency, campaign, and hash records into the repository dashboard
-mode and connect the inference laboratory to the API with no silent demo fallback.
+Complete the academic report set, presentation and defense assets, portable local-demo packaging,
+then run the full cross-layer acceptance matrix and final Git synchronization.

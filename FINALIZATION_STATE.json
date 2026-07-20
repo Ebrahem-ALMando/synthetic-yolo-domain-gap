@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T06:34:00+03:00",
-  "repository_revision": "c563f6200d3ada1e00b50f3ed43cba2f5ba26c98",
+  "updated_at": "2026-07-20T05:28:06+03:00",
+  "repository_revision": "481f304174194c4dad477a1fea130cab02feee00",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -14,11 +14,11 @@
   "sprint5_contract_status": "frozen_validated_committed_pushed",
   "sprint5_evaluation_status": "complete_sealed_attempt_002_one_successful_campaign",
   "api_status": "implemented_validated_lazy_five_model_registry_real_inference_smoke_passed",
-  "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
+  "dashboard_integration_status": "verified_repository_api_demo_modes_and_real_inference_integrated_validated_pending_commit",
   "report_status": "evaluation_and_error_analysis_complete_final_academic_reports_pending",
   "presentation_status": "not_started",
   "release_status": "not_started",
-  "validation_status": "phase1_frontend_gate_passed_remaining_gates_pending",
+  "validation_status": "dashboard_snapshot_typecheck_eslint_tests_build_api_mode_and_65_viewport_route_audits_passed_remaining_gates_pending",
   "project_status": "finalization_in_progress",
   "current_blockers": [],
   "completed_commits": [
@@ -56,6 +56,11 @@
       "revision": "c563f6200d3ada1e00b50f3ed43cba2f5ba26c98",
       "subject": "feat: complete locked Sprint 5 evaluation and analysis",
       "role": "sealed final results and deterministic error analysis"
+    },
+    {
+      "revision": "481f304174194c4dad477a1fea130cab02feee00",
+      "subject": "feat: add FastAPI model inference service",
+      "role": "validated lazy inference and scientific metadata API"
     }
   ],
   "protected_test": {
@@ -131,13 +136,13 @@
     "error_gallery_ignored_images": 235
   },
   "validation_evidence": {
-    "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
-    "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
+    "frontend_validate": "passed_sealed_snapshot_typecheck_eslint_7_tests_repository_and_api_builds_15_routes",
+    "browser_responsive": "passed_post_integration_13_routes_x_5_viewports_65_screenshots_no_overflow_console_or_page_errors",
     "python_tests": "71_passed_with_api_suite",
     "api_validation": "passed_registry_upload_mime_size_protected_hash_openapi_and_real_non_test_inference",
     "sprint5_output_validation": "passed_five_result_hashes_ten_prediction_hashes_ranking_and_schema",
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "commit_push_fastapi_backend_then_integrate_verified_dashboard_data"
+  "next_gate": "commit_push_dashboard_integration_then_create_final_reports_presentation_and_demo_package"
 }

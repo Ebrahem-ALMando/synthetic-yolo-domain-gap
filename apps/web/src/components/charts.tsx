@@ -6,6 +6,8 @@ import {
   CartesianGrid,
   Cell,
   Legend,
+  Line,
+  LineChart,
   Pie,
   PieChart,
   Radar,
@@ -41,4 +43,12 @@ export function ObjectSizeChart({ sizes }: { sizes: Record<string, number> }) {
 export function DemoMetricCharts({ snapshot }: { snapshot: ProjectSnapshot }) {
   const data = snapshot.demoMetrics ?? [];
   return <div className="grid gap-4 xl:grid-cols-2"><div className="h-72"><ResponsiveContainer width="100%" height="100%"><BarChart data={data}><CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.25} /><XAxis dataKey="regime" tick={{ fontSize: 11 }} /><YAxis orientation="right" domain={[0, 1]} /><Tooltip contentStyle={tooltipStyle} formatter={(value) => Number(value).toFixed(3)} /><Legend /><Bar dataKey="precision" name="Precision" fill="#2563EB" radius={[5, 5, 0, 0]} /><Bar dataKey="recall" name="Recall" fill="#06B6D4" radius={[5, 5, 0, 0]} /></BarChart></ResponsiveContainer></div><div className="h-72"><ResponsiveContainer width="100%" height="100%"><RadarChart data={data}><PolarGrid /><PolarAngleAxis dataKey="regime" tick={{ fontSize: 11 }} /><Radar name="mAP@50" dataKey="map50" stroke="#2563EB" fill="#2563EB" fillOpacity={0.25} /><Radar name="mAP@50–95" dataKey="map5095" stroke="#06B6D4" fill="#06B6D4" fillOpacity={0.18} /><Legend /><Tooltip contentStyle={tooltipStyle} /></RadarChart></ResponsiveContainer></div></div>;
+}
+
+export function FinalMetricCharts({ snapshot }: { snapshot: ProjectSnapshot }) {
+  const ranking = snapshot.scientificResults.ranking.map((row) => ({
+    ...row,
+    name: snapshot.experiments.find((regime) => regime.id === row.regime)?.nameAr ?? row.regime,
+  }));
+  return <div className="grid gap-4 xl:grid-cols-2"><div className="h-80"><ResponsiveContainer width="100%" height="100%"><BarChart data={ranking}><CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.25} /><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis orientation="right" domain={[0, .7]} /><Tooltip contentStyle={tooltipStyle} formatter={(value) => Number(value).toFixed(4)} /><Legend /><Bar dataKey="precision" name="Precision" fill="#2563EB" radius={[5, 5, 0, 0]} /><Bar dataKey="recall" name="Recall" fill="#06B6D4" radius={[5, 5, 0, 0]} /><Bar dataKey="map5095" name="mAP@50–95" fill="#10B981" radius={[5, 5, 0, 0]} /></BarChart></ResponsiveContainer></div><div className="h-80"><ResponsiveContainer width="100%" height="100%"><LineChart data={snapshot.scientificResults.domainGap}><CartesianGrid strokeDasharray="3 3" opacity={0.25} /><XAxis dataKey="realPercentage" tickFormatter={(value) => `${Number(value).toFixed(0)}%`} /><YAxis orientation="right" domain={[.15, .23]} /><Tooltip contentStyle={tooltipStyle} formatter={(value) => Number(value).toFixed(5)} labelFormatter={(value) => `${Number(value).toFixed(1)}% بيانات حقيقية`} /><Line type="monotone" dataKey="map5095" name="mAP@50–95" stroke="#2563EB" strokeWidth={3} dot={{ r: 5 }} /></LineChart></ResponsiveContainer></div></div>;
 }

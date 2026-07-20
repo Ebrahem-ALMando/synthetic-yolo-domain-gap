@@ -1,4 +1,5 @@
 import { demoSnapshot } from "@/src/data/demo";
+import { getApiProjectSnapshot } from "@/src/data/api";
 import { repositorySnapshot } from "@/src/data/repository";
 import type { DataMode, ProjectSnapshot } from "@/src/types/domain";
 
@@ -12,4 +13,9 @@ export function getProjectSnapshot(mode = resolveDataMode()): ProjectSnapshot {
   if (mode === "repository") return repositorySnapshot;
   if (mode === "demo") return demoSnapshot;
   throw new Error("وضع API يتطلب نقطة نهاية صريحة؛ لا يوجد رجوع تلقائي إلى بيانات تجريبية.");
+}
+
+export async function loadProjectSnapshot(mode = resolveDataMode()): Promise<ProjectSnapshot> {
+  if (mode === "api") return getApiProjectSnapshot();
+  return getProjectSnapshot(mode);
 }

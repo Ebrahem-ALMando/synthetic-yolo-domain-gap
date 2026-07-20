@@ -1,6 +1,7 @@
 import { DashboardPage } from "@/src/components/dashboard-pages";
-import { getProjectSnapshot, resolveDataMode } from "@/src/data/adapter";
+import { loadProjectSnapshot, resolveDataMode } from "@/src/data/adapter";
 
-export function RepositoryRoute({ path }: { path: string }) {
-  return <DashboardPage snapshot={getProjectSnapshot(resolveDataMode())} path={path} />;
+export async function RepositoryRoute({ path }: { path: string }) {
+  const snapshot = await loadProjectSnapshot(resolveDataMode());
+  return <DashboardPage snapshot={snapshot} path={path} />;
 }

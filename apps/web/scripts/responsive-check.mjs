@@ -43,8 +43,12 @@ try {
         if (message.type() === "error") consoleErrors.push(message.text());
       });
       page.on("pageerror", (error) => pageErrors.push(error.message));
-      const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle0" });
-      await page.waitForSelector("main");
+      const response = await page.goto(`${baseUrl}${route}`, {
+        waitUntil: "domcontentloaded",
+        timeout: 30_000,
+      });
+      await page.waitForSelector("main", { timeout: 10_000 });
+      await new Promise((resolve) => setTimeout(resolve, 250));
 
       let mobileNavigationOpened = true;
       let themeToggled = true;

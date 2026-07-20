@@ -77,11 +77,11 @@ and pushed. A failed independent task does not stop work that cannot affect that
 
 ## Phase 7 — Verified dashboard integration
 
-- [ ] Export verified repository metadata and implement strict repository/demo/API modes with no
+- [x] Export verified repository metadata and implement strict repository/demo/API modes with no
   silent fallback or unlabelled fabricated final values.
-- [ ] Integrate training, evaluation, ranking, class/size/latency, analysis, identities, hashes,
+- [x] Integrate training, evaluation, ranking, class/size/latency, analysis, identities, hashes,
   campaign audit, recommendation, reports, and model availability.
-- [ ] Connect the inference laboratory to FastAPI with upload, controls, overlay, table, JSON,
+- [x] Connect the inference laboratory to FastAPI with upload, controls, overlay, table, JSON,
   annotated output, download, and complete states.
 
 ## Phase 8 — Product polish
