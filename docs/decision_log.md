@@ -181,3 +181,20 @@
   archive, extracted checkpoints, and raw run products as ignored local artifacts.
 - Publish only machine-derived validation summaries labelled `NON-FINAL — VALIDATION SET ONLY`.
   Do not name a validation leader as the final winner; Sprint 5 contract freeze remains next.
+
+## 2026-07-20 — Sprint 5 protected-test preregistration
+
+- Freeze campaign `sprint5-final-20260720-v1` before reading any protected image, label, prediction,
+  or metric. Bind it to Split V2 manifest SHA-256
+  `02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52`, 68 images, and the five
+  verified `best.pt` hashes.
+- Use one shared Ultralytics 8.4.101 configuration: 640 pixels, confidence floor 0.001, IoU 0.70,
+  class-aware NMS, 300 maximum detections, float32, no augmented inference, and seed 42.
+- Fix CPU, batch 4, and workers 0 for the documented local CPU-only PyTorch environment. This is a
+  pre-access portability/memory decision applied identically to all five models, not a test-driven
+  scientific change from the training protocol.
+- Rank by test mAP@50-95, then mAP@50, macro per-class AP@50-95, Recall, latency, and checkpoint size.
+  Authorize only one complete successful campaign; permit only complete unchanged retries after a
+  recorded technical failure.
+- Preserve the dataset-audit object-size thresholds: small below 1,024 px², medium 1,024–9,216 px²,
+  and large at least 9,216 px². Record the four-image Penguin test limitation in every interpretation.

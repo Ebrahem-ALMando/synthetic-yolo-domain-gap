@@ -1,0 +1,165 @@
+{
+  "campaign": {
+    "alternative_threshold_runs_forbidden": true,
+    "exact_command": "python scripts/run_sprint5_evaluation.py --contract configs/evaluation/sprint5_final.yaml",
+    "expected_complete_models": 5,
+    "maximum_successful_campaigns": 1,
+    "output_root": "artifacts/evaluation/sprint5-final-20260720-v1",
+    "partial_results_must_not_drive_changes": true,
+    "retry_policy": "complete_five_model_retry_only_after_recorded_technical_execution_failure"
+  },
+  "campaign_id": "sprint5-final-20260720-v1",
+  "checkpoints": {
+    "real_25": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_25/ultralytics/weights/best.pt",
+      "sha256": "80b7f5c0176ede7369d1b63ded6108d989d097973f425f7f88b58ca151b160bb"
+    },
+    "real_50": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_50/ultralytics/weights/best.pt",
+      "sha256": "344b54a73576bff648b761ecc6f183b56e0869aa7ee0fea221299a07441a8103"
+    },
+    "real_75": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_75/ultralytics/weights/best.pt",
+      "sha256": "850b4a80ae55e41bb4c89df9cf6d0e03a3a7a575ee9c50bb6fd1721932190a20"
+    },
+    "real_only": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_only/ultralytics/weights/best.pt",
+      "sha256": "105fcd1d5e83d6b4a73b1cdcd8f2d142e74eb5db832d3edb188555d1f83586f0"
+    },
+    "synthetic_only": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/synthetic_only/ultralytics/weights/best.pt",
+      "sha256": "47bf4b24ff3dbf098475a90414f3bd06587016e0261d215c0f706c3a956d0172"
+    }
+  },
+  "class_names": [
+    "fish",
+    "jellyfish",
+    "penguin",
+    "puffin",
+    "shark",
+    "starfish",
+    "stingray"
+  ],
+  "contract_source_revision": "05c4fe3d043944580c679f80425a5ba13330763c",
+  "contract_yaml_path": "configs/evaluation/sprint5_final.yaml",
+  "contract_yaml_sha256": "ef826f5eb104171039e3029b0600a091e8171a1ad6e9bd8d771b2bb5645c407c",
+  "evaluation": {
+    "agnostic_nms": false,
+    "augment": false,
+    "batch": 4,
+    "confidence_policy": "frozen_training_validation_floor_for_full_pr_curve_and_ap_integration",
+    "confidence_threshold": 0.001,
+    "deterministic": true,
+    "device": "cpu",
+    "device_policy": "fixed_cpu_for_documented_cpu_only_pytorch_environment",
+    "half_precision": false,
+    "image_size": 640,
+    "iou_threshold": 0.7,
+    "max_detections": 300,
+    "nms_policy": "class_aware_standard_ultralytics_nms",
+    "plots": true,
+    "precision_policy": "float32_no_amp",
+    "rectangular_batches": true,
+    "save_confidence": true,
+    "save_json": true,
+    "save_txt": true,
+    "seed": 42,
+    "single_class": false,
+    "split": "test",
+    "worker_policy": "zero_workers_for_windows_portability_and_deterministic_file_order",
+    "workers": 0
+  },
+  "latency": {
+    "components": [
+      "preprocess",
+      "inference",
+      "postprocess"
+    ],
+    "device_scope": "cpu_only_for_all_five_models",
+    "model_load_excluded": true,
+    "protected_images_repeated_for_latency": false,
+    "source": "ultralytics_validation_speed",
+    "throughput_formula": "1000_divided_by_total_latency_ms",
+    "unit": "milliseconds_per_image",
+    "warmup": "framework_synthetic_tensor_only"
+  },
+  "object_size_policy": {
+    "area_definition": "bounding_box_width_times_height",
+    "coordinate_space": "original_image_pixels",
+    "large": {
+      "minimum_area_px_inclusive": 9216
+    },
+    "medium": {
+      "maximum_area_px_exclusive": 9216,
+      "minimum_area_px_inclusive": 1024
+    },
+    "small": {
+      "maximum_area_px_exclusive": 1024,
+      "minimum_area_px": 0
+    }
+  },
+  "output_schema": {
+    "required_model_metrics": [
+      "precision",
+      "recall",
+      "map50",
+      "map50_95",
+      "per_class_precision",
+      "per_class_recall",
+      "per_class_ap50",
+      "per_class_ap50_95",
+      "object_size_metrics",
+      "confusion_matrix",
+      "normalized_confusion_matrix",
+      "precision_recall_curve",
+      "f1_confidence_curve",
+      "precision_confidence_curve",
+      "recall_confidence_curve",
+      "per_image_predictions",
+      "latency",
+      "throughput",
+      "checkpoint_size",
+      "parameter_count",
+      "flops_when_available",
+      "metadata",
+      "prediction_sha256",
+      "result_sha256"
+    ],
+    "version": "synthdet-sprint5-results-v1"
+  },
+  "pre_access_validation": {
+    "checkpoint_hashes_verified": true,
+    "manifest_hash_verified": true,
+    "protected_image_pixels_read": false,
+    "protected_labels_read": false,
+    "split_metadata_verified": true,
+    "test_metrics_observed": false
+  },
+  "ranking": {
+    "checkpoint_size_direction": "ascending",
+    "direction": "descending",
+    "latency_direction": "ascending",
+    "no_validation_only_winner": true,
+    "primary_metric": "map50_95",
+    "tie_breakers": [
+      "map50",
+      "macro_per_class_ap50_95",
+      "recall",
+      "latency_ms",
+      "checkpoint_size_bytes"
+    ]
+  },
+  "real_split_identity": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+  "runtime": {
+    "evaluator": "ultralytics.YOLO.val",
+    "evaluator_contract_version": "synthdet-evaluator-v1",
+    "python": "3.11.9",
+    "pytorch": "2.13.0+cpu",
+    "ultralytics": "8.4.101"
+  },
+  "schema_version": 1,
+  "test_image_count": 68,
+  "test_manifest_path": "manifests/aquarium/v2/real_test.csv",
+  "test_manifest_sha256": "02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52",
+  "training_identity": "a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb"
+}

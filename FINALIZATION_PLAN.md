@@ -31,16 +31,17 @@ and pushed. A failed independent task does not stop work that cannot affect that
 - [x] Validate exactly five completed regimes, shared frozen profile/configuration, zero training test
   access, result CSV integrity, checkpoint hashes, loadability, YOLO11n architecture, and class order.
 - [x] Generate tracked validation-only intake reports clearly marked non-final.
-- [ ] Update factual project state/documentation; validate, commit, and push without weights/archive.
-  (Documentation updated; validation/commit/push pending.)
+- [x] Update factual project state/documentation; validate, commit, and push without weights/archive
+  (`05c4fe3`).
 
 ## Phase 3 — Freeze Sprint 5 evaluation contract
 
-- [ ] Derive one shared evaluation configuration from frozen repository protocols and installed
+- [x] Derive one shared evaluation configuration from frozen repository protocols and installed
   environment; record manifest/checkpoint hashes, policies, schema, ranking, latency, and campaign ID.
-- [ ] Create and validate `configs/evaluation/sprint5_final.yaml`, input contract JSON, evaluator,
+- [x] Create and validate `configs/evaluation/sprint5_final.yaml`, input contract JSON, evaluator,
   and `docs/evaluation_protocol.md` without reading test metrics or image pixels.
-- [ ] Commit and push the contract; verify local HEAD equals `origin/main`.
+- [ ] Commit and push the contract; verify local HEAD equals `origin/main`. (Contract validated;
+  commit/push pending.)
 
 ## Phase 4 — One locked protected-test campaign
 
