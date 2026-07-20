@@ -7,7 +7,7 @@ import type { ScientificStatus } from "@/src/types/domain";
 import { cn, formatNumber } from "@/src/lib/utils";
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-2xl border bg-card text-card-foreground shadow-soft", className)} {...props} />;
+  return <div className={cn("min-w-0 rounded-2xl border bg-card text-card-foreground shadow-soft", className)} {...props} />;
 }
 
 export function Button({ asChild, variant = "primary", className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean; variant?: "primary" | "secondary" | "ghost" | "outline" | "danger" }) {
@@ -91,8 +91,8 @@ export function TechnicalValue({ value, copy = true, className }: { value: strin
     window.setTimeout(() => setCopied(false), 1400);
   }
   return (
-    <span className={cn("inline-flex max-w-full items-center gap-2 rounded-lg bg-muted px-2.5 py-1.5 text-xs", className)}>
-      <bdi dir="ltr" className="technical-ltr truncate" title={value}>{value}</bdi>
+    <span className={cn("inline-flex min-w-0 max-w-full items-center gap-2 rounded-lg bg-muted px-2.5 py-1.5 text-xs", className)}>
+      <bdi dir="ltr" className="technical-ltr min-w-0 flex-1 truncate" title={value}>{value}</bdi>
       {copy && <button onClick={handleCopy} aria-label={copied ? "تم النسخ" : "نسخ القيمة"} className="shrink-0 text-muted-foreground hover:text-primary">{copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}</button>}
     </span>
   );
@@ -121,5 +121,5 @@ export function RegimeCompositionBar({ real, synthetic, label = true }: { real: 
 }
 
 export function IdentityCard({ title, value, status = "frozen" }: { title: string; value: string; status?: ScientificStatus }) {
-  return <Card className="p-4"><div className="mb-3 flex items-center justify-between"><h3 className="text-sm font-bold">{title}</h3><StatusBadge status={status} /></div><TechnicalValue value={value} className="w-full justify-between" /></Card>;
+  return <Card className="overflow-hidden p-4"><div className="mb-3 flex min-w-0 flex-wrap items-center justify-between gap-2"><h3 className="text-sm font-bold">{title}</h3><StatusBadge status={status} /></div><TechnicalValue value={value} className="w-full justify-between" /></Card>;
 }

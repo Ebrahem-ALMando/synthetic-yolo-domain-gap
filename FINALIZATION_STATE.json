@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-07-20T04:01:39+03:00",
+  "repository_revision": "93fe2d249c0ebd4f02fb819a2b017977b10f58b5",
+  "branch": "main",
+  "upstream": "origin/main",
+  "git_synchronization": {
+    "ahead": 0,
+    "behind": 0,
+    "tracked_worktree_clean_at_recovery": true
+  },
+  "sprint6a_status": "validated_pending_phase_commit_and_push",
+  "sprint4b_intake_status": "required_files_located_validation_not_started",
+  "sprint5_contract_status": "not_created_protected_test_access_forbidden",
+  "sprint5_evaluation_status": "not_started_authorized_test_access_count_0",
+  "api_status": "not_implemented",
+  "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
+  "report_status": "final_reports_not_started",
+  "presentation_status": "not_started",
+  "release_status": "not_started",
+  "validation_status": "phase1_frontend_gate_passed_remaining_gates_pending",
+  "project_status": "finalization_in_progress",
+  "current_blockers": [],
+  "completed_commits": [
+    {
+      "revision": "93fe2d249c0ebd4f02fb819a2b017977b10f58b5",
+      "subject": "feat: implement dashboard data adapter and demo data handling",
+      "role": "existing Sprint 6A implementation recovered"
+    }
+  ],
+  "protected_test": {
+    "expected_image_count": 68,
+    "access_authorized_only_after_contract_commit": true,
+    "authorized_campaign_started": false,
+    "recorded_access_count": 0
+  },
+  "artifact_intake": {
+    "directory": "artifacts/external_training/sprint4b-v2",
+    "required_files_located": true,
+    "archive_validated": false,
+    "checkpoints_loaded": false,
+    "extracted_directory_created": false
+  },
+  "validation_evidence": {
+    "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
+    "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
+    "python_tests": "54_passed",
+    "ruff": "passed",
+    "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
+  },
+  "next_gate": "commit_and_push_sprint6a_then_validate_sprint4b_artifacts"
+}

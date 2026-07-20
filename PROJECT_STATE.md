@@ -2,13 +2,18 @@
 
 Last updated: 2026-07-20
 
-Sprint 6A dashboard status: `sprint6a_dashboard_foundation_implemented`. An isolated Arabic-first
+Sprint 6A dashboard status: `sprint6a_dashboard_foundation_validated`. An isolated Arabic-first
 Next.js application now exists under `apps/web` with strict repository metadata, all planned
 routes, RTL light/dark design, locked scientific results, labelled demo fixtures, snapshot
 export/validation, tests, and a production build. The official brand component targets
 `public/brand/synthdet-logo.png`; the supplied 2024 x 2024 bitmap is preserved unchanged there.
-Sprint 6 is not complete; API,
-result-archive, model-registry, and real inference integrations remain Sprint 6B.
+The final Sprint 6A gate passed snapshot validation, strict TypeScript, ESLint, seven frontend unit
+tests, production generation of all 15 Next.js routes, 54 Python tests, Ruff, and a headless-Chrome
+audit of 13 primary routes at 390, 768, 1024, 1280, and 1440 pixels. That audit verifies HTTP
+responses, RTL/language, unintended overflow, logo loading, mobile navigation, theme switching,
+and browser console/page errors; its 65 ignored review screenshots were inspected on representative
+mobile and desktop pages. Sprint 6 is not complete; API, verified-result, model-registry, and real
+inference integrations remain Sprint 6B.
 
 Sprint 4B handoff status: `replacement_bundle_v2_required`. The notebook resolves the expected
 revision from generated bundle inventory instead of a self-referential committed hash. The prior
