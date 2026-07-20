@@ -26,11 +26,12 @@ access remained zero. Validation comparisons are explicitly non-final and do not
 
 ## Current sprint
 
-Sprint 5 — the final evaluation contract is frozen at commit `3af03c7`. The locked campaign runner,
-preflight integrity/leakage checks, deterministic size-stratified evaluator, sealed result writer,
-and preregistered ranking implementation are ready for their own source commit before the first
-authorized protected-test access. No protected image pixel, label, prediction, or metric has been
-read yet.
+Sprint 5 — the final evaluation contract is frozen at commit `3af03c7`. Authorized campaign
+`sprint5-final-20260720-v1` began from synchronized revision `2c028b4`. Its 68-image integrity and
+leakage preflight passed, but technical attempt `attempt-001` stopped after the first model because
+Ultralytics emitted one-based non-COCO JSON category IDs and the result serializer expected
+zero-based IDs. The failure lock is preserved, partial metrics are barred from decisions, and the
+five-model unchanged `attempt-002` retry is pending the reviewed infrastructure-only fix.
 
 ## Frozen input contract
 
@@ -81,6 +82,6 @@ repository metadata and explicit pending/demo states until verified-result integ
 
 ## Next gate
 
-Commit and push the reviewed Sprint 5 campaign implementation, reverify a clean synchronized
-revision, and then execute the exact frozen command once. The campaign must evaluate all five
-`best.pt` files under the common contract before any ranking or error analysis is used.
+Validate, commit, and push the one-based JSON category normalization and preserved-attempt retry
+logic. Then rerun all five `best.pt` files as `attempt-002` using the unchanged frozen command and
+configuration; no partial result may influence ranking or error analysis.

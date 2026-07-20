@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T05:19:00+03:00",
-  "repository_revision": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
+  "updated_at": "2026-07-20T05:44:00+03:00",
+  "repository_revision": "2c028b418d402799d0001725d36fe954f6bf0db3",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -12,7 +12,7 @@
   "sprint6a_status": "complete_validated_committed_pushed",
   "sprint4b_intake_status": "complete_verified_committed_pushed",
   "sprint5_contract_status": "frozen_validated_committed_pushed",
-  "sprint5_evaluation_status": "runner_validated_pending_source_commit_authorized_test_access_count_0",
+  "sprint5_evaluation_status": "technical_attempt_001_failed_retry_002_pending_same_contract",
   "api_status": "not_implemented",
   "dashboard_integration_status": "foundation_repository_metadata_only_final_results_locked",
   "report_status": "final_reports_not_started",
@@ -46,8 +46,17 @@
   "protected_test": {
     "expected_image_count": 68,
     "access_authorized_only_after_contract_commit": true,
-    "authorized_campaign_started": false,
-    "recorded_access_count": 0
+    "authorized_campaign_started": true,
+    "recorded_access_count": 1,
+    "attempts": [
+      {
+        "attempt_id": "attempt-001",
+        "status": "failed_technical_attempt",
+        "completed_comparable_models": 0,
+        "cause": "Ultralytics non-COCO predictions.json category IDs are one-based; serializer assumed zero-based",
+        "partial_metrics_used_for_decisions": false
+      }
+    ]
   },
   "artifact_intake": {
     "directory": "artifacts/external_training/sprint4b-v2",
@@ -84,9 +93,9 @@
   "validation_evidence": {
     "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
     "browser_responsive": "passed_13_routes_x_5_viewports_65_screenshots",
-    "python_tests": "65_passed",
+    "python_tests": "65_passed_before_campaign_retry_fix",
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "commit_push_runner_then_execute_locked_campaign"
+  "next_gate": "validate_commit_push_json_category_fix_then_full_attempt_002"
 }

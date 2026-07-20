@@ -7,6 +7,7 @@ import pytest
 from PIL import Image
 
 from synthdet.evaluation.campaign import (
+    _normalize_ultralytics_predictions,
     calculate_object_size_metrics,
     rank_models,
     validate_manifest_files,
@@ -119,3 +120,10 @@ def test_object_size_metrics_and_predeclared_ranking() -> None:
     ranking = rank_models([result("real_only", 0.7), result("synthetic_only", 0.8)])
     assert ranking[0]["regime"] == "synthetic_only"
     assert ranking[0]["recommended"] is True
+
+
+def test_ultralytics_one_based_json_categories_are_normalized() -> None:
+    predictions = [{"category_id": 1}, {"category_id": 7}]
+    normalized = _normalize_ultralytics_predictions(predictions, 7)
+    assert [row["category_id"] for row in normalized] == [0, 6]
+    assert [row["ultralytics_category_id"] for row in normalized] == [1, 7]

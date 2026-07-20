@@ -1,0 +1,95 @@
+{
+  "attempt_id": "attempt-001",
+  "authorized_test_access": {
+    "campaign_count": 1,
+    "model_evaluation_passes_expected": 5,
+    "preflight_images_read": 68
+  },
+  "branch": "main",
+  "campaign_id": "sprint5-final-20260720-v1",
+  "checkpoints": {
+    "real_25": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_25/ultralytics/weights/best.pt",
+      "sha256": "80b7f5c0176ede7369d1b63ded6108d989d097973f425f7f88b58ca151b160bb"
+    },
+    "real_50": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_50/ultralytics/weights/best.pt",
+      "sha256": "344b54a73576bff648b761ecc6f183b56e0869aa7ee0fea221299a07441a8103"
+    },
+    "real_75": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_75/ultralytics/weights/best.pt",
+      "sha256": "850b4a80ae55e41bb4c89df9cf6d0e03a3a7a575ee9c50bb6fd1721932190a20"
+    },
+    "real_only": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/real_only/ultralytics/weights/best.pt",
+      "sha256": "105fcd1d5e83d6b4a73b1cdcd8f2d142e74eb5db832d3edb188555d1f83586f0"
+    },
+    "synthetic_only": {
+      "path": "artifacts/external_training/sprint4b-v2/extracted/runs/synthetic_only/ultralytics/weights/best.pt",
+      "sha256": "47bf4b24ff3dbf098475a90414f3bd06587016e0261d215c0f706c3a956d0172"
+    }
+  },
+  "completed_models": [],
+  "contract_commit": "3af03c73caa7e3cb169dbb7887ca5cb9cdce9cda",
+  "contract_path": "configs/evaluation/sprint5_final.yaml",
+  "contract_sha256": "ef826f5eb104171039e3029b0600a091e8171a1ad6e9bd8d771b2bb5645c407c",
+  "end_timestamp_utc": "2026-07-20T01:37:32.686098Z",
+  "environment": {
+    "evaluator": "ultralytics.YOLO.val",
+    "evaluator_contract_version": "synthdet-evaluator-v1",
+    "python": "3.11.9",
+    "pytorch": "2.13.0+cpu",
+    "ultralytics": "8.4.101"
+  },
+  "exact_command": "python scripts/run_sprint5_evaluation.py --contract configs/evaluation/sprint5_final.yaml",
+  "execution_revision": "2c028b418d402799d0001725d36fe954f6bf0db3",
+  "expected_models": [
+    "synthetic_only",
+    "real_25",
+    "real_50",
+    "real_75",
+    "real_only"
+  ],
+  "expected_output_root": "artifacts/evaluation/sprint5-final-20260720-v1",
+  "expected_outputs": [
+    "reports/evaluation/final_test_metrics.csv",
+    "reports/evaluation/final_test_metrics.json",
+    "reports/evaluation/final_model_ranking.csv",
+    "reports/evaluation/final_model_ranking.md",
+    "reports/evaluation/per_class_metrics.csv",
+    "reports/evaluation/object_size_metrics.csv",
+    "reports/evaluation/latency_metrics.csv",
+    "reports/evaluation/domain_gap_analysis.csv",
+    "reports/evaluation/sprint5_final_report.md",
+    "reports/evaluation/sprint5_hash_report.json",
+    "reports/evaluation/sprint5_environment.json"
+  ],
+  "failure_message": "list index out of range",
+  "failure_type": "IndexError",
+  "origin_main_revision": "2c028b418d402799d0001725d36fe954f6bf0db3",
+  "partial_metrics_for_tuning_forbidden": true,
+  "schema_version": 1,
+  "split_preflight": {
+    "counts": {
+      "test": 68,
+      "train": 427,
+      "val": 140
+    },
+    "image_decode_verified": 68,
+    "image_hashes_verified": 68,
+    "label_files_verified": 68,
+    "path_hash_source_group_leakage": 0,
+    "status": "passed"
+  },
+  "start_timestamp_utc": "2026-07-20T01:37:21.671175Z",
+  "status": "failed_technical_attempt",
+  "test_identity": {
+    "access_count_before_campaign": 0,
+    "authorized_access_campaign_id": "sprint5-final-20260720-v1",
+    "expected_image_count": 68,
+    "manifest_path": "manifests/aquarium/v2/real_test.csv",
+    "manifest_sha256": "02e133b93f840ef95044c75e3bab0a6fec19f62ac1d708993aab536747952c52",
+    "penguin_image_count": 4,
+    "real_split_identity": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7"
+  }
+}

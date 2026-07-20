@@ -53,6 +53,9 @@ and pushed. A failed independent task does not stop work that cannot affect that
 - [ ] Create the campaign lock and execute one complete comparable five-model campaign.
 - [ ] On infrastructure failure only, preserve the attempt log and rerun all five unchanged under a
   new attempt ID; never tune or inspect partial metrics for decisions.
+  - Attempt `attempt-001` stopped after the first validation pass because Ultralytics non-COCO JSON
+    uses category IDs 1–7 and the serializer expected 0–6. The lock preserves the failure and bars
+    partial metrics from decisions. Retry `attempt-002` must rerun all five with the unchanged contract.
 - [ ] Seal predictions/results and generate complete metrics, ranking, curves, plots, hashes,
   environment evidence, and test-access audit.
 

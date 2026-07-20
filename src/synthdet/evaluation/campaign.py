@@ -415,6 +415,28 @@ def _per_image_records(
     return output
 
 
+def _normalize_ultralytics_predictions(
+    predictions: list[dict[str, Any]], class_count: int
+) -> list[dict[str, Any]]:
+    """Convert Ultralytics non-COCO JSON category IDs (1..nc) to project IDs (0..nc-1)."""
+
+    raw_ids = {int(prediction["category_id"]) for prediction in predictions}
+    if raw_ids and raw_ids.issubset(set(range(1, class_count + 1))):
+        offset = 1
+    elif raw_ids.issubset(set(range(class_count))):
+        offset = 0
+    else:
+        raise ValueError(f"Unexpected Ultralytics JSON category IDs: {sorted(raw_ids)}")
+    normalized: list[dict[str, Any]] = []
+    for raw in predictions:
+        prediction = dict(raw)
+        source_id = int(prediction["category_id"])
+        prediction["ultralytics_category_id"] = source_id
+        prediction["category_id"] = source_id - offset
+        normalized.append(prediction)
+    return normalized
+
+
 def _extract_metrics(metrics: Any) -> tuple[dict[str, float], list[dict[str, Any]]]:
     precision, recall, map50, map50_95 = (float(value) for value in metrics.box.mean_results())
     class_index = {
@@ -492,7 +514,8 @@ def _run_model(
     prediction_path = save_dir / "predictions.json"
     if not prediction_path.is_file():
         raise FileNotFoundError(f"{regime} did not produce predictions.json")
-    predictions = json.loads(prediction_path.read_text(encoding="utf-8"))
+    raw_predictions = json.loads(prediction_path.read_text(encoding="utf-8"))
+    predictions = _normalize_ultralytics_predictions(raw_predictions, len(CLASS_NAMES))
     scalar, per_class = _extract_metrics(metrics)
     speed = {key: float(value) for key, value in metrics.speed.items() if key != "loss"}
     latency = sum(speed.values())
@@ -859,15 +882,27 @@ def run_campaign(root: Path, contract_path: Path) -> dict[str, Any]:
     output_root = root / contract["campaign"]["output_root"]
     lock_path = root / "reports/evaluation/sprint5_campaign_lock.json"
     final_metrics_path = root / "reports/evaluation/final_test_metrics.json"
-    if output_root.exists() or lock_path.exists() or final_metrics_path.exists():
-        raise FileExistsError("Campaign/output already exists; silent overwrite is forbidden")
-
-    attempt_id = "attempt-001"
+    previous_attempts: list[dict[str, Any]] = []
+    if final_metrics_path.exists():
+        raise FileExistsError("A successful final campaign already exists; rerun is forbidden")
+    if lock_path.exists():
+        previous = json.loads(lock_path.read_text(encoding="utf-8"))
+        if previous.get("status") != "failed_technical_attempt":
+            raise FileExistsError("Campaign lock exists without a retry-authorizing failure")
+        previous_attempts = [*previous.get("attempt_history", []), previous]
+        attempt_id = f"attempt-{len(previous_attempts) + 1:03d}"
+        if not output_root.is_dir():
+            raise FileNotFoundError("Failed attempt lock exists but its output root is missing")
+    else:
+        if output_root.exists():
+            raise FileExistsError("Untracked campaign output exists without a lock")
+        attempt_id = "attempt-001"
     lock = {
         "schema_version": 1,
         "status": "locked_preflight",
         "campaign_id": contract["campaign_id"],
         "attempt_id": attempt_id,
+        "attempt_history": previous_attempts,
         "start_timestamp_utc": _utc_now(),
         "contract_path": contract_path.relative_to(root).as_posix(),
         "contract_sha256": validation["contract_yaml_sha256"],
@@ -924,9 +959,11 @@ def run_campaign(root: Path, contract_path: Path) -> dict[str, Any]:
             verify_pixels_and_labels=True,
         )
         split_counts = validate_no_split_leakage({"train": train, "val": val, "test": test})
-        output_root.mkdir(parents=True, exist_ok=False)
+        if not output_root.exists():
+            output_root.mkdir(parents=True, exist_ok=False)
+        attempt_root = output_root / attempt_id
         dataset_yaml = _write_dataset_descriptor(
-            output_root, {"train": train, "val": val, "test": test}
+            attempt_root, {"train": train, "val": val, "test": test}
         )
     except Exception as error:
         lock.update(
@@ -965,7 +1002,6 @@ def run_campaign(root: Path, contract_path: Path) -> dict[str, Any]:
     torch.use_deterministic_algorithms(True, warn_only=False)
     os.environ["PYTHONHASHSEED"] = "42"
     results: list[dict[str, Any]] = []
-    attempt_root = output_root / attempt_id
     try:
         for regime in REGIMES:
             results.append(_run_model(root, contract, regime, dataset_yaml, attempt_root, test))
