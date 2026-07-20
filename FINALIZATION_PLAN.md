@@ -21,18 +21,18 @@ and pushed. A failed independent task does not stop work that cannot affect that
 - [x] Validate widths 1440, 1280, 1024, 768, and 390 pixels with ignored screenshots.
 - [x] Run snapshot validation, TypeScript, ESLint, unit tests, production build, route/browser smoke,
   accessibility/console checks, Python tests, Ruff, and `git diff --check`.
-- [ ] Fix only verified defects and commit/push the completed Sprint 6A gate. (Fixes and validation
-  complete; commit/push pending.)
+- [x] Fix only verified defects and commit/push the completed Sprint 6A gate (`ea719be`).
 
 ## Phase 2 — Sprint 4B CUDA artifact intake
 
-- [ ] Validate sidecar, archive SHA-256, external inventory schema, paths, sizes, hashes, duplicates,
+- [x] Validate sidecar, archive SHA-256, external inventory schema, paths, sizes, hashes, duplicates,
   symlinks, forbidden content, and identity fields without touching protected-test pixels.
-- [ ] Extract once to ignored `artifacts/external_training/sprint4b-v2/extracted/` using safe paths.
-- [ ] Validate exactly five completed regimes, shared frozen profile/configuration, zero training test
+- [x] Extract once to ignored `artifacts/external_training/sprint4b-v2/extracted/` using safe paths.
+- [x] Validate exactly five completed regimes, shared frozen profile/configuration, zero training test
   access, result CSV integrity, checkpoint hashes, loadability, YOLO11n architecture, and class order.
-- [ ] Generate tracked validation-only intake reports clearly marked non-final.
+- [x] Generate tracked validation-only intake reports clearly marked non-final.
 - [ ] Update factual project state/documentation; validate, commit, and push without weights/archive.
+  (Documentation updated; validation/commit/push pending.)
 
 ## Phase 3 — Freeze Sprint 5 evaluation contract
 

@@ -1,0 +1,360 @@
+{
+  "archive": {
+    "archive_name": "sprint4b_training_results.zip",
+    "archive_sha256": "884577a86521ee9fceab997a9ddec2ef9b2a73f8d2673f5bde5f76887a6e905b",
+    "archive_size_bytes": 57286590,
+    "inventory_file_count": 68,
+    "inventory_total_bytes": 63610256
+  },
+  "archive_inventory": [
+    {
+      "path": "completion/NON_FINAL_VALIDATION_RESULTS.csv",
+      "sha256": "e0e15acc4c27d3ddf8ba457ee0b8642f7b89807dbcb6cde1ff8488d73918f5ba",
+      "size_bytes": 521
+    },
+    {
+      "path": "completion/NON_FINAL_VALIDATION_RESULTS.png",
+      "sha256": "bf40d0c812b04c76df835765a33cc6ac646a762a0565de2dd7ccb6e4df9e0e09",
+      "size_bytes": 45312
+    },
+    {
+      "path": "completion/training_completion_manifest.json",
+      "sha256": "6ee61248313c8ecf803e63e249c7457f71a1f7d03e3805404b9044e705176fed",
+      "size_bytes": 13575
+    },
+    {
+      "path": "runs/real_25/resolved_training_config.yaml",
+      "sha256": "dc6f834d2691529ec44c40f722d7bf43e05da2eff5c013b9980c87cd85ced02d",
+      "size_bytes": 575
+    },
+    {
+      "path": "runs/real_25/run_metadata.json",
+      "sha256": "4fa92b3ec9aece3dda096138cb4f9c26e3291a74b0fdd1cb55ccf3f045a00963",
+      "size_bytes": 5573
+    },
+    {
+      "path": "runs/real_25/ultralytics/BoxF1_curve.png",
+      "sha256": "3c31155d1bb758724d386c5e8407f1eb2de83ed416c736dfb93bf21415cd773f",
+      "size_bytes": 300855
+    },
+    {
+      "path": "runs/real_25/ultralytics/BoxPR_curve.png",
+      "sha256": "4c6210dfa677c6cecc86ee3078ef22b83d86a8f7f897fa765e86480e5db7703d",
+      "size_bytes": 220494
+    },
+    {
+      "path": "runs/real_25/ultralytics/BoxP_curve.png",
+      "sha256": "e0afe09c45fb222fd3e657c649e4508e4a469c0a6b136365980a8efa27ddeb3f",
+      "size_bytes": 297131
+    },
+    {
+      "path": "runs/real_25/ultralytics/BoxR_curve.png",
+      "sha256": "03affe8fcccace225e03fdd4254c2dccf382f28ffbd093efac9490e225568347",
+      "size_bytes": 250686
+    },
+    {
+      "path": "runs/real_25/ultralytics/args.yaml",
+      "sha256": "30a01b3102698dea6a7c1a0308412d45eec830f266b77acbda54a98a42d37579",
+      "size_bytes": 1842
+    },
+    {
+      "path": "runs/real_25/ultralytics/confusion_matrix.png",
+      "sha256": "9dc118575cfdff5b0b6389961b77d5a08c7ab9148f36ea1dd4379a1ac6223b68",
+      "size_bytes": 173237
+    },
+    {
+      "path": "runs/real_25/ultralytics/confusion_matrix_normalized.png",
+      "sha256": "5147cb07ea68443e128c9ebbffa6450155e306339324ae059fa0463143d9b2ba",
+      "size_bytes": 219423
+    },
+    {
+      "path": "runs/real_25/ultralytics/results.csv",
+      "sha256": "41e9616aab53b0b11e1ac69e09f8a0529e02492647e0d9e57fba1cc99069973e",
+      "size_bytes": 6430
+    },
+    {
+      "path": "runs/real_25/ultralytics/results.png",
+      "sha256": "92772fb1aaac9b89088b8ef96e3e7bfa9461e0b4d341057c0d936024921f6781",
+      "size_bytes": 305545
+    },
+    {
+      "path": "runs/real_25/ultralytics/weights/best.pt",
+      "sha256": "80b7f5c0176ede7369d1b63ded6108d989d097973f425f7f88b58ca151b160bb",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_25/ultralytics/weights/last.pt",
+      "sha256": "756a6871d7ef552605eeb892d7cc13b444765e6b89cea0f00ee2ca6b42601c15",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_50/resolved_training_config.yaml",
+      "sha256": "d93dfea42f54ef769c67b90e39d9f2a853c03c68171d49a4c798ac51e8246e31",
+      "size_bytes": 575
+    },
+    {
+      "path": "runs/real_50/run_metadata.json",
+      "sha256": "328d92b0c05448088bb6484b9cd2683617b06778badc3c48b8f4faaa0e2a5bfd",
+      "size_bytes": 5577
+    },
+    {
+      "path": "runs/real_50/ultralytics/BoxF1_curve.png",
+      "sha256": "449f2af6a95ecf1218c470fefb60f424133701ee4fd62fd3f4f26be35f70c21d",
+      "size_bytes": 301244
+    },
+    {
+      "path": "runs/real_50/ultralytics/BoxPR_curve.png",
+      "sha256": "c6cb30f8eaf49604743af59a6123798c54760b691d83be7a9cb093477b9ca79d",
+      "size_bytes": 219791
+    },
+    {
+      "path": "runs/real_50/ultralytics/BoxP_curve.png",
+      "sha256": "70d29681fb1b72b84d5803dcdb4eec8ace86f14aa8509d0a0770c8c7790f0c5e",
+      "size_bytes": 310644
+    },
+    {
+      "path": "runs/real_50/ultralytics/BoxR_curve.png",
+      "sha256": "4112688ec7cae881854968132a55dbf1ec96044e6a183c5598051552acff4de1",
+      "size_bytes": 255707
+    },
+    {
+      "path": "runs/real_50/ultralytics/args.yaml",
+      "sha256": "5e1a9a19fe6731b432450d0ced78e7bd812bca6a5e259be4ec6da7dc0cb255c3",
+      "size_bytes": 1842
+    },
+    {
+      "path": "runs/real_50/ultralytics/confusion_matrix.png",
+      "sha256": "74b22277d7c066f1a3022a0c6710871373a7dddab33518de152b153cd4691fa7",
+      "size_bytes": 169000
+    },
+    {
+      "path": "runs/real_50/ultralytics/confusion_matrix_normalized.png",
+      "sha256": "e7c8bf1688726e9205a6963077915877e2d39d89e3b3ea2a2d42f62f5e3fd02c",
+      "size_bytes": 219830
+    },
+    {
+      "path": "runs/real_50/ultralytics/results.csv",
+      "sha256": "ab5026c7d6fea9cec88db98726b11e2b166bd6d13cde307fe5c84971680a2eb2",
+      "size_bytes": 6437
+    },
+    {
+      "path": "runs/real_50/ultralytics/results.png",
+      "sha256": "3f07472cf2e4875908a3a6c68e59becfc8658cd9b9018aef7d20f836a6fb57f1",
+      "size_bytes": 286731
+    },
+    {
+      "path": "runs/real_50/ultralytics/weights/best.pt",
+      "sha256": "344b54a73576bff648b761ecc6f183b56e0869aa7ee0fea221299a07441a8103",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_50/ultralytics/weights/last.pt",
+      "sha256": "6b5547cdd48e8af49e79e644c6c335f349f277d6372bb2f551fa2ba1bebc2922",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_75/resolved_training_config.yaml",
+      "sha256": "95b32a73a3e34b286b5350184120ba64182606407d4676e2117940e6d368ae95",
+      "size_bytes": 575
+    },
+    {
+      "path": "runs/real_75/run_metadata.json",
+      "sha256": "5a81348e76e825f035749aacfb49920c4435bccc0da7d0c420aedcb152ce5624",
+      "size_bytes": 5578
+    },
+    {
+      "path": "runs/real_75/ultralytics/BoxF1_curve.png",
+      "sha256": "0b95b5abd98d4c44a884811dc4aeb297e1a715bfaea20b32dd8861d95c14052e",
+      "size_bytes": 306280
+    },
+    {
+      "path": "runs/real_75/ultralytics/BoxPR_curve.png",
+      "sha256": "44e08a93dbaf8008e56b9dfe2c9bb5191cc2d2220c3af383c9c30405ea4c7079",
+      "size_bytes": 219976
+    },
+    {
+      "path": "runs/real_75/ultralytics/BoxP_curve.png",
+      "sha256": "58d721b74605bf1c353862652833151d30b0ea46a5e44c0f099a68b8b4d5183f",
+      "size_bytes": 304971
+    },
+    {
+      "path": "runs/real_75/ultralytics/BoxR_curve.png",
+      "sha256": "a8b521575f0d1bfe5c19a931bc7f0704acdbf8c3c03a7b02edf61fe275dcaa46",
+      "size_bytes": 251734
+    },
+    {
+      "path": "runs/real_75/ultralytics/args.yaml",
+      "sha256": "f7d65cd02d358e3c1015c04471eec1d2ac1cd7fcb177818ae492b5ec48526a38",
+      "size_bytes": 1842
+    },
+    {
+      "path": "runs/real_75/ultralytics/confusion_matrix.png",
+      "sha256": "82b03771c05603d4ad86880fd7d72cd0621018d5923cf12cdd2c6e248d96b3ac",
+      "size_bytes": 167035
+    },
+    {
+      "path": "runs/real_75/ultralytics/confusion_matrix_normalized.png",
+      "sha256": "5441de9ba35120dc344b278ca247033a6e417522bda6c7e66e28df4aebd996d8",
+      "size_bytes": 219234
+    },
+    {
+      "path": "runs/real_75/ultralytics/results.csv",
+      "sha256": "45ef3b8827b896434b0dd9b0b0ec3f9ea019e82a3de283c25b9a6c5aac51da15",
+      "size_bytes": 6446
+    },
+    {
+      "path": "runs/real_75/ultralytics/results.png",
+      "sha256": "51718a59028a1ac2d67b3480dce14a91ef6f8eb83eba19db46a51e5bdf8e2e89",
+      "size_bytes": 303894
+    },
+    {
+      "path": "runs/real_75/ultralytics/weights/best.pt",
+      "sha256": "850b4a80ae55e41bb4c89df9cf6d0e03a3a7a575ee9c50bb6fd1721932190a20",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_75/ultralytics/weights/last.pt",
+      "sha256": "c943bfdc2c2667b963d9cbef42745004d7b9d1d60efa992c2e0cdc1721ae5bf6",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_only/resolved_training_config.yaml",
+      "sha256": "a57af13646f4727457f341fa5a0c8cf0457b6c6d3adced718942db380dd34d63",
+      "size_bytes": 577
+    },
+    {
+      "path": "runs/real_only/run_metadata.json",
+      "sha256": "ec5bf8a2ecb158ef43d93704bd4c5cbdafe3de2bc159764a0234837ae519807c",
+      "size_bytes": 5586
+    },
+    {
+      "path": "runs/real_only/ultralytics/BoxF1_curve.png",
+      "sha256": "08b679a19e96c798cd70ff0f8f5b601dd2a14be2710ca50ce5703ccd0cc13c2f",
+      "size_bytes": 295032
+    },
+    {
+      "path": "runs/real_only/ultralytics/BoxPR_curve.png",
+      "sha256": "f1ee47fbc193cf44ba4d3ec5d7df9efdb8bafbdbe2ba8bd4b6038f62b19b2ce1",
+      "size_bytes": 214957
+    },
+    {
+      "path": "runs/real_only/ultralytics/BoxP_curve.png",
+      "sha256": "5602ff6758ded95bc09556908bc1f07c090dd3ff6d7cceef312a85392252f7df",
+      "size_bytes": 317982
+    },
+    {
+      "path": "runs/real_only/ultralytics/BoxR_curve.png",
+      "sha256": "ca00530400c0b8dded930c85c2a3c4d8c94752d7d996c787a0ef8007a198ffad",
+      "size_bytes": 249414
+    },
+    {
+      "path": "runs/real_only/ultralytics/args.yaml",
+      "sha256": "cd35d417907f96a3110128a8408db1bc485d3e8058f1e7e57783751141db5c3b",
+      "size_bytes": 1848
+    },
+    {
+      "path": "runs/real_only/ultralytics/confusion_matrix.png",
+      "sha256": "ea5037651a5c17232170963ea32f147369cd059a5a53f4766824f2a1e2bf230a",
+      "size_bytes": 172240
+    },
+    {
+      "path": "runs/real_only/ultralytics/confusion_matrix_normalized.png",
+      "sha256": "84ca34a8eb4b7dff497fe9ee9d1c1da9163de8400f6629d89aae9635f5d2e484",
+      "size_bytes": 221766
+    },
+    {
+      "path": "runs/real_only/ultralytics/results.csv",
+      "sha256": "e2acafda197cb09473b7d2b4a772c1a4e1d37026b84d1f9581b9897ac3b35e76",
+      "size_bytes": 6436
+    },
+    {
+      "path": "runs/real_only/ultralytics/results.png",
+      "sha256": "fa2e5ed0d9d2cfa264cc86c9d4057519b5dad7f30d734ce3e02959681477b255",
+      "size_bytes": 287274
+    },
+    {
+      "path": "runs/real_only/ultralytics/weights/best.pt",
+      "sha256": "105fcd1d5e83d6b4a73b1cdcd8f2d142e74eb5db832d3edb188555d1f83586f0",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/real_only/ultralytics/weights/last.pt",
+      "sha256": "c92168a8e89050b659a809adbb09f0cdbfd639089e3f9f4b351d04e680f1421c",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/synthetic_only/resolved_training_config.yaml",
+      "sha256": "8bd0a6a72e0d0cb78e705a433d5478e0f156507fbac07630f3cc2a0e7cf2bbf5",
+      "size_bytes": 582
+    },
+    {
+      "path": "runs/synthetic_only/run_metadata.json",
+      "sha256": "c9a657fe5e3dda7cc22e60f1593bdd35f939fc1596abeb92df46738b45e49037",
+      "size_bytes": 5601
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/BoxF1_curve.png",
+      "sha256": "7df74910cb51b79ffce802a6b0aa3dfaca54418345f062eb1b337fc8bd9e5a24",
+      "size_bytes": 300687
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/BoxPR_curve.png",
+      "sha256": "3f93f6f98bcb3ba70903e724a6a7d81ba9d6bbd6f589c4afb2852ccd0297d088",
+      "size_bytes": 220280
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/BoxP_curve.png",
+      "sha256": "f09b0e7597a551afd59b74e862ecea7440725898e8dff8db56f54d831f78c26d",
+      "size_bytes": 320272
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/BoxR_curve.png",
+      "sha256": "bad6323b0cab30828b3a366f7d6b9209b8d089998558b36af4126d9aa3e829f9",
+      "size_bytes": 253940
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/args.yaml",
+      "sha256": "ed93323cbb0ffef03ea3cefe27b6fb499fa60b01f640aeb883611d4809448beb",
+      "size_bytes": 1863
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/confusion_matrix.png",
+      "sha256": "66f86ea15b65c7540c764046bfa367286f7af60edfb87032a2e86ac0935208e7",
+      "size_bytes": 169689
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/confusion_matrix_normalized.png",
+      "sha256": "8c3516e2cd2fa8d108e935e2002dd3aff9e4be1d723ac46b80f92d0801bd32e3",
+      "size_bytes": 217578
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/results.csv",
+      "sha256": "480fba39d5421d581d6e2c47bd4a429ca9a75406ee3b4811a4c8d96c538fa3f5",
+      "size_bytes": 6419
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/results.png",
+      "sha256": "32967d729b463d4e10bcb37fe1ab4ac3e77f914d790d176dd2485454dde6e877",
+      "size_bytes": 321351
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/weights/best.pt",
+      "sha256": "47bf4b24ff3dbf098475a90414f3bd06587016e0261d215c0f706c3a956d0172",
+      "size_bytes": 5461274
+    },
+    {
+      "path": "runs/synthetic_only/ultralytics/weights/last.pt",
+      "sha256": "5141573904fd23e6b03343b94b4cb7f06a5d28cf1b4ae1e92b05ed3d88e9ea48",
+      "size_bytes": 5461274
+    }
+  ],
+  "generated_report_hashes": {
+    "sprint4b_v2_checkpoint_inventory.csv": "4866696781be82925a9aa592173b0f41a3065006741e678fc85a4440a224c19f",
+    "sprint4b_v2_environment_summary.json": "7d7083af8edc5ea99380c8e01dab0bb9a72cb1e2a6b900fcd553e1b6c35906b8",
+    "sprint4b_v2_intake_report.md": "30de1262ea66791e09e37cb5f0f691dff7f43120deb9661066305e41e5dfdbbe",
+    "sprint4b_v2_validation_summary.csv": "73aec8253d824336402fdf5642fe1e5b412f0b2ff691247efc96184957a5213d",
+    "sprint4b_v2_validation_summary.png": "9e66d8a47f186ba8acac1e659e8f8512170a8b604072227f35876b77300f7bf2"
+  },
+  "notice": "NON-FINAL \u2014 VALIDATION SET ONLY",
+  "training_identity": "a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb"
+}

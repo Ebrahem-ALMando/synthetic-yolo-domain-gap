@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-07-20T04:01:39+03:00",
-  "repository_revision": "93fe2d249c0ebd4f02fb819a2b017977b10f58b5",
+  "updated_at": "2026-07-20T04:14:00+03:00",
+  "repository_revision": "ea719be5b65ee0f8f0c0a23076d8600106f97d52",
   "branch": "main",
   "upstream": "origin/main",
   "git_synchronization": {
@@ -9,8 +9,8 @@
     "behind": 0,
     "tracked_worktree_clean_at_recovery": true
   },
-  "sprint6a_status": "validated_pending_phase_commit_and_push",
-  "sprint4b_intake_status": "required_files_located_validation_not_started",
+  "sprint6a_status": "complete_validated_committed_pushed",
+  "sprint4b_intake_status": "verified_pending_phase_commit_and_push",
   "sprint5_contract_status": "not_created_protected_test_access_forbidden",
   "sprint5_evaluation_status": "not_started_authorized_test_access_count_0",
   "api_status": "not_implemented",
@@ -26,6 +26,11 @@
       "revision": "93fe2d249c0ebd4f02fb819a2b017977b10f58b5",
       "subject": "feat: implement dashboard data adapter and demo data handling",
       "role": "existing Sprint 6A implementation recovered"
+    },
+    {
+      "revision": "ea719be5b65ee0f8f0c0a23076d8600106f97d52",
+      "subject": "feat: complete Arabic Sprint 6A dashboard foundation",
+      "role": "Sprint 6A validated completion"
     }
   ],
   "protected_test": {
@@ -37,9 +42,20 @@
   "artifact_intake": {
     "directory": "artifacts/external_training/sprint4b-v2",
     "required_files_located": true,
-    "archive_validated": false,
-    "checkpoints_loaded": false,
-    "extracted_directory_created": false
+    "archive_validated": true,
+    "archive_sha256": "884577a86521ee9fceab997a9ddec2ef9b2a73f8d2673f5bde5f76887a6e905b",
+    "archive_size_bytes": 57286590,
+    "inventory_file_count": 68,
+    "training_identity": "a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb",
+    "training_repository_revision": "0331ab743faac6f3e831582e12392ce7982fff21",
+    "regimes_verified": 5,
+    "completed_epochs_per_regime": 50,
+    "checkpoints_loaded": true,
+    "checkpoint_count_loaded": 10,
+    "class_order_verified": true,
+    "configuration_equality_verified": true,
+    "training_test_access_count": 0,
+    "extracted_directory_created": true
   },
   "validation_evidence": {
     "frontend_validate": "passed_snapshot_typecheck_eslint_7_tests_build_15_routes",
@@ -48,5 +64,5 @@
     "ruff": "passed",
     "official_logo_sha256": "bead045dcc98d5f8fc205542216b720453f62690d959280a8d46ed13b6007685"
   },
-  "next_gate": "commit_and_push_sprint6a_then_validate_sprint4b_artifacts"
+  "next_gate": "validate_commit_push_sprint4b_intake"
 }

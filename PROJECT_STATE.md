@@ -15,20 +15,19 @@ and browser console/page errors; its 65 ignored review screenshots were inspecte
 mobile and desktop pages. Sprint 6 is not complete; API, verified-result, model-registry, and real
 inference integrations remain Sprint 6B.
 
-Sprint 4B handoff status: `replacement_bundle_v2_required`. The notebook resolves the expected
-revision from generated bundle inventory instead of a self-referential committed hash. The prior
-dirty-source bundle and the runtime-incomplete v1 bundle are invalid and must not be uploaded.
-Sprint 4B remains incomplete.
-
-The subsequent v1 Colab attempt passed CUDA/profile preflight but exposed a missing frozen synthetic
-`data.yaml` during the first final runner validation. Bundle v2 includes that train-only identity
-descriptor, uses portable regime YAMLs, and requires all five final runner dry-runs during extracted
-bundle validation. Sprint 4B remains incomplete pending the replacement bundle and external runs.
+Sprint 4B status: `sprint4b_cuda_training_verified`. The returned v2 archive passed its external
+SHA-256, internal/external inventory, all 68 per-file size/hash checks, safe extraction, forbidden
+content checks, identity/configuration equality, 50-epoch CSV integrity, and loadability of all ten
+best/last checkpoints. Exactly five final regimes completed on one frozen Tesla T4 `standard`
+profile (640 pixels, batch 16) from source revision
+`0331ab743faac6f3e831582e12392ce7982fff21`. The combined training identity is
+`a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb`; training-time protected-test
+access remained zero. Validation comparisons are explicitly non-final and do not select a winner.
 
 ## Current sprint
 
-Sprint 4A — Controlled Experiment Construction, Hardware Validation, and YOLO Smoke Training —
-completed.
+Sprint 5 — preregister and freeze the final protected-test evaluation contract before viewing any
+test metric or running inference on any protected image.
 
 ## Frozen input contract
 
@@ -69,14 +68,16 @@ machine's CPU run times do not predict final GPU run times or scientific perform
 
 ## Data and results status
 
-Generated datasets, caches, pretrained/smoke weights, smoke outputs, and audits remain ignored.
+Generated datasets, caches, pretrained/smoke/final weights, returned archives, extracted runs, smoke
+outputs, and audits remain ignored.
 Versioned manifests, configuration, environment evidence, and documentation are protocol artifacts.
-No full final experiment, protected-test inference, final evaluation, or operational API exists.
-The Sprint 6A dashboard foundation displays repository metadata and explicit pending/demo states.
+All five full final training experiments now exist and are verified, but no protected-test inference,
+final evaluation, final ranking, or operational API exists. The tracked Sprint 4B intake report is
+`reports/training/sprint4b_v2_intake_report.md`. The Sprint 6A dashboard foundation still displays
+repository metadata and explicit pending/demo states until verified-result integration.
 
 ## Next gate
 
-Build and validate bundle v2 from a clean committed `main` worktree so its inventory records that
-clean HEAD and `source_worktree_dirty: false`. Only then run the versioned Colab notebook on CUDA.
-Do not mark Sprint 4B complete until all five actual runs validate locally. The real test set remains
-prohibited until the later fixed evaluation sprint.
+Create, validate, commit, and push the shared Sprint 5 evaluation contract with the exact five
+`best.pt` hashes and fixed Split V2 test-manifest identity. The real test set remains prohibited
+until that committed contract authorizes the one locked five-model campaign.

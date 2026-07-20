@@ -109,9 +109,11 @@ labeled and a retry receives a new directory. A completed run is skipped only if
 checkpoint/results hashes still match. Finalization produces a five-run completion manifest, a
 clearly non-final validation table and figure, and a dataset/secret/test-output-free results archive.
 
-The local status is `awaiting_revision_binding_fix_commit`. After that commit and a validated clean
-bundle rebuild, it may advance to external CUDA execution. The real test set is prohibited
-throughout Sprint 4B.
+Sprint 4B is complete. The returned v2 archive passed local byte-level intake and checkpoint
+loadability validation for all five 50-epoch regimes. The real test set remained prohibited
+throughout Sprint 4B, with access count zero in the profile, run metadata, completion manifest, and
+archive inventory. Validation metrics remain non-final; the committed Sprint 5 contract is the next
+scientific gate.
 
 ### Revision binding
 

@@ -1,0 +1,67 @@
+{
+  "checkpoint_loadability_verified": true,
+  "class_names": [
+    "fish",
+    "jellyfish",
+    "penguin",
+    "puffin",
+    "shark",
+    "starfish",
+    "stingray"
+  ],
+  "hardware_profile": {
+    "base_weight_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "batch": 16,
+    "created_at_utc": "2026-07-19T22:35:46.904746+00:00",
+    "device": "0",
+    "environment": {
+      "captured_at_utc": "2026-07-19T22:34:55.302129+00:00",
+      "colab": {
+        "detected": true,
+        "python_executable": "/usr/bin/python3",
+        "release_tag": "release-colab-external-images_20260716-060051_RC00"
+      },
+      "cuda_tensor_operation_verified": true,
+      "disk_free_bytes": 62598098944,
+      "gpu_index": 0,
+      "gpu_model": "Tesla T4",
+      "nvidia_smi": "Tesla T4, 15360, 14610, 580.82.07",
+      "software_versions": {
+        "cuda_runtime": "13.0",
+        "python": "3.12.13",
+        "pytorch": "2.13.0+cu130",
+        "ultralytics": "8.4.101"
+      },
+      "ultralytics_device_detection_verified": true,
+      "vram_free_bytes_before_preflight": 15319498752,
+      "vram_total_bytes": 15637086208
+    },
+    "identities": {
+      "experiment_design": "abe47eebc6567de98401e49e75279935cdeb0738558a40ee58dd2b423214ee4c",
+      "generator_configuration": "7b957f23b46c760e4df446a362a7e1e8f194a54827696880c39c4b905b180eef",
+      "object_bank": "22d5de79528f5de87b19bae606a93c62af357fc90ad51bfb81e4d197919c54d3",
+      "real_split": "02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7",
+      "synthetic_pool": "3dbd84054e5b2f9d95a3841974cf9c8bd3b987dcd5b84da0be91a06d9b0989ec"
+    },
+    "imgsz": 640,
+    "preflight": [
+      {
+        "batch": 16,
+        "free_vram_bytes_after": 15155920896,
+        "imgsz": 640,
+        "profile_name": "standard",
+        "scientific_result": false,
+        "status": "passed",
+        "test_set_access_count": 0
+      }
+    ],
+    "profile_identity": "34c3c33d70fbec10863c2616f38c470cc8d66e7ab4a74d1ee77a3e61049f54e1",
+    "profile_name": "standard",
+    "scientific_result": false,
+    "status": "frozen",
+    "test_set_access_count": 0
+  },
+  "notice": "NON-FINAL \u2014 VALIDATION SET ONLY",
+  "repository_revision": "0331ab743faac6f3e831582e12392ce7982fff21",
+  "training_identity": "a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb"
+}

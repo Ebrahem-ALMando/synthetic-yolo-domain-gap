@@ -163,3 +163,21 @@
 - Generate regime YAMLs without platform-specific absolute paths.
 - Require five actual final-mode dry-runs from every freshly extracted bundle before handoff.
 - Quarantine v1 as `INVALID-MISSING-SYNTHETIC-YAML` and use v2 filenames and persistent state.
+
+## 2026-07-20 — Sprint 4B returned-artifact acceptance
+
+- Accept the returned v2 archive only after its SHA-256 sidecar, internal/external inventories,
+  68 per-file hashes/sizes, safe paths, duplicate/symlink rules, and forbidden-content declarations
+  reproduce locally.
+- Accept exactly five 50-epoch final regimes from source revision
+  `0331ab743faac6f3e831582e12392ce7982fff21`, all bound to profile identity
+  `34c3c33d70fbec10863c2616f38c470cc8d66e7ab4a74d1ee77a3e61049f54e1` (Tesla T4,
+  standard batch 16, 640 pixels).
+- Require every best/last checkpoint to load without inference as an Ultralytics detection model at
+  nano scale with 2,591,205 parameters and exact class order `fish`, `jellyfish`, `penguin`,
+  `puffin`, `shark`, `starfish`, `stingray`.
+- Freeze combined Sprint 4B training identity
+  `a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb` and retain the returned
+  archive, extracted checkpoints, and raw run products as ignored local artifacts.
+- Publish only machine-derived validation summaries labelled `NON-FINAL — VALIDATION SET ONLY`.
+  Do not name a validation leader as the final winner; Sprint 5 contract freeze remains next.

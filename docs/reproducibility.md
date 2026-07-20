@@ -157,3 +157,18 @@ reconstructed portably without Windows absolute paths and continue to select reg
 views plus the identical active real-validation view. Extracted-bundle validation executes every
 final runner in dry-run mode using the same entry point as Colab, so missing runtime descriptors
 fail before upload.
+
+## Verified Sprint 4B result intake
+
+Place the five required returned files under `artifacts/external_training/sprint4b-v2/`, then run:
+
+```powershell
+python scripts/intake_sprint4b_results.py
+```
+
+The command refuses to overwrite an existing extraction, validates every archive member before
+extracting, loads all best/last checkpoints without inference, and writes validation-only tracked
+reports under `reports/training/`. A deliberate repeat must use `--reuse-extraction`; it revalidates
+the existing ignored extraction rather than replacing it. The accepted archive SHA-256 is
+`884577a86521ee9fceab997a9ddec2ef9b2a73f8d2673f5bde5f76887a6e905b`, and the accepted combined
+training identity is `a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb`.

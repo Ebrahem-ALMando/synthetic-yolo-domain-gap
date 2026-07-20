@@ -93,7 +93,7 @@ See `apps/web/README.md`, `docs/dashboard_architecture.md`, `docs/ui_design_syst
 
 ## Current status
 
-Sprint 4A is complete and Sprint 4B is `awaiting_revision_binding_fix_commit`. Aquarium Split V2
+Sprint 4A and Sprint 4B are complete. Aquarium Split V2
 remains frozen at 427/140/68 train/validation/test images
 with identity `02dc0a88decf20367e1a2df6f55d90aab9585d4ac93c1f184f4bd41b472796a7`.
 The 427-image copy-paste pool remains frozen at identity
@@ -105,12 +105,19 @@ represents each real-train canvas exactly once, either as untouched real data or
 derivative, and all share the same 140 real-validation images. The test set remained untouched and
 was used only as protected manifest identity evidence.
 
-The common YOLO11n final protocol is frozen, but no 50-epoch training was run. All five one-epoch
-CPU smoke runs passed on deterministic 16/14 subsets and are explicitly non-scientific technical
-artifacts. No test inference, final evaluation, or operational API has been produced. The Sprint 6A
-dashboard foundation displays repository metadata and explicit pending/demo states only.
+The common YOLO11n final protocol was executed for all five regimes on a Tesla T4 using one frozen
+640-pixel, batch-16 profile. The returned v2 archive, all 68 inventoried files, 50-epoch CSVs, and
+ten best/last checkpoints passed local integrity, configuration-equality, class-order, architecture,
+and loadability checks. The combined training identity is
+`a43c848468ad6a2b5f0069aedc34cb41da7d9d4d9f5af77fbb40b7e4cb6f7dcb`, and recorded test access
+during training is zero. See the [Sprint 4B intake report](reports/training/sprint4b_v2_intake_report.md).
 
-The actual checksummed training bundle and restart-safe 16-section Colab workflow can be prepared
+All published training metrics are marked **NON-FINAL — VALIDATION SET ONLY**. They do not select a
+winner. No protected-test inference, final evaluation, or operational API has been produced yet.
+The validated Sprint 6A dashboard foundation displays repository metadata and explicit pending/demo
+states until the Sprint 5 campaign and result integration are complete.
+
+The checksummed training bundle and restart-safe 16-section Colab workflow can be reproduced
 with `python scripts/build_training_bundle.py` and
 `notebooks/sprint4b_full_training_colab.ipynb`. Colab must freeze one common batch profile, train
 the five regimes sequentially, persist each validated result immediately, and return the generated
@@ -128,7 +135,9 @@ descriptor participates in synthetic identity checking only; every primary model
 its regime-specific 427-image view and validates on the shared 140 real images. Use a separate
 `sprint4b-v2` Drive output directory rather than reusing state from the defective v1 attempt.
 
-Dataset evidence is documented in the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
+Sprint 5 is the next gate: its machine-readable evaluation contract must be frozen, committed, and
+pushed before any protected-test metric or image is inspected. Dataset evidence is documented in
+the [`Aquarium candidate decision`](docs/datasets/aquarium_candidate.md)
 and [`datasheet`](docs/datasets/aquarium_datasheet.md). See the
 [`synthetic-generation method`](docs/synthetic_generation.md),
 [`experiment protocol`](docs/experiment_protocol.md), and
